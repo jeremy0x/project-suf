@@ -15,7 +15,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12">
           {/* Logo and About */}
           <div>
-            <Logo />
+            <Logo variant="footer" />
             <p className="mt-4 text-gray-300">
               Your premier fitness destination in Akure. We're dedicated to helping you achieve your fitness goals through expert guidance and state-of-the-art facilities.
             </p>

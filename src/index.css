@@ -1,5 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -77,19 +78,30 @@
     @apply bg-background text-foreground font-inter;
     font-feature-settings: "ss01";
   }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-crimson;
+  }
 }
 
 @layer components {
+  .glass-card {
+    @apply backdrop-blur-lg bg-white/10 border border-white/20 shadow-lg;
+  }
+  
+  .glass-dark {
+    @apply backdrop-blur-lg bg-black/30 border border-white/10;
+  }
+  
   .btn-primary {
-    @apply bg-brand-blue text-white font-bold py-3 px-8 rounded-full hover:bg-opacity-90 transition-all duration-300 transform hover:translate-y-[-2px] hover:shadow-lg;
+    @apply bg-brand-blue text-white font-bold py-3 px-8 rounded-full hover:bg-brand-blue/90 transition-all duration-300 transform hover:translate-y-[-2px] hover:shadow-[0_5px_15px_rgba(14,178,241,0.4)] focus:ring-2 focus:ring-brand-blue/50;
   }
   
   .btn-secondary {
-    @apply bg-brand-gold text-brand-dark font-bold py-3 px-8 rounded-full hover:bg-opacity-90 transition-all duration-300 transform hover:translate-y-[-2px] hover:shadow-lg;
+    @apply bg-brand-gold text-brand-dark font-bold py-3 px-8 rounded-full hover:bg-brand-gold/90 transition-all duration-300 transform hover:translate-y-[-2px] hover:shadow-[0_5px_15px_rgba(254,191,0,0.4)] focus:ring-2 focus:ring-brand-gold/50;
   }
 
   .section-title {
-    @apply text-4xl md:text-5xl font-bold mb-6;
+    @apply text-4xl md:text-5xl font-bold mb-6 font-crimson;
   }
 
   .section-subtitle {
@@ -114,8 +126,33 @@
     @apply py-16 md:py-24;
   }
 
-  .reveal-on-scroll {
-    @apply opacity-0 blur-[5px];
-    animation: blur-reveal 0.8s ease-out forwards;
+  .glow {
+    @apply relative;
+  }
+  
+  .glow:before {
+    content: '';
+    @apply absolute -inset-0.5 bg-gradient-to-r from-brand-blue to-brand-gold opacity-30 blur rounded-lg;
+    z-index: -1;
+  }
+
+  .glow-blue {
+    @apply relative;
+  }
+  
+  .glow-blue:before {
+    content: '';
+    @apply absolute -inset-0.5 bg-brand-blue opacity-30 blur rounded-lg;
+    z-index: -1;
+  }
+  
+  .glow-gold {
+    @apply relative;
+  }
+  
+  .glow-gold:before {
+    content: '';
+    @apply absolute -inset-0.5 bg-brand-gold opacity-30 blur rounded-lg;
+    z-index: -1;
   }
 }

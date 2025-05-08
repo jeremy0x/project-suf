@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 const sessions = [
   { name: "Morning", time: "7:00am - 10:00am" },
@@ -32,47 +33,87 @@ const SessionsSection = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.6
+      }
+    }
+  };
+
   return (
     <section className="section-padding bg-brand-dark text-white diagonal-box-reverse">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
           <h2 className="section-title">Session <span className="text-brand-gold">Times</span></h2>
           <p className="section-subtitle">
             Choose a session that fits your schedule
           </p>
-        </div>
+        </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {sessions.map((session, index) => (
-            <div 
+            <motion.div 
               key={index}
-              className={`rounded-xl p-8 text-center animate-fade-in transition-all duration-300 transform hover:scale-105 ${
+              variants={itemVariants}
+              className={`glass-card rounded-xl p-8 text-center transition-all duration-500 transform hover:scale-105 ${
                 currentSession === session.name 
-                  ? 'bg-brand-blue shadow-lg shadow-brand-blue/20' 
-                  : 'bg-gray-800'
+                  ? 'bg-brand-blue/20 shadow-lg shadow-brand-blue/20 border border-brand-blue/30' 
+                  : 'bg-gray-800/30'
               }`}
-              style={{ animationDelay: `${index * 0.2}s` }}
             >
-              <h3 className="text-2xl font-bold mb-2">{session.name}</h3>
+              <h3 className="text-2xl font-bold mb-2 font-crimson">{session.name}</h3>
               <p className="text-xl mb-4">{session.time}</p>
               {currentSession === session.name && (
-                <div className="flex items-center justify-center">
-                  <span className="w-3 h-3 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                <div className="glow-blue rounded-full px-4 py-1 inline-flex items-center justify-center bg-brand-blue/10 border border-brand-blue/30">
+                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                   <span className="text-sm">In Progress</span>
                 </div>
               )}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
         
-        <div className="text-center mt-12">
+        <motion.div 
+          className="text-center mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
           <p className="mb-6 max-w-2xl mx-auto">
             Our sessions are designed to accommodate various schedules. Whether you're an early bird or prefer evening workouts, we have a time slot that works for you.
           </p>
           <a href="#" className="btn-secondary">
             BOOK A SESSION
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

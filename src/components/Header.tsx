@@ -1,8 +1,9 @@
 
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import Logo from './Logo';
+import { motion } from 'framer-motion';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,45 +31,51 @@ const Header = () => {
   return (
     <header 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-background/90 backdrop-blur-lg shadow-md py-2' : 'py-4'
+        scrolled ? 'py-2' : 'py-4'
       }`}
     >
-      <div className="container mx-auto px-4 flex justify-between items-center">
-        <Link to="/" className="flex items-center">
-          <Logo />
-        </Link>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          <NavItem to="/" label="Home" />
-          <NavItem to="/about" label="About" />
-          <NavItem to="/services" label="Services" />
-          <NavItem to="/pricing" label="Pricing" />
-          <NavItem to="/gallery" label="Gallery" />
-          <NavItem to="/contact" label="Contact" />
-          <Link 
-            to="/contact" 
-            className="btn-primary"
-          >
-            JOIN NOW
+      <div className={`container mx-auto px-8 backdrop-blur-lg ${scrolled ? 'bg-background/70 shadow-lg' : 'bg-transparent'} rounded-full transition-all duration-300`}>
+        <div className="flex justify-between items-center py-2">
+          <Link to="/" className="flex items-center">
+            <Logo />
           </Link>
-        </nav>
 
-        {/* Mobile Menu Button */}
-        <button 
-          className="md:hidden text-foreground p-2"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <NavItem to="/" label="Home" />
+            <NavItem to="/about" label="About" />
+            <NavItem to="/services" label="Services" />
+            <NavItem to="/pricing" label="Pricing" />
+            <NavItem to="/gallery" label="Gallery" />
+            <NavItem to="/contact" label="Contact" />
+            <Link 
+              to="/contact" 
+              className="bg-brand-blue hover:bg-brand-gold text-white font-bold py-2 px-6 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:translate-y-[-2px]"
+            >
+              JOIN NOW
+            </Link>
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden text-foreground p-2"
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
-      <div 
-        className={`md:hidden absolute w-full bg-background shadow-lg transition-all duration-300 ease-in-out ${
-          isMenuOpen ? 'max-h-[500px] opacity-100 visible' : 'max-h-0 opacity-0 invisible'
-        } overflow-hidden`}
+      <motion.div 
+        initial={{ height: 0, opacity: 0 }}
+        animate={{ 
+          height: isMenuOpen ? 'auto' : 0,
+          opacity: isMenuOpen ? 1 : 0
+        }}
+        transition={{ duration: 0.3 }}
+        className="md:hidden overflow-hidden bg-background/95 backdrop-blur-lg shadow-lg"
       >
         <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
           <MobileNavItem to="/" label="Home" onClick={toggleMenu} />
@@ -79,13 +86,13 @@ const Header = () => {
           <MobileNavItem to="/contact" label="Contact" onClick={toggleMenu} />
           <Link 
             to="/contact" 
-            className="btn-secondary w-full text-center"
+            className="bg-brand-gold text-brand-dark font-bold py-3 px-8 rounded-full text-center shadow-lg hover:shadow-xl transform hover:translate-y-[-2px] transition-all duration-300"
             onClick={toggleMenu}
           >
             JOIN NOW
           </Link>
         </div>
-      </div>
+      </motion.div>
     </header>
   );
 };

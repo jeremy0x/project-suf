@@ -1,19 +1,25 @@
 
 import React from 'react';
 
-const Logo: React.FC = () => {
+interface LogoProps {
+  variant?: 'header' | 'footer';
+}
+
+const Logo: React.FC<LogoProps> = ({ variant = 'header' }) => {
   return (
     <div className="flex items-center">
       <div className="flex items-center">
         <img 
-          src="https://i.ibb.co/svHjJR5M/suf-logo.png" 
+          src="https://i.ibb.co/27MsdB5/suf-logo.png" 
           alt="Shape Up Fitness Logo" 
           className="h-10"
         />
       </div>
-      <div className="text-xs ml-2 text-muted-foreground">
-        BN: 6982554
-      </div>
+      {variant === 'footer' && (
+        <div className="text-xs ml-2 text-muted-foreground">
+          BN: 6982554
+        </div>
+      )}
     </div>
   );
 };

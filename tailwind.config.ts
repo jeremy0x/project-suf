@@ -74,6 +74,7 @@ export default {
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
 				inter: ['Inter', 'sans-serif'],
+				crimson: ['Crimson Pro', 'serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
