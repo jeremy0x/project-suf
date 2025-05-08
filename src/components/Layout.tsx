@@ -16,7 +16,6 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="grain-overlay" aria-hidden="true" />
       <Header />
       <main className="flex-grow pt-16">
         {children}

@@ -5,8 +5,8 @@ import ServicesSection from '../components/home/ServicesSection';
 import SessionsSection from '../components/home/SessionsSection';
 import AboutSection from '../components/home/AboutSection';
 import TestimonialsSection from '../components/home/TestimonialsSection';
-import PricingPreviewSection from '../components/home/PricingPreviewSection';
 import CTASection from '../components/home/CTASection';
+import MembershipPlansSection from '../components/home/MembershipPlansSection';
 
 const Index = () => {
   return (
@@ -16,7 +16,7 @@ const Index = () => {
       <SessionsSection />
       <AboutSection />
       <TestimonialsSection />
-      <PricingPreviewSection />
+      <MembershipPlansSection />
       <CTASection />
     </Layout>
   );

@@ -5,12 +5,11 @@ const Logo: React.FC = () => {
   return (
     <div className="flex items-center">
       <div className="flex items-center">
-        <div className="bg-brand-gold px-2 py-1">
-          <span className="text-brand-dark font-bold text-xl">Shape Up</span>
-        </div>
-        <div className="bg-brand-blue px-2 py-1">
-          <span className="text-white font-bold text-xl">Fitness</span>
-        </div>
+        <img 
+          src="https://i.ibb.co/svHjJR5M/suf-logo.png" 
+          alt="Shape Up Fitness Logo" 
+          className="h-10"
+        />
       </div>
       <div className="text-xs ml-2 text-muted-foreground">
         BN: 6982554
