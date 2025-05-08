@@ -22,31 +22,10 @@ const benefits = [
 
 const AboutSection = () => {
   const { reduceMotion } = useAnimation();
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      filter: "blur(0px)",
-      transition: { 
-        duration: reduceMotion ? 0 : 0.6 
-      }
-    }
-  };
+  const duration = reduceMotion ? 0 : 0.3;
 
   return (
-    <section className="section-padding bg-background relative overflow-hidden">
+    <section className="section-padding bg-background relative overflow-hidden px-8">
       {/* Decorative elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-brand-blue/10 rounded-full filter blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-brand-gold/10 rounded-full filter blur-3xl"></div>
@@ -56,10 +35,10 @@ const AboutSection = () => {
           {/* Image */}
           <motion.div 
             className="lg:w-1/2"
-            initial="hidden"
-            whileInView="visible"
+            initial={{ opacity: 0, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, filter: "blur(0px)" }}
             viewport={{ once: true }}
-            variants={itemVariants}
+            transition={{ duration }}
           >
             <div className="relative">
               <div className="aspect-square rounded-2xl overflow-hidden glow">
@@ -74,85 +53,88 @@ const AboutSection = () => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.5, duration: 0.6 }}
+                transition={{ delay: 0.3, duration }}
               >
                 <h3 className="text-xl font-bold mb-2 font-crimson">Get Started Today</h3>
                 <p className="text-sm mb-3">Take the first step towards a healthier you</p>
-                <Link to="/contact" className="text-brand-gold font-semibold">Join Now →</Link>
+                <Link to="/contact" className="text-brand-gold font-semibold font-crimson">Join Now →</Link>
               </motion.div>
             </div>
           </motion.div>
           
           {/* Content */}
-          <motion.div 
-            className="lg:w-1/2"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={containerVariants}
-          >
+          <div className="lg:w-1/2">
             <motion.h2 
               className="section-title"
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true }}
+              transition={{ duration }}
             >
               About <span className="text-brand-blue">Shape Up</span>
             </motion.h2>
             <motion.p 
-              className="text-lg mb-6 text-gray-700 dark:text-gray-200"
-              variants={itemVariants}
+              className="text-sm mb-6 text-gray-700 dark:text-gray-200"
+              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true }}
+              transition={{ duration, delay: 0.1 }}
             >
               Shape Up Fitness is more than just a gym — it's a community dedicated to helping you achieve your fitness goals. With our expert trainers, state-of-the-art equipment, and supportive environment, we provide everything you need to transform your body and mind.
             </motion.p>
             
-            <motion.div 
-              className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8"
-              variants={containerVariants}
-            >
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
               {stats.map((stat, index) => (
                 <motion.div 
                   key={index} 
                   className="text-center p-4 glass-card rounded-xl"
-                  variants={itemVariants}
+                  initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  viewport={{ once: true }}
+                  transition={{ duration, delay: 0.1 + index * 0.05 }}
                 >
                   <div className="text-3xl font-bold text-brand-blue font-crimson">{stat.value}</div>
                   <div className="text-sm">{stat.label}</div>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
             
             <motion.div 
               className="mb-8"
-              variants={containerVariants}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration, delay: 0.3 }}
             >
-              <motion.h3 
-                className="text-xl font-bold mb-4 font-crimson"
-                variants={itemVariants}
-              >
-                Why Choose Us
-              </motion.h3>
-              <motion.div 
-                className="grid grid-cols-1 md:grid-cols-2 gap-3"
-                variants={containerVariants}
-              >
+              <h3 className="text-xl font-bold mb-4 font-crimson">Why Choose Us</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {benefits.map((benefit, index) => (
                   <motion.div 
                     key={index} 
                     className="flex items-center"
-                    variants={itemVariants}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration, delay: 0.3 + index * 0.05 }}
                   >
                     <CheckCircle className="text-brand-gold mr-2 flex-shrink-0" size={20} />
-                    <span>{benefit}</span>
+                    <span className="text-sm">{benefit}</span>
                   </motion.div>
                 ))}
-              </motion.div>
+              </div>
             </motion.div>
             
-            <motion.div variants={itemVariants}>
-              <Link to="/about" className="btn-primary">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration, delay: 0.4 }}
+            >
+              <Link to="/about" className="btn-primary font-crimson">
                 Learn More About Us
               </Link>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

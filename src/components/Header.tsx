@@ -1,13 +1,15 @@
 
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 import Logo from './Logo';
 import { motion } from 'framer-motion';
+import { useAnimation } from '../context/AnimationContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { reduceMotion } = useAnimation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,7 +36,7 @@ const Header = () => {
         scrolled ? 'py-2' : 'py-4'
       }`}
     >
-      <div className={`container mx-auto px-8 backdrop-blur-lg ${scrolled ? 'bg-background/70 shadow-lg' : 'bg-transparent'} rounded-full transition-all duration-300`}>
+      <div className={`container mx-auto px-12 backdrop-blur-lg ${scrolled ? 'bg-background/70 shadow-lg' : 'bg-transparent'} rounded-full transition-all duration-300`}>
         <div className="flex justify-between items-center py-2">
           <Link to="/" className="flex items-center">
             <Logo />
@@ -50,9 +52,10 @@ const Header = () => {
             <NavItem to="/contact" label="Contact" />
             <Link 
               to="/contact" 
-              className="bg-brand-blue hover:bg-brand-gold text-white font-bold py-2 px-6 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:translate-y-[-2px]"
+              className="bg-brand-blue hover:bg-brand-gold text-white font-bold py-2 px-6 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:translate-y-[-2px] flex items-center font-crimson"
             >
-              JOIN NOW
+              <span>JOIN NOW</span>
+              <ArrowRight size={16} className="ml-2" />
             </Link>
           </nav>
 
@@ -74,7 +77,7 @@ const Header = () => {
           height: isMenuOpen ? 'auto' : 0,
           opacity: isMenuOpen ? 1 : 0
         }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: reduceMotion ? 0 : 0.3 }}
         className="md:hidden overflow-hidden bg-background/95 backdrop-blur-lg shadow-lg"
       >
         <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
@@ -86,10 +89,11 @@ const Header = () => {
           <MobileNavItem to="/contact" label="Contact" onClick={toggleMenu} />
           <Link 
             to="/contact" 
-            className="bg-brand-gold text-brand-dark font-bold py-3 px-8 rounded-full text-center shadow-lg hover:shadow-xl transform hover:translate-y-[-2px] transition-all duration-300"
+            className="bg-brand-gold text-brand-dark font-bold py-3 px-8 rounded-full text-center shadow-lg hover:shadow-xl transform hover:translate-y-[-2px] transition-all duration-300 font-crimson flex items-center justify-center"
             onClick={toggleMenu}
           >
-            JOIN NOW
+            <span>JOIN NOW</span>
+            <ArrowRight size={16} className="ml-2" />
           </Link>
         </div>
       </motion.div>

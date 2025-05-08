@@ -72,8 +72,8 @@ export default {
 				}
 			},
 			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
-				inter: ['Inter', 'sans-serif'],
+				sans: ['Geist', 'sans-serif'],
+				geist: ['Geist', 'sans-serif'],
 				crimson: ['Crimson Pro', 'serif'],
 			},
 			borderRadius: {
@@ -137,7 +137,7 @@ export default {
 				'slide-in-right': 'slide-in-right 0.3s ease-out',
 				'slide-out-right': 'slide-out-right 0.3s ease-out',
 				'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-				'blur-reveal': 'blur-reveal 0.5s ease-out forwards',
+				'blur-reveal': 'blur-reveal 0.3s ease-out forwards',
 				'spin-slow': 'spin-slow 20s linear infinite',
 				'enter': 'fade-in 0.3s ease-out, scale-in 0.2s ease-out',
 				'exit': 'fade-out 0.3s ease-out, scale-out 0.2s ease-out'

@@ -1,6 +1,8 @@
 
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useAnimation } from '../../context/AnimationContext';
 
 const testimonials = [
   {
@@ -32,62 +34,53 @@ const testimonials = [
 const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const { reduceMotion } = useAnimation();
+  const duration = reduceMotion ? 0 : 0.3;
 
   const goToNext = () => {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    setTimeout(() => setIsAnimating(false), 500);
+    setTimeout(() => setIsAnimating(false), 300);
   };
 
   const goToPrev = () => {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
-    setTimeout(() => setIsAnimating(false), 500);
+    setTimeout(() => setIsAnimating(false), 300);
   };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          sectionRef.current?.classList.add('reveal-on-scroll');
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} className="section-padding bg-brand-dark text-white opacity-0">
+    <motion.section 
+      className="section-padding bg-brand-dark text-white px-8"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration }}
+    >
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          viewport={{ once: true }}
+          transition={{ duration }}
+        >
           <h2 className="section-title">Success <span className="text-brand-gold">Stories</span></h2>
-          <p className="section-subtitle">
+          <p className="section-subtitle text-sm">
             Hear what our members have to say about their journey with Shape Up Fitness
           </p>
-        </div>
+        </motion.div>
         
         <div className="max-w-5xl mx-auto relative">
           {/* Testimonial Slider */}
           <div className="overflow-hidden">
-            <div 
-              className={`flex transition-transform duration-500 ease-in-out`} 
-              style={{
-                transform: `translateX(-${currentIndex * 100}%)`,
-                width: `${testimonials.length * 100}%`
-              }}
+            <motion.div 
+              className="flex"
+              animate={{ x: `-${currentIndex * 100}%` }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              style={{ width: `${testimonials.length * 100}%` }}
             >
               {testimonials.map((testimonial) => (
                 <div 
@@ -115,15 +108,15 @@ const TestimonialsSection = () => {
                             />
                           ))}
                         </div>
-                        <blockquote className="text-lg italic mb-4">"{testimonial.quote}"</blockquote>
-                        <div className="font-bold text-xl">{testimonial.name}</div>
+                        <blockquote className="text-sm italic mb-4">"{testimonial.quote}"</blockquote>
+                        <div className="font-bold text-xl font-crimson">{testimonial.name}</div>
                         <div className="text-sm text-gray-400">{testimonial.role}</div>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
-            </div>
+            </motion.div>
           </div>
           
           {/* Navigation Buttons */}
@@ -153,7 +146,7 @@ const TestimonialsSection = () => {
                   if (isAnimating) return;
                   setIsAnimating(true);
                   setCurrentIndex(index);
-                  setTimeout(() => setIsAnimating(false), 500);
+                  setTimeout(() => setIsAnimating(false), 300);
                 }}
                 className={`w-3 h-3 rounded-full transition-colors duration-300 ${
                   currentIndex === index ? 'bg-brand-gold' : 'bg-gray-600'
@@ -165,7 +158,7 @@ const TestimonialsSection = () => {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

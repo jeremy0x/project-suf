@@ -2,6 +2,7 @@
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useAnimation } from '../../context/AnimationContext';
 
 const services = [
   {
@@ -47,55 +48,39 @@ const services = [
 ];
 
 const ServicesSection = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      filter: "blur(0px)",
-      transition: {
-        duration: 0.6
-      }
-    }
-  };
+  const { reduceMotion } = useAnimation();
+  const duration = reduceMotion ? 0 : 0.3;
 
   return (
-    <section className="section-padding bg-background" id="services">
+    <section className="section-padding bg-background px-8" id="services">
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration }}
         >
           <h2 className="section-title">Our <span className="text-brand-blue">Services</span></h2>
-          <p className="section-subtitle">
+          <p className="section-subtitle text-sm">
             Comprehensive fitness solutions designed to help you achieve your goals
           </p>
         </motion.div>
         
         <motion.div 
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
+          transition={{ duration, staggerChildren: 0.1 }}
         >
           {services.map((service, index) => (
             <motion.div 
               key={index} 
-              variants={itemVariants}
+              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true }}
+              transition={{ duration, delay: index * 0.05 }}
               className="glass-card bg-white/50 dark:bg-gray-800/50 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:translate-y-[-5px]"
               whileHover={{ 
                 scale: 1.03, 
@@ -105,10 +90,10 @@ const ServicesSection = () => {
               <div className="p-6">
                 <div className="text-4xl mb-4">{service.icon}</div>
                 <h3 className="text-xl font-bold mb-2 font-crimson">{service.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">{service.description}</p>
+                <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">{service.description}</p>
                 <Link 
                   to="/services" 
-                  className="arrow-link group"
+                  className="arrow-link group font-crimson"
                 >
                   Learn more 
                   <ArrowRight size={16} className="ml-2 inline transform transition-transform group-hover:translate-x-1" />
@@ -123,9 +108,9 @@ const ServicesSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration, delay: 0.2 }}
         >
-          <Link to="/services" className="btn-primary">
+          <Link to="/services" className="btn-primary font-crimson">
             View All Services
           </Link>
         </motion.div>
