@@ -1,8 +1,7 @@
-
 import { useEffect } from 'react';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
-import { Clock, Calendar, Trophy, ArrowRight } from 'lucide-react';
+import { Clock, Calendar, Trophy, ArrowRight, Users } from 'lucide-react';
 
 const services = [
   {
