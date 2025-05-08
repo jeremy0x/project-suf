@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAnimation } from '../../context/AnimationContext';
 
 const testimonials = [
@@ -75,66 +75,61 @@ const TestimonialsSection = () => {
         
         <div className="max-w-5xl mx-auto relative">
           {/* Testimonial Slider */}
-          <div className="overflow-hidden">
-            <motion.div 
-              className="flex"
-              animate={{ x: `-${currentIndex * 100}%` }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              style={{ width: `${testimonials.length * 100}%` }}
-            >
-              {testimonials.map((testimonial) => (
-                <div 
-                  key={testimonial.id} 
-                  className="w-full px-4 flex-shrink-0"
-                >
-                  <div className="bg-gray-800 p-8 md:p-12 rounded-2xl shadow-xl">
-                    <div className="flex flex-col md:flex-row items-center gap-6">
-                      <div className="md:w-1/3 mb-4 md:mb-0">
-                        <div className="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full overflow-hidden border-4 border-brand-gold">
-                          <img 
-                            src={testimonial.image} 
-                            alt={testimonial.name} 
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      </div>
-                      <div className="md:w-2/3 text-center md:text-left">
-                        <div className="flex items-center justify-center md:justify-start mb-2">
-                          {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              size={18} 
-                              className={i < testimonial.rating ? "text-brand-gold fill-brand-gold" : "text-gray-400"} 
-                            />
-                          ))}
-                        </div>
-                        <blockquote className="text-sm italic mb-4">"{testimonial.quote}"</blockquote>
-                        <div className="font-bold text-xl font-crimson">{testimonial.name}</div>
-                        <div className="text-sm text-gray-400">{testimonial.role}</div>
-                      </div>
+          <div className="overflow-hidden rounded-2xl glass-card bg-gray-900/50 p-6">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="w-full"
+              >
+                <div className="flex flex-col md:flex-row items-center gap-8 p-4">
+                  <div className="md:w-1/3 mb-4 md:mb-0">
+                    <div className="w-28 h-28 md:w-36 md:h-36 mx-auto rounded-full overflow-hidden border-4 border-brand-gold shadow-lg shadow-brand-gold/20">
+                      <img 
+                        src={testimonials[currentIndex].image} 
+                        alt={testimonials[currentIndex].name} 
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                   </div>
+                  <div className="md:w-2/3 text-center md:text-left">
+                    <div className="flex items-center justify-center md:justify-start mb-3">
+                      {[...Array(5)].map((_, i) => (
+                        <Star 
+                          key={i} 
+                          size={20} 
+                          className={i < testimonials[currentIndex].rating ? "text-brand-gold fill-brand-gold" : "text-gray-500"} 
+                        />
+                      ))}
+                    </div>
+                    <blockquote className="text-sm italic mb-6 leading-relaxed">"{testimonials[currentIndex].quote}"</blockquote>
+                    <div className="font-bold text-xl font-crimson">{testimonials[currentIndex].name}</div>
+                    <div className="text-sm text-brand-gold">{testimonials[currentIndex].role}</div>
+                  </div>
                 </div>
-              ))}
-            </motion.div>
+              </motion.div>
+            </AnimatePresence>
           </div>
           
           {/* Navigation Buttons */}
           <button 
             onClick={goToPrev}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-3 md:-translate-x-6 bg-brand-blue text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-brand-gold transition-colors duration-300"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-3 md:-translate-x-6 bg-brand-blue text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-brand-gold transition-colors duration-300"
             aria-label="Previous testimonial"
             disabled={isAnimating}
           >
-            <ChevronLeft />
+            <ChevronLeft size={24} />
           </button>
           <button 
             onClick={goToNext}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-3 md:translate-x-6 bg-brand-blue text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-brand-gold transition-colors duration-300"
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-3 md:translate-x-6 bg-brand-blue text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-brand-gold transition-colors duration-300"
             aria-label="Next testimonial"
             disabled={isAnimating}
           >
-            <ChevronRight />
+            <ChevronRight size={24} />
           </button>
           
           {/* Indicators */}
@@ -149,7 +144,7 @@ const TestimonialsSection = () => {
                   setTimeout(() => setIsAnimating(false), 300);
                 }}
                 className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                  currentIndex === index ? 'bg-brand-gold' : 'bg-gray-600'
+                  currentIndex === index ? 'bg-brand-gold glow-gold' : 'bg-gray-600'
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
                 aria-current={currentIndex === index}

@@ -51,6 +51,26 @@ const ServicesSection = () => {
   const { reduceMotion } = useAnimation();
   const duration = reduceMotion ? 0 : 0.3;
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.05,
+      }
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      filter: "blur(0px)",
+      transition: { duration }
+    }
+  };
+
   return (
     <section className="section-padding bg-background px-8" id="services">
       <div className="container mx-auto px-4">
@@ -69,18 +89,15 @@ const ServicesSection = () => {
         
         <motion.div 
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          transition={{ duration, staggerChildren: 0.1 }}
         >
           {services.map((service, index) => (
             <motion.div 
               key={index} 
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              viewport={{ once: true }}
-              transition={{ duration, delay: index * 0.05 }}
+              variants={itemVariants}
               className="glass-card bg-white/50 dark:bg-gray-800/50 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:translate-y-[-5px]"
               whileHover={{ 
                 scale: 1.03, 

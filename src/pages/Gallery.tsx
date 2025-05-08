@@ -1,7 +1,9 @@
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Layout from '../components/Layout';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAnimation } from '../context/AnimationContext';
 
 const galleryImages = [
   {
@@ -82,6 +84,8 @@ const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { reduceMotion } = useAnimation();
+  const duration = reduceMotion ? 0 : 0.3;
   
   const filteredImages = selectedCategory === 'all' 
     ? galleryImages 
@@ -110,71 +114,61 @@ const Gallery = () => {
     );
   };
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (!lightboxOpen) return;
-      
-      switch (e.key) {
-        case 'ArrowLeft':
-          goToPrevious();
-          break;
-        case 'ArrowRight':
-          goToNext();
-          break;
-        case 'Escape':
-          closeLightbox();
-          break;
-        default:
-          break;
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.05,
       }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'auto';
-    };
-  }, [lightboxOpen]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('reveal-on-scroll');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
-      observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
+    }
+  };
+  
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      filter: "blur(0px)",
+      transition: { duration }
+    }
+  };
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-brand-dark text-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-4">Gallery</h1>
-            <p className="text-xl max-w-3xl mx-auto text-gray-300">
+      <motion.section 
+        className="pt-32 pb-16 bg-brand-dark text-white"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration }}
+      >
+        <div className="container mx-auto px-8">
+          <motion.div 
+            className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration, delay: 0.2 }}
+          >
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 font-crimson">Gallery</h1>
+            <p className="text-xl max-w-3xl mx-auto text-gray-300 text-sm">
               Explore our facilities, classes, and member transformations through our photo gallery
             </p>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Gallery Section */}
-      <section className="section-padding bg-background">
-        <div className="container mx-auto px-4">
+      <section className="section-padding bg-background px-8">
+        <div className="container mx-auto">
           {/* Category Filter */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12 animate-on-scroll opacity-0 blur-[5px]">
+          <motion.div 
+            className="flex flex-wrap justify-center gap-4 mb-12"
+            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true }}
+            transition={{ duration }}
+          >
             <button 
               onClick={() => setSelectedCategory('all')}
               className={`px-6 py-3 rounded-full font-semibold transition-all ${
@@ -225,15 +219,20 @@ const Gallery = () => {
             >
               Transformations
             </button>
-          </div>
+          </motion.div>
           
           {/* Gallery Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
             {filteredImages.map((image, index) => (
-              <div 
+              <motion.div 
                 key={image.id} 
-                className="animate-on-scroll opacity-0 blur-[5px]"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                variants={itemVariants}
                 onClick={() => openLightbox(index)}
               >
                 <div className="group relative overflow-hidden rounded-xl cursor-pointer">
@@ -245,66 +244,93 @@ const Gallery = () => {
                     />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                    <h3 className="text-white text-lg font-bold">{image.alt}</h3>
+                    <h3 className="text-white text-lg font-bold font-crimson">{image.alt}</h3>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* Lightbox */}
-          {lightboxOpen && (
-            <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center">
-              <button 
-                onClick={closeLightbox}
-                className="absolute top-4 right-4 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors"
+          <AnimatePresence>
+            {lightboxOpen && (
+              <motion.div 
+                className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
               >
-                <X size={24} />
-              </button>
-              
-              <button 
-                onClick={goToPrevious}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors"
-              >
-                <ChevronLeft size={24} />
-              </button>
-              
-              <div className="max-w-4xl max-h-[80vh] relative">
-                <img 
-                  src={filteredImages[currentImageIndex].src} 
-                  alt={filteredImages[currentImageIndex].alt} 
-                  className="max-w-full max-h-[80vh] object-contain"
-                />
-                <div className="text-white text-center mt-4">
-                  {filteredImages[currentImageIndex].alt}
-                </div>
-              </div>
-              
-              <button 
-                onClick={goToNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors"
-              >
-                <ChevronRight size={24} />
-              </button>
-            </div>
-          )}
+                <button 
+                  onClick={closeLightbox}
+                  className="absolute top-4 right-4 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors"
+                >
+                  <X size={24} />
+                </button>
+                
+                <button 
+                  onClick={goToPrevious}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                
+                <motion.div 
+                  className="max-w-4xl max-h-[80vh] relative"
+                  key={currentImageIndex}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <img 
+                    src={filteredImages[currentImageIndex].src} 
+                    alt={filteredImages[currentImageIndex].alt} 
+                    className="max-w-full max-h-[80vh] object-contain"
+                  />
+                  <div className="text-white text-center mt-4 font-crimson">
+                    {filteredImages[currentImageIndex].alt}
+                  </div>
+                </motion.div>
+                
+                <button 
+                  onClick={goToNext}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-colors"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="bg-brand-blue py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center text-white animate-on-scroll opacity-0 blur-[5px]">
-            <h2 className="text-3xl font-bold mb-6">Experience Our Gym in Person</h2>
-            <p className="text-xl mb-8 max-w-2xl mx-auto">
+      <motion.section 
+        className="bg-brand-blue py-16"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration }}
+      >
+        <div className="container mx-auto px-8">
+          <motion.div 
+            className="text-center text-white"
+            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true }}
+            transition={{ duration }}
+          >
+            <h2 className="text-3xl font-bold mb-6 font-crimson">Experience Our Gym in Person</h2>
+            <p className="text-xl mb-8 max-w-2xl mx-auto text-sm">
               The photos look great, but nothing compares to seeing our facilities in person. Come visit us for a tour!
             </p>
-            <a href="/contact" className="btn-secondary inline-block">
+            <a href="/contact" className="btn-secondary inline-block font-crimson">
               SCHEDULE A VISIT
             </a>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </Layout>
   );
 };
