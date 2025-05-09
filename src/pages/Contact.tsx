@@ -43,7 +43,41 @@ const Contact = () => {
           subject = "Facility Tour Request";
           message = "I'd like to schedule a tour of your facility.";
           break;
+        case "navbar":
+          subject = "Membership Inquiry";
+          message =
+            "I'm interested in joining Shape Up Fitness. Please provide more information about membership options.";
+          break;
+        case "about":
+          subject = "Membership Inquiry";
+          message =
+            "I'm interested in joining Shape Up Fitness. Please provide more information about membership options.";
+          break;
+        case "pricing_join":
+          subject = "Membership Inquiry";
+          message =
+            "I'm interested in joining Shape Up Fitness. Please provide more information about membership options.";
+          break;
+        case "pricing_tour":
+          subject = "Facility Tour Request";
+          message = "I'd like to schedule a tour of your facility.";
+          break;
+        case "about_cta":
+          subject = "Membership Inquiry";
+          message =
+            "I'm interested in joining Shape Up Fitness. Please provide more information about membership options.";
+          break;
+        case "services_cta":
+          subject = "Service Inquiry";
+          message = "I'm interested in learning more about your services.";
+          break;
+        case "sessions_cta":
+          subject = "Session Inquiry";
+          message = "I'm interested in learning more about your sessions.";
+          break;
         default:
+          subject = "General Inquiry";
+          message = "I'm interested in learning more about Shape Up Fitness.";
           break;
       }
 

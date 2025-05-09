@@ -67,7 +67,7 @@ const Header = () => {
                 scrolled={scrolled}
               />
             ))}
-            <JoinNowButton />
+            <JoinNowButton source="navbar" />
           </div>
 
           {/* Mobile Menu Button */}
@@ -152,7 +152,7 @@ const Header = () => {
                   transition={{ delay: 0.6, duration: 0.3 }}
                   className="p-6 border-t"
                 >
-                  <JoinNowButton />
+                  <JoinNowButton source="navbar" onClick={toggleMenu} />
                 </motion.div>
               </div>
             </motion.div>

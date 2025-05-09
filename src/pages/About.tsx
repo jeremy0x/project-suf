@@ -319,7 +319,7 @@ const About = () => {
               Ready to Start Your Fitness Journey?
             </motion.h2>
             <motion.p
-              className="text-xl mb-8 text-gray-300 text-sm"
+              className="text-lg mb-8 text-gray-300"
               initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true }}

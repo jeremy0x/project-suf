@@ -64,7 +64,7 @@ const AboutSection = () => {
                   Take the first step towards a healthier you
                 </p>
                 <Link
-                  to="/contact?source=about"
+                  to="/contact?source=about_cta"
                   className="text-brand-gold font-semibold font-crimson"
                 >
                   Join Now →
