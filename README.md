@@ -1,73 +1,107 @@
-# Welcome to your Lovable project
+# Shape Up Fitness Website
 
-## Project info
+<div align="center">
+  <img src="https://i.ibb.co/ywJry7w/Business-card-1.jpg" alt="Shape Up Fitness" width="800"/>
+</div>
 
-**URL**: https://lovable.dev/projects/6c5ee8fd-4495-4f4c-8681-edd1900b8248
+A modern, responsive website for Shape Up Fitness, a premier fitness center in Akure, Nigeria. Built with React, TypeScript, and Tailwind CSS.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- 🎨 Modern and responsive design
+- 📱 Mobile-first approach
+- 🎭 Smooth animations and transitions
+- 📝 Contact form with FormSubmit integration
+- 🗺️ Google Maps integration
+- 📸 Image gallery
+- 💳 Membership pricing plans
+- 🎯 Service showcase
+- 📞 WhatsApp integration for direct contact
 
-**Use Lovable**
+## Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/6c5ee8fd-4495-4f4c-8681-edd1900b8248) and start prompting.
+- React
+- TypeScript
+- Tailwind CSS
+- Vite
+- Framer Motion
+- React Router
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
+### Prerequisites
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Node.js (v16 or higher)
+- npm or yarn
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Installation
 
-Follow these steps:
+1. Clone the repository:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+git clone https://github.com/yourusername/shape-up-fitness.git
+cd shape-up-fitness
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Install dependencies:
 
-# Step 3: Install the necessary dependencies.
-npm i
+```bash
+npm install
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Build for production:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+npm run build
+```
 
-**Use GitHub Codespaces**
+## Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+src/
+├── components/     # Reusable UI components
+├── context/       # React context providers
+├── pages/         # Page components
+├── styles/        # Global styles
+└── types/         # TypeScript type definitions
+```
 
-## What technologies are used for this project?
+## Features in Detail
 
-This project is built with:
+### Contact Form
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- Form validation
+- Loading states
+- Success/error notifications
+- Pre-filled content based on source page
+- FormSubmit integration for email handling
 
-## How can I deploy this project?
+### Operating Hours
 
-Simply open [Lovable](https://lovable.dev/projects/6c5ee8fd-4495-4f4c-8681-edd1900b8248) and click on Share -> Publish.
+- Monday to Saturday:
+  - 7:00 AM - 10:00 AM
+  - 2:00 PM - 4:00 PM
+  - 6:00 PM - 9:00 PM
+- Sunday: Closed
 
-## Can I connect a custom domain to my Lovable project?
+### Location
 
-Yes, you can!
+- Google Maps integration
+- Address: Embassy Lodge, FUTA South Gate, Akure, Ondo State, Nigeria
+- Contact: 08134460609
+- Email: <shapeupfitnessclub326@gmail.com>
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Contact
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Shape Up Fitness
+
+- Website: [shapeupfitness.com](https://shapeupfitness.com)
+- Email: <shapeupfitnessclub326@gmail.com>
+- Phone: 08134460609
+- Location: Embassy Lodge, FUTA South Gate, Akure, Ondo State, Nigeria

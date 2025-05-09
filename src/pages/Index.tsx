@@ -1,14 +1,13 @@
-
-import Layout from '../components/Layout';
+import Layout from "../components/Layout";
 import {
   HeroSection,
   ServicesSection,
   SessionsSection,
   AboutSection,
+  MembershipPlansSection,
   TestimonialsSection,
   CTASection,
-  MembershipPlansSection
-} from '../components/home';
+} from "../components/home";
 
 const Index = () => {
   return (
@@ -17,8 +16,8 @@ const Index = () => {
       <ServicesSection />
       <SessionsSection />
       <AboutSection />
-      <TestimonialsSection />
       <MembershipPlansSection />
+      <TestimonialsSection />
       <CTASection />
     </Layout>
   );

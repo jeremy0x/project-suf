@@ -1,34 +1,39 @@
-
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useAnimation } from '../../context/AnimationContext';
+import { useState } from "react";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useAnimation } from "../../context/AnimationContext";
 
 const testimonials = [
   {
     id: 1,
     name: "Alex Johnson",
     role: "Member since 2021",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
-    quote: "Shape Up Fitness completely transformed my life. I've lost over 30kg and gained so much confidence. The trainers are incredibly supportive and the community keeps me motivated.",
-    rating: 5
+    image:
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
+    quote:
+      "Shape Up Fitness completely transformed my life. I've lost over 30kg and gained so much confidence. The trainers are incredibly supportive and the community keeps me motivated.",
+    rating: 5,
   },
   {
     id: 2,
     name: "Sarah Williams",
     role: "Member since 2022",
-    image: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
-    quote: "The personal training sessions are worth every penny. My trainer created a customized plan that fits my busy schedule, and I'm seeing results faster than I ever expected.",
-    rating: 5
+    image:
+      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
+    quote:
+      "The personal training sessions are worth every penny. My trainer created a customized plan that fits my busy schedule, and I'm seeing results faster than I ever expected.",
+    rating: 5,
   },
   {
     id: 3,
     name: "David Chen",
     role: "Member since 2020",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-    quote: "I've been to many gyms over the years, but Shape Up Fitness stands out for its clean facilities, up-to-date equipment, and the genuine care from all staff members.",
-    rating: 4
-  }
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+    quote:
+      "I've been to many gyms over the years, but Shape Up Fitness stands out for its clean facilities, up-to-date equipment, and the genuine care from all staff members.",
+    rating: 4,
+  },
 ];
 
 const TestimonialsSection = () => {
@@ -47,35 +52,39 @@ const TestimonialsSection = () => {
   const goToPrev = () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length
+    );
     setTimeout(() => setIsAnimating(false), 300);
   };
 
   return (
-    <motion.section 
-      className="section-padding bg-brand-dark text-white px-8"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration }}
-    >
-      <div className="container mx-auto px-4">
-        <motion.div 
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+    <section className="section-padding bg-background relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
+        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
+      </div>
+      <div className="container mx-auto relative">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
         >
-          <h2 className="section-title">Success <span className="text-brand-gold">Stories</span></h2>
-          <p className="section-subtitle text-sm">
-            Hear what our members have to say about their journey with Shape Up Fitness
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+            What Our Members Say
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Don't just take our word for it - hear from our amazing members
+            about their experiences.
           </p>
         </motion.div>
-        
+
         <div className="max-w-5xl mx-auto relative">
           {/* Testimonial Slider */}
-          <div className="overflow-hidden rounded-2xl glass-card bg-gray-900/50 p-6">
+          <div className="overflow-hidden rounded-2xl bg-white shadow-lg p-6">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -88,9 +97,9 @@ const TestimonialsSection = () => {
                 <div className="flex flex-col md:flex-row items-center gap-8 p-4">
                   <div className="md:w-1/3 mb-4 md:mb-0">
                     <div className="w-28 h-28 md:w-36 md:h-36 mx-auto rounded-full overflow-hidden border-4 border-brand-gold shadow-lg shadow-brand-gold/20">
-                      <img 
-                        src={testimonials[currentIndex].image} 
-                        alt={testimonials[currentIndex].name} 
+                      <img
+                        src={testimonials[currentIndex].image}
+                        alt={testimonials[currentIndex].name}
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -98,24 +107,35 @@ const TestimonialsSection = () => {
                   <div className="md:w-2/3 text-center md:text-left">
                     <div className="flex items-center justify-center md:justify-start mb-3">
                       {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          size={20} 
-                          className={i < testimonials[currentIndex].rating ? "text-brand-gold fill-brand-gold" : "text-gray-500"} 
+                        <Star
+                          key={i}
+                          size={20}
+                          className={
+                            i < testimonials[currentIndex].rating
+                              ? "text-brand-gold fill-brand-gold"
+                              : "text-gray-300"
+                          }
                         />
                       ))}
                     </div>
-                    <blockquote className="text-sm italic mb-6 leading-relaxed">"{testimonials[currentIndex].quote}"</blockquote>
-                    <div className="font-bold text-xl font-crimson">{testimonials[currentIndex].name}</div>
-                    <div className="text-sm text-brand-gold">{testimonials[currentIndex].role}</div>
+                    <blockquote className="text-lg mb-6 leading-relaxed text-foreground">
+                      "{testimonials[currentIndex].quote}"
+                    </blockquote>
+                    <div className="font-bold text-xl text-foreground">
+                      {testimonials[currentIndex].name}
+                    </div>
+                    <div className="text-sm text-brand-gold">
+                      {testimonials[currentIndex].role}
+                    </div>
                   </div>
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
-          
+
           {/* Navigation Buttons */}
-          <button 
+          <button
+            type="button"
             onClick={goToPrev}
             className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-3 md:-translate-x-6 bg-brand-blue text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-brand-gold transition-colors duration-300"
             aria-label="Previous testimonial"
@@ -123,7 +143,8 @@ const TestimonialsSection = () => {
           >
             <ChevronLeft size={24} />
           </button>
-          <button 
+          <button
+            type="button"
             onClick={goToNext}
             className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-3 md:translate-x-6 bg-brand-blue text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-brand-gold transition-colors duration-300"
             aria-label="Next testimonial"
@@ -131,12 +152,13 @@ const TestimonialsSection = () => {
           >
             <ChevronRight size={24} />
           </button>
-          
+
           {/* Indicators */}
           <div className="flex justify-center space-x-2 mt-6">
             {testimonials.map((_, index) => (
               <button
                 key={index}
+                type="button"
                 onClick={() => {
                   if (isAnimating) return;
                   setIsAnimating(true);
@@ -144,7 +166,7 @@ const TestimonialsSection = () => {
                   setTimeout(() => setIsAnimating(false), 300);
                 }}
                 className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                  currentIndex === index ? 'bg-brand-gold glow-gold' : 'bg-gray-600'
+                  currentIndex === index ? "bg-brand-gold" : "bg-gray-300"
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
                 aria-current={currentIndex === index}
@@ -153,7 +175,7 @@ const TestimonialsSection = () => {
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

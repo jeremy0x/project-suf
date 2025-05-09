@@ -1,6 +1,5 @@
-
-import { useState, useEffect } from 'react';
-import { MessageCircle } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { BsWhatsapp } from "react-icons/bs";
 
 const WhatsAppButton = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -14,8 +13,8 @@ const WhatsAppButton = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -24,11 +23,11 @@ const WhatsAppButton = () => {
       target="_blank"
       rel="noopener noreferrer"
       className={`fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg z-40 transition-all duration-300 transform hover:scale-110 ${
-        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
       }`}
       aria-label="Contact us on WhatsApp"
     >
-      <MessageCircle size={24} />
+      <BsWhatsapp size={24} />
       <span className="sr-only">Contact us on WhatsApp</span>
     </a>
   );
