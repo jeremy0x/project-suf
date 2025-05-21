@@ -341,10 +341,9 @@ const Contact = () => {
               {/* Google Maps */}
               <div className="overflow-hidden rounded-xl shadow-lg">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.534866495809!2d5.151262976181846!3d7.293640292713871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10478ec5897919af%3A0xac22bf85d219fa3a!2sEmbassy%20Lodge!5e0!3m2!1sen!2snl!4v1746723293150!5m2!1sen!2snl"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d247.34591863483172!2d5.153913603102634!3d7.293659334350551!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10478fa799372cab%3A0xedbb4164cbf23193!2sShape%20Up%20Fitness%20Gym!5e0!3m2!1sen!2sng!4v1747808156516!5m2!1sen!2sng"
                   width="100%"
                   height="300"
-                  style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"

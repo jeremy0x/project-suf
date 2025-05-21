@@ -59,7 +59,7 @@ const About = () => {
       </motion.section>
 
       {/* Our Story Section */}
-      <section className="section-padding bg-background px-8">
+      <section className="section-padding bg-background">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <motion.div
@@ -73,21 +73,26 @@ const About = () => {
                 Our <span className="text-brand-blue">Story</span>
               </h2>
               <p className="text-sm mb-6">
-                Founded in 2015, Shape Up Fitness was born from a passion to
-                create a fitness center that wasn't just about physical
-                transformation, but about building a supportive community where
-                people of all fitness levels could thrive.
+                Born in 2020 from an unwavering passion, Shape Up Fitness was
+                envisioned as more than just a gym. Our dream was to forge a
+                vibrant, inclusive fitness sanctuary — a true community where
+                every individual, regardless of their starting point, could
+                flourish, not just physically, but entirely.
               </p>
               <p className="text-sm mb-6">
-                Starting with just a small space and limited equipment, we've
-                grown into one of Akure's premier fitness destinations, known
-                for our personalized approach and commitment to helping members
-                achieve their goals.
+                From humble beginnings in a modest space, fueled by sheer
+                determination, we've blossomed into one of Akure's most
+                cherished fitness destinations. Our reputation is built on a
+                foundation of truly personalized guidance and an unshakeable
+                commitment to seeing each member not just meet, but exceed their
+                wildest fitness aspirations.
               </p>
               <p className="text-sm">
-                Today, our state-of-the-art facility at Embassy Lodge, FUTA
-                South Gate, features modern equipment, specialized training
-                zones, and a team of expert trainers dedicated to your success.
+                Today, our dynamic fitness center located at Embassy Lodge, FUTA
+                South Gate, offers a comprehensive array of training programs,
+                meticulously designed specialized zones, and a fiercely
+                dedicated team of expert trainers committed to sculpting your
+                success.
               </p>
             </motion.div>
             <motion.div
@@ -99,12 +104,12 @@ const About = () => {
             >
               <div className="relative">
                 <img
-                  src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
+                  src="/images/about-story-image.jpg"
                   alt="Gym interior"
                   className="rounded-2xl shadow-xl"
                 />
-                <div className="absolute -bottom-6 -right-6 text-5xl font-bold opacity-10 text-brand-blue">
-                  SINCE 2015
+                <div className="absolute -bottom-6 -right-6 text-3xl sm:text-5xl font-bold opacity-30 blur-[2px] text-brand-blue">
+                  SINCE 2020
                 </div>
               </div>
             </motion.div>

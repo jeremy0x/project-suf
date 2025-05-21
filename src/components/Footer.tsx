@@ -1,14 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Logo from "./Logo";
-import {
-  InstagramIcon,
-  FacebookIcon,
-  MapPinIcon,
-  PhoneIcon,
-  MailIcon,
-  ArrowUpIcon,
-} from "lucide-react";
-import { BsTwitterX } from "react-icons/bs";
+import { MapPinIcon, PhoneIcon, MailIcon, ArrowUpIcon } from "lucide-react";
+import { BsFacebook, BsInstagram, BsTwitterX } from "react-icons/bs";
 import { motion } from "framer-motion";
 
 const Footer = () => {
@@ -25,18 +18,18 @@ const Footer = () => {
           <div>
             <Logo variant="footer" />
             <p className="mt-4 text-gray-300 text-sm">
-              Your premier fitness destination in Akure. We're dedicated to
-              helping you achieve your fitness goals through expert guidance and
-              state-of-the-art facilities.
+              Discover your fitness potential at Akure's premier destination. We
+              help you achieve your goals through a blend of expert coaching and
+              transformative training programs tailored just for you.
             </p>
             <div className="flex mt-4 space-x-4">
               <SocialIcon
-                icon={<InstagramIcon size={20} />}
+                icon={<BsInstagram size={20} />}
                 href="https://www.instagram.com/shapeupfitnessonline"
                 label="Instagram"
               />
               <SocialIcon
-                icon={<FacebookIcon size={20} />}
+                icon={<BsFacebook size={20} />}
                 href="https://facebook.com"
                 label="Facebook"
               />
@@ -111,7 +104,7 @@ const Footer = () => {
         </div>
 
         {/* Newsletter */}
-        <div className="py-8 border-t border-gray-800">
+        {/* <div className="py-8 border-t border-gray-800">
           <div className="max-w-3xl mx-auto text-center">
             <h3 className="text-xl font-bold mb-2">
               Subscribe to Our Newsletter
@@ -130,7 +123,7 @@ const Footer = () => {
               </button>
             </form>
           </div>
-        </div>
+        </div> */}
 
         {/* Copyright */}
         <div className="py-6 text-center text-sm text-gray-400 border-t border-gray-800 relative">
@@ -183,15 +176,28 @@ const SocialIcon = ({
   </motion.a>
 );
 
-const FooterLink = ({ to, label }: { to: string; label: string }) => (
-  <li>
-    <Link
-      to={to}
-      className="text-gray-300 hover:text-brand-blue transition-colors duration-300 text-sm"
-    >
-      {label}
-    </Link>
-  </li>
-);
+const FooterLink = ({ to, label }: { to: string; label: string }) => {
+  const location = useLocation();
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const handleClick = (e: React.MouseEvent) => {
+    if (location.pathname === to) {
+      e.preventDefault();
+      scrollToTop();
+    }
+  };
+  return (
+    <li>
+      <Link
+        to={to}
+        onClick={handleClick}
+        className="text-gray-300 hover:text-brand-blue transition-colors duration-300 text-sm"
+      >
+        {label}
+      </Link>
+    </li>
+  );
+};
 
 export default Footer;

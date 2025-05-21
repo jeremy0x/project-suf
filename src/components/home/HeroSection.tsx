@@ -67,9 +67,9 @@ const HeroSection = () => {
             className="text-sm mb-8 max-w-lg opacity-80"
             variants={itemVariants}
           >
-            Join Shape Up Fitness and experience world-class training with
-            state-of-the-art equipment and expert coaches dedicated to helping
-            you achieve your fitness goals.
+            Join Shape Up Fitness and experience top notch training with the
+            full support system of expert coaches dedicated to helping you
+            achieve your fitness goals.
           </motion.p>
           <motion.div className="flex flex-wrap gap-4" variants={itemVariants}>
             <JoinNowButton />
@@ -95,9 +95,9 @@ const HeroSection = () => {
             {/* Image with circular clip */}
             <div className="bg-gray-800 rounded-full overflow-hidden relative z-10 w-full h-full border-4 border-brand-blue shadow-xl shadow-brand-blue/20">
               <img
-                src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+                src="/images/hero-image.jpg"
                 alt="Fitness trainer with kettlebell"
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover object-left-top"
               />
             </div>
           </div>

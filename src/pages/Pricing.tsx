@@ -227,11 +227,7 @@ const Pricing = () => {
                         </div>
                         <div className="flex items-center">
                           <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-sm">Locker room access</span>
-                        </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-sm">Free wifi</span>
+                          <span className="text-sm">Dressing room access</span>
                         </div>
                       </div>
                       <Link
@@ -492,6 +488,7 @@ const Pricing = () => {
                 covers your initial fitness assessment and orientation.
               </p>
             </motion.div>
+
             <motion.div
               variants={itemVariants}
               className="bg-gray-800/60 rounded-xl p-6 glass-card"
@@ -513,9 +510,11 @@ const Pricing = () => {
                 Can I freeze my membership if I need to take a break?
               </h3>
               <p className="text-sm">
-                Yes, we offer membership freezing for up to 30 days per year for
-                monthly members. Additional freezing options may be available
-                for long-term memberships.
+                While direct pausing of a gym subscription isn't an option once
+                it's active, rest assured that your membership clock only starts
+                ticking from your first activation, even if you've completed
+                your payment in advance. We want to make sure you get the most
+                out of every moment with us!
               </p>
             </motion.div>
             <motion.div
@@ -537,12 +536,24 @@ const Pricing = () => {
               className="bg-gray-800/60 rounded-xl p-6 glass-card"
             >
               <h3 className="text-xl font-bold mb-3 font-crimson">
-                Do you offer student or senior discounts?
+                Do you offer student discounts?
               </h3>
               <p className="text-sm">
-                Yes, we offer special rates for students and seniors. Please
-                contact us or visit our gym with valid ID to learn about these
-                special rates.
+                Yes, we offer special rates for students. Please contact us or
+                visit our gym with valid ID to learn about these special rates.
+              </p>
+            </motion.div>
+            <motion.div
+              variants={itemVariants}
+              className="bg-gray-800/60 rounded-xl p-6 glass-card"
+            >
+              <h3 className="text-xl font-bold mb-3 font-crimson">
+                Can I pay my gym subscription in installments?
+              </h3>
+              <p className="text-sm">
+                Yes, we offer the convenience of paying your gym subscription in
+                two installments. This option is available to help make managing
+                your membership more flexible.
               </p>
             </motion.div>
           </motion.div>

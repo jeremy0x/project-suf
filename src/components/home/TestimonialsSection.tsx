@@ -2,37 +2,55 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
+import React from "react";
 
 const testimonials = [
   {
     id: 1,
-    name: "Alex Johnson",
-    role: "Member since 2021",
-    image:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
+    name: "Oscar",
+    // image: "", // Image commented out
     quote:
-      "Shape Up Fitness completely transformed my life. I've lost over 30kg and gained so much confidence. The trainers are incredibly supportive and the community keeps me motivated.",
+      "Starting workout at SUF gym, physically: I see nothing as being too heavy (not gym iron o😂) like other things, mentally: the gym has helped me with self discipline, what pain could be more painful than this😅",
     rating: 5,
   },
   {
     id: 2,
-    name: "Sarah Williams",
-    role: "Member since 2022",
-    image:
-      "https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
-    quote:
-      "The personal training sessions are worth every penny. My trainer created a customized plan that fits my busy schedule, and I'm seeing results faster than I ever expected.",
+    name: "Tclassic",
+    // image: "",
+    quote: "Joining SUF gym has given me more confidence and focus",
     rating: 5,
   },
   {
     id: 3,
-    name: "David Chen",
-    role: "Member since 2020",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+    name: "Timoty",
+    // image: "",
     quote:
-      "I've been to many gyms over the years, but Shape Up Fitness stands out for its clean facilities, up-to-date equipment, and the genuine care from all staff members.",
-    rating: 4,
+      "Working out at SUF gym has boosted my consistency in doing other activities apart from working out, and it also improved my stamina.",
+    rating: 5,
+  },
+  {
+    id: 4,
+    name: "Ifetundun",
+    // image: "",
+    quote:
+      "I used to have weak legs, but using shape up fitness gym has made my legs more stronger",
+    rating: 5,
+  },
+  {
+    id: 5,
+    name: "Olushola",
+    // image: "",
+    quote:
+      "Ever since I started using shape up fitness gym my reaction time got faster",
+    rating: 5,
+  },
+  {
+    id: 6,
+    name: "Trinity",
+    // image: "",
+    quote:
+      "Omg Coach you actually a God send! Thank you so much! Literally everyone has complimented me and said I've done really well since starting your gym and I am truly happy. Now just to keep it up and keep it pushing 💪🏾🤞🏾☺️",
+    rating: 5,
   },
 ];
 
@@ -41,6 +59,24 @@ const TestimonialsSection = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const { reduceMotion } = useAnimation();
   const duration = reduceMotion ? 0 : 0.3;
+  const autoScrollInterval = 5000;
+  const [autoScroll, setAutoScroll] = useState(true);
+
+  // Auto-scroll effect
+  React.useEffect(() => {
+    if (!autoScroll) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+    }, autoScrollInterval);
+    return () => clearInterval(interval);
+  }, [autoScroll]);
+
+  // Pause auto-scroll on user interaction
+  const handleUserInteraction = (callback: () => void) => {
+    setAutoScroll(false);
+    callback();
+    setTimeout(() => setAutoScroll(true), autoScrollInterval);
+  };
 
   const goToNext = () => {
     if (isAnimating) return;
@@ -59,7 +95,10 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="section-padding bg-background relative overflow-hidden">
+    <motion.section
+      layout
+      className="section-padding bg-background relative overflow-hidden"
+    >
       {/* Decorative elements */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
@@ -82,9 +121,12 @@ const TestimonialsSection = () => {
           </p>
         </motion.div>
 
-        <div className="max-w-5xl mx-auto relative">
+        <div className="max-w-3xl mx-auto relative">
           {/* Testimonial Slider */}
-          <div className="overflow-hidden rounded-2xl bg-white shadow-lg p-6">
+          <motion.div
+            layout
+            className="overflow-hidden rounded-2xl bg-white shadow-lg p-8"
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -94,18 +136,17 @@ const TestimonialsSection = () => {
                 transition={{ duration: 0.3, ease: "easeInOut" }}
                 className="w-full"
               >
-                <div className="flex flex-col md:flex-row items-center gap-8 p-4">
-                  <div className="md:w-1/3 mb-4 md:mb-0">
-                    <div className="w-28 h-28 md:w-36 md:h-36 mx-auto rounded-full overflow-hidden border-4 border-brand-gold shadow-lg shadow-brand-gold/20">
-                      <img
-                        src={testimonials[currentIndex].image}
-                        alt={testimonials[currentIndex].name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </div>
-                  <div className="md:w-2/3 text-center md:text-left">
-                    <div className="flex items-center justify-center md:justify-start mb-3">
+                <div className="flex flex-col items-center gap-4 p-4">
+                  {/* Image removed for now */}
+                  {/* <div className="w-28 h-28 md:w-36 md:h-36 mx-auto rounded-full overflow-hidden border-4 border-brand-gold shadow-lg shadow-brand-gold/20">
+                    <img
+                      src={testimonials[currentIndex].image}
+                      alt={testimonials[currentIndex].name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div> */}
+                  <div className="w-full text-center">
+                    <div className="flex items-center justify-center mb-3">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
@@ -118,64 +159,61 @@ const TestimonialsSection = () => {
                         />
                       ))}
                     </div>
-                    <blockquote className="text-lg mb-6 leading-relaxed text-foreground">
+                    <blockquote className="text-lg mb-6 leading-relaxed text-foreground max-w-2xl mx-auto">
                       "{testimonials[currentIndex].quote}"
                     </blockquote>
                     <div className="font-bold text-xl text-foreground">
                       {testimonials[currentIndex].name}
                     </div>
-                    <div className="text-sm text-brand-gold">
-                      {testimonials[currentIndex].role}
-                    </div>
                   </div>
                 </div>
               </motion.div>
             </AnimatePresence>
-          </div>
+          </motion.div>
 
-          {/* Navigation Buttons */}
-          <button
-            type="button"
-            onClick={goToPrev}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-3 md:-translate-x-6 bg-brand-blue text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-brand-gold transition-colors duration-300"
-            aria-label="Previous testimonial"
-            disabled={isAnimating}
-          >
-            <ChevronLeft size={24} />
-          </button>
-          <button
-            type="button"
-            onClick={goToNext}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-3 md:translate-x-6 bg-brand-blue text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-brand-gold transition-colors duration-300"
-            aria-label="Next testimonial"
-            disabled={isAnimating}
-          >
-            <ChevronRight size={24} />
-          </button>
-
-          {/* Indicators */}
-          <div className="flex justify-center space-x-2 mt-6">
-            {testimonials.map((_, index) => (
+          {/* Navigation Buttons - moved below the card */}
+          <div className="flex flex-col items-center mt-6 space-y-4">
+            <div className="flex justify-center space-x-4">
               <button
-                key={index}
                 type="button"
-                onClick={() => {
-                  if (isAnimating) return;
-                  setIsAnimating(true);
-                  setCurrentIndex(index);
-                  setTimeout(() => setIsAnimating(false), 300);
-                }}
-                className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                  currentIndex === index ? "bg-brand-gold" : "bg-gray-300"
-                }`}
-                aria-label={`Go to testimonial ${index + 1}`}
-                aria-current={currentIndex === index}
-              />
-            ))}
+                onClick={() => handleUserInteraction(goToPrev)}
+                className="bg-brand-blue text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-brand-gold transition-colors duration-300"
+                aria-label="Previous testimonial"
+                disabled={isAnimating}
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleUserInteraction(goToNext)}
+                className="bg-brand-blue text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10 hover:bg-brand-gold transition-colors duration-300"
+                aria-label="Next testimonial"
+                disabled={isAnimating}
+              >
+                <ChevronRight size={24} />
+              </button>
+            </div>
+            {/* Indicators */}
+            <div className="flex justify-center space-x-2 mt-2">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() =>
+                    handleUserInteraction(() => setCurrentIndex(index))
+                  }
+                  className={`w-3 h-3 rounded-full transition-colors duration-300 ${
+                    currentIndex === index ? "bg-brand-gold" : "bg-gray-300"
+                  }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                  aria-current={currentIndex === index}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

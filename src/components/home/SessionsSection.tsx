@@ -17,6 +17,12 @@ const SessionsSection = () => {
     const determineCurrentSession = () => {
       const now = new Date();
       const hours = now.getHours();
+      const day = now.getDay(); // 0 = Sunday
+
+      if (day === 0) {
+        setCurrentSession(null);
+        return;
+      }
 
       if (hours >= 7 && hours < 10) {
         setCurrentSession("Morning");

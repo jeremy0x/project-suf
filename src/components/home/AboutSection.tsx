@@ -4,19 +4,19 @@ import { motion } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
 
 const stats = [
-  { value: "500+", label: "Active Members" },
-  { value: "15+", label: "Expert Trainers" },
-  { value: "20+", label: "Fitness Programs" },
-  { value: "8+", label: "Years Experience" },
+  { value: "100+", label: "Active Members" },
+  { value: "5+", label: "Expert Trainers" },
+  { value: "10+", label: "Fitness Programs" },
+  { value: "5+", label: "Years Experience" },
 ];
 
 const benefits = [
-  "State-of-the-art equipment",
   "Personalized training programs",
   "Nutritional guidance",
   "Supportive community",
   "Expert coaching",
   "Regular fitness assessments",
+  "Welcoming and workout friendly space",
 ];
 
 const AboutSection = () => {
@@ -45,8 +45,8 @@ const AboutSection = () => {
             <div className="relative">
               <div className="aspect-square rounded-2xl overflow-hidden glow">
                 <img
-                  src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-                  alt="Gym interior with modern equipment"
+                  src="/images/about-image.jpg"
+                  alt="Gym interior"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -93,9 +93,9 @@ const AboutSection = () => {
             >
               Shape Up Fitness is more than just a gym — it's a community
               dedicated to helping you achieve your fitness goals. With our
-              expert trainers, state-of-the-art equipment, and supportive
-              environment, we provide everything you need to transform your body
-              and mind.
+              expert trainers, structured training programs designed for
+              results, and supportive environment, we provide everything you
+              need to transform your body and mind.
             </motion.p>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">

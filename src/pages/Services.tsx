@@ -13,8 +13,7 @@ const services = [
     description:
       "Our body toning program focuses on sculpting and defining your muscles through targeted exercises that improve muscle tone without adding bulk. Perfect for those looking to achieve a lean, defined physique.",
     icon: "💪",
-    image:
-      "https://images.unsplash.com/photo-1532384748853-8f54a8f476e2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    image: "/images/body-toning.jpg",
   },
   {
     id: 2,
@@ -22,8 +21,7 @@ const services = [
     description:
       "Our comprehensive weight loss program combines effective cardio workouts, strength training, and nutritional guidance to help you shed unwanted pounds and create lasting lifestyle changes.",
     icon: "⚖️",
-    image:
-      "https://images.unsplash.com/photo-1518310383802-640c2de311b2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    image: "/images/weight-loss.jpg",
   },
   {
     id: 3,
@@ -31,8 +29,7 @@ const services = [
     description:
       "Take your physique to the next level with our bodybuilding program designed to maximize muscle growth, improve symmetry, and enhance overall strength through progressive resistance training.",
     icon: "🏋️",
-    image:
-      "https://images.unsplash.com/photo-1632781297772-1d68f375778f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
+    image: "/images/body-building.jpg",
   },
   {
     id: 4,
@@ -40,8 +37,7 @@ const services = [
     description:
       "Boost your cardiovascular health, increase stamina, and burn calories with our diverse cardio training options including HIIT, steady-state cardio, and circuit training.",
     icon: "🏃",
-    image:
-      "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
+    image: "/images/cardio-training.jpg",
   },
   {
     id: 5,
@@ -49,8 +45,7 @@ const services = [
     description:
       "Find balance, improve flexibility, and reduce stress with our yoga classes that cater to all levels, from beginners to advanced practitioners. Experience the holistic benefits of mind-body connection.",
     icon: "🧘‍♀️",
-    image:
-      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1220&q=80",
+    image: "/images/yoga-training.jpg",
   },
   {
     id: 6,
@@ -58,8 +53,7 @@ const services = [
     description:
       "Learn proper boxing techniques while getting an intense full-body workout that improves coordination, speed, power, and cardiovascular fitness under the guidance of experienced boxing coaches.",
     icon: "🥊",
-    image:
-      "https://images.unsplash.com/photo-1560233026-ad254fa8c688?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
+    image: "/images/boxing-training.jpg",
   },
   {
     id: 7,
@@ -67,8 +61,7 @@ const services = [
     description:
       "Enjoy fun, energetic dance routines that boost your mood and fitness simultaneously. Our dance aerobics classes combine choreographed movements with cardio benefits for an enjoyable workout experience.",
     icon: "💃",
-    image:
-      "https://images.unsplash.com/photo-1533681904393-9ab6eee7e408?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    image: "/images/dance-aerobics.jpg",
   },
   {
     id: 8,
@@ -77,7 +70,7 @@ const services = [
       "Receive expert nutritional guidance tailored to your fitness goals, dietary preferences, and lifestyle. Learn how to make sustainable food choices that complement your workout routine.",
     icon: "🥗",
     image:
-      "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1153&q=80",
+      "https://img.freepik.com/premium-photo/bowl-buddha-chicken-broccoli-chickpeas-pumpkin-avocado-carrot-tomato-lettuce-plate-with-knife-fork_156140-4658.jpg?semt=ais_hybrid&w=740",
   },
 ];
 
@@ -150,7 +143,7 @@ const Services = () => {
         </div>
         <div className="container mx-auto px-4 relative">
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -163,7 +156,7 @@ const Services = () => {
                     <img
                       src={service.image}
                       alt={service.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                     />
                     <div className="absolute top-4 left-4 bg-brand-dark text-white text-3xl p-2 rounded-lg">
                       {service.icon}
@@ -171,15 +164,15 @@ const Services = () => {
                   </div>
                   <div className="p-6 flex-grow flex flex-col">
                     <h3 className="text-2xl font-bold mb-3">{service.title}</h3>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4 flex-grow">
+                    <p className="text-gray-600 dark:text-gray-300 mb-4 flex-grow text-sm">
                       {service.description}
                     </p>
-                    <Link
+                    {/* <Link
                       to={`#${service.id}`}
                       className="inline-flex items-center text-brand-blue font-semibold hover:text-brand-gold transition-colors"
                     >
                       Learn more <ArrowRight size={16} className="ml-1" />
-                    </Link>
+                    </Link> */}
                   </div>
                 </div>
               </motion.div>
@@ -344,8 +337,8 @@ const Services = () => {
           <div className="flex flex-col lg:flex-row gap-12 items-center">
             <AnimatedSection className="lg:w-1/2">
               <img
-                src="https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1025&q=80"
-                alt="Trainer working with client"
+                src="/images/trainer.jpg"
+                alt="Trainer"
                 className="rounded-2xl shadow-xl"
               />
             </AnimatedSection>
