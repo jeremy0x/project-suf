@@ -339,7 +339,7 @@ const Contact = () => {
               </div>
 
               {/* Google Maps */}
-              <div className="overflow-hidden rounded-xl shadow-lg">
+              <div className="overflow-hidden rounded-xl shadow-lg relative">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1320.6673067514826!2d5.15423433047354!3d7.29414877750871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10478fa799372cab%3A0xedbb4164cbf23193!2sShape%20Up%20Fitness%20Gym!5e0!3m2!1sen!2sng!4v1748264524439!5m2!1sen!2sng"
                   width="100%"
@@ -349,6 +349,18 @@ const Contact = () => {
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Shape Up Fitness Location"
                 ></iframe>
+                <a
+                  href="https://maps.app.goo.gl/QYTZNs4Ggi4HdpAU6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute inset-0 z-10"
+                  aria-label="Open Shape Up Fitness in Google Maps"
+                  style={{ cursor: "pointer" }}
+                >
+                  <span className="sr-only">
+                    Open Shape Up Fitness in Google Maps
+                  </span>
+                </a>
               </div>
             </motion.div>
           </div>
