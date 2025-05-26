@@ -307,9 +307,9 @@ const Services = () => {
 
           <AnimatedSection className="mt-12 text-center">
             <p className="max-w-2xl mx-auto mb-6">
-              Our comprehensive approach combines expert guidance,
-              state-of-the-art equipment, and a supportive community to help you
-              achieve sustainable results.
+              Our comprehensive approach combines expert guidance, personalized
+              training programs, and a supportive community to help you achieve
+              sustainable results.
             </p>
             <Link to="/contact" className="btn-primary">
               START YOUR JOURNEY
