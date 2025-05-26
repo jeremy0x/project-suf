@@ -70,7 +70,7 @@ const Pricing = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
         </div>
-        <div className="container mx-auto px-4 relative">
+        <div className="sm:container mx-auto px-4 relative">
           <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -95,7 +95,7 @@ const Pricing = () => {
         viewport={{ once: true }}
         transition={{ duration }}
       >
-        <div className="container mx-auto px-8">
+        <div className="sm:container mx-auto px-8">
           <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
@@ -117,7 +117,7 @@ const Pricing = () => {
 
       {/* Pricing Categories Tabs */}
       <section className="section-padding bg-background">
-        <div className="container mx-auto">
+        <div className="sm:container mx-auto">
           <motion.div
             className="flex flex-wrap justify-center gap-4 mb-12"
             initial={{ opacity: 0, y: 20 }}
@@ -449,7 +449,7 @@ const Pricing = () => {
 
       {/* Frequently Asked Questions */}
       <section className="section-padding bg-brand-dark text-white">
-        <div className="container mx-auto">
+        <div className="sm:container mx-auto">
           <motion.div
             className="text-center mb-12"
             initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
@@ -562,7 +562,7 @@ const Pricing = () => {
 
       {/* CTA Section */}
       <section className="py-20 bg-background px-8">
-        <div className="container mx-auto">
+        <div className="sm:container mx-auto">
           <motion.div
             className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}

@@ -117,7 +117,7 @@ const Services = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
         </div>
-        <div className="container mx-auto px-8 relative">
+        <div className="sm:container mx-auto px-8 relative">
           <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -141,7 +141,7 @@ const Services = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
         </div>
-        <div className="container mx-auto px-4 relative">
+        <div className="sm:container mx-auto px-4 relative">
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
             variants={containerVariants}
@@ -187,7 +187,7 @@ const Services = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
         </div>
-        <div className="container mx-auto px-4 relative">
+        <div className="sm:container mx-auto px-4 relative">
           <AnimatedSection className="text-center mb-12">
             <h2 className="section-title">
               Session <span className="text-brand-gold">Times</span>
@@ -239,7 +239,7 @@ const Services = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
         </div>
-        <div className="container mx-auto px-4 relative">
+        <div className="sm:container mx-auto px-4 relative">
           <AnimatedSection className="text-center mb-12">
             <h2 className="section-title">
               Our Training <span className="text-brand-blue">Approach</span>
@@ -324,7 +324,7 @@ const Services = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
         </div>
-        <div className="container mx-auto px-4 relative">
+        <div className="sm:container mx-auto px-4 relative">
           <AnimatedSection className="text-center mb-12">
             <h2 className="section-title">
               Our Training <span className="text-brand-gold">Philosophy</span>
@@ -397,7 +397,7 @@ const Services = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
         </div>
-        <div className="container mx-auto px-4 relative">
+        <div className="sm:container mx-auto px-4 relative">
           <AnimatedSection className="max-w-4xl mx-auto bg-brand-blue rounded-2xl overflow-hidden shadow-xl">
             <div className="p-12 text-center text-white">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">

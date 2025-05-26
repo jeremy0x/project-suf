@@ -43,7 +43,7 @@ const HeroSection = () => {
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
         <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
       </div>
-      <div className="container mx-auto px-8 min-h-[100dvh] flex flex-col md:flex-row items-center justify-center  gap-10 md:justify-between py-16 md:py-0 relative">
+      <div className="sm:container mx-auto px-8 min-h-[100dvh] flex flex-col md:flex-row items-center justify-center  gap-10 md:justify-between py-16 md:py-0 relative">
         {/* Content */}
         <motion.div
           className="md:w-1/2 z-10"
@@ -88,7 +88,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ duration: 0.3, delay: 0.4, ease: "easeOut" }}
         >
-          <div className="relative w-full max-w-lg aspect-square">
+          <div className="relative w-full max-w-md aspect-square">
             <div className="absolute inset-0 bg-brand-blue rounded-full filter blur-3xl opacity-30"></div>
             <div className="absolute top-[-10%] right-[-10%] w-48 h-48 bg-brand-gold rounded-full filter blur-3xl opacity-30"></div>
 
@@ -97,7 +97,7 @@ const HeroSection = () => {
               <img
                 src="/images/hero-image.jpg"
                 alt="Fitness trainer with kettlebell"
-                className="w-full h-full object-cover object-left-top"
+                className="w-full h-full object-cover object-center"
               />
             </div>
           </div>

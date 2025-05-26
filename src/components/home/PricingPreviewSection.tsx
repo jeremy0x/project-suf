@@ -59,7 +59,7 @@ const PricingPreviewSection = () => {
         <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-brand-gold/5 rounded-full filter blur-3xl"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative">
+      <div className="sm:container mx-auto px-4 relative">
         <div className="text-center mb-12">
           <h2 className="section-title">
             Membership <span className="text-brand-blue">Plans</span>

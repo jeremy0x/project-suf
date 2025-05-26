@@ -45,7 +45,7 @@ const Header = () => {
         scrolled ? "py-2" : "py-4"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-8">
+      <div className="sm:container mx-auto px-4 md:px-8">
         <nav
           className={`flex items-center justify-between h-16 rounded-full px-4 transition-all duration-300 ${
             scrolled

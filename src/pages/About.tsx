@@ -40,7 +40,7 @@ const About = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
         </div>
-        <div className="container mx-auto px-8 relative">
+        <div className="sm:container mx-auto px-8 relative">
           <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -60,7 +60,7 @@ const About = () => {
 
       {/* Our Story Section */}
       <section className="section-padding bg-background">
-        <div className="container mx-auto">
+        <div className="sm:container mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <motion.div
               className="lg:w-1/2"
@@ -119,7 +119,7 @@ const About = () => {
 
       {/* Mission & Values */}
       <section className="section-padding bg-brand-dark text-white px-8">
-        <div className="container mx-auto">
+        <div className="sm:container mx-auto">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
@@ -213,7 +213,7 @@ const About = () => {
 
       {/* Team Section */}
       <section className="section-padding bg-background px-8">
-        <div className="container mx-auto">
+        <div className="sm:container mx-auto">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
@@ -230,7 +230,7 @@ const About = () => {
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -238,32 +238,52 @@ const About = () => {
           >
             {[
               {
-                name: "Emmanuel Adeniyi",
-                role: "Founder & Head Trainer",
-                image:
-                  "https://images.unsplash.com/photo-1594381898411-846e7d193883?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                specialties: ["Body Building", "Strength Training"],
+                name: "Adebayo Williams",
+                role: "Founder & Head Coach",
+                image: "/images/adebayo-williams.jpg",
+                specialties: [
+                  "Body Building",
+                  "Strength Training",
+                  "Weight Loss",
+                  "Diet Training",
+                  "Boxing Training",
+                  "Cardio Training",
+                ],
               },
               {
-                name: "Blessing Okonkwo",
-                role: "Yoga & Pilates Instructor",
-                image:
-                  "https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80",
+                name: "Eteng Elvis",
+                role: "Assistant Coach",
+                image: "/images/eteng-elvis.jpg",
+                specialties: [
+                  "Body Building",
+                  "Strength Training",
+                  "Weight Loss",
+                  "Cardio Training",
+                ],
+              },
+              {
+                name: "Lawal Oluwatobi",
+                role: "Substitute Coach",
+                image: "/images/lawal-oluwatobi.jpg",
+                specialties: ["Calisthenics", "Strength training"],
+              },
+              {
+                name: "Uthman Raheem",
+                role: "Boxing Coach",
+                image: "/images/uthman-raheem.jpg",
+                specialties: ["Boxing"],
+              },
+              {
+                name: "Yusuf Mimololuwami",
+                role: "Yoga instructor",
+                image: "/images/yusuf-mimololuwami.jpg",
                 specialties: ["Yoga", "Flexibility"],
               },
               {
-                name: "Michael Oladele",
-                role: "Boxing Coach",
-                image:
-                  "https://images.unsplash.com/photo-1567013127542-490d757e6349?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                specialties: ["Boxing", "HIIT"],
-              },
-              {
-                name: "Amina Yahaya",
-                role: "Nutrition Specialist",
-                image:
-                  "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                specialties: ["Nutrition", "Weight Loss"],
+                name: "Akande Moses Oluwafemi",
+                role: "Data Manager",
+                image: "/images/akande-moses.jpg",
+                specialties: ["Records Management", "Subscription Management"],
               },
             ].map((member, index) => (
               <motion.div key={index} variants={itemVariants}>
@@ -272,7 +292,7 @@ const About = () => {
                     <img
                       src={member.image}
                       alt={member.name}
-                      className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110"
+                      className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110"
                     />
                   </div>
                   <div className="p-6">
@@ -306,7 +326,7 @@ const About = () => {
             <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
           </div>
         </div>
-        <div className="container mx-auto relative">
+        <div className="sm:container mx-auto relative">
           <motion.div
             className="max-w-3xl mx-auto text-center"
             initial={{ opacity: 0 }}

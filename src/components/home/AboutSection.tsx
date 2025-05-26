@@ -26,13 +26,13 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className="section-padding bg-background relative overflow-hidden px-8"
+      className="section-padding bg-background relative overflow-hidden"
     >
       {/* Decorative elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-brand-blue/10 rounded-full filter blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-brand-gold/10 rounded-full filter blur-3xl"></div>
 
-      <div className="container mx-auto px-4">
+      <div className="sm:container mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-12 items-center">
           {/* Image */}
           <motion.div

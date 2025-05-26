@@ -43,7 +43,7 @@ const MembershipPlansSection = () => {
 
   return (
     <section className="section-padding section-dark relative overflow-hidden">
-      <div className="container mx-auto px-4 relative">
+      <div className="sm:container mx-auto px-4 relative">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}

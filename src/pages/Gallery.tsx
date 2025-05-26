@@ -7,75 +7,75 @@ import { useAnimation } from "../context/AnimationContext";
 const galleryImages = [
   {
     id: 1,
-    src: "https://images.unsplash.com/photo-1576678927484-cc907957088c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+    src: "/images/modern-gym-equipment.jpg",
     category: "facilities",
     alt: "Modern gym equipment",
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    src: "/images/free-weights-area.jpg",
     category: "facilities",
     alt: "Free weights area",
   },
   {
     id: 3,
-    src: "https://images.unsplash.com/photo-1517963879433-6ad2b056d712?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80",
+    src: "/images/yoga-class-in-session.jpg",
     category: "classes",
     alt: "Yoga class in session",
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    src: "/images/group-fitness-class.jpg",
     category: "classes",
     alt: "Group fitness class",
   },
   {
     id: 5,
-    src: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80",
+    src: "/images/member-transformation.jpg",
     category: "transformations",
     alt: "Member transformation",
   },
   {
     id: 6,
-    src: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80",
+    src: "/images/cardio-equipment-area.jpg",
     category: "facilities",
     alt: "Cardio equipment area",
   },
   {
     id: 7,
-    src: "https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80",
+    src: "/images/boxing-training-session.jpg",
     category: "classes",
     alt: "Boxing training session",
   },
   {
     id: 8,
-    src: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    src: "/images/weight-training-area.jpg",
     category: "facilities",
     alt: "Weight training area",
   },
   {
     id: 9,
-    src: "https://images.unsplash.com/photo-1549060279-7e168fcee0c2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+    src: "/images/strength-training-1.jpg",
     category: "classes",
-    alt: "Boxing class",
+    alt: "Strength training",
   },
   {
     id: 10,
-    src: "https://images.unsplash.com/photo-1596357395217-80de13130e92?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
-    category: "events",
-    alt: "Fitness competition",
+    src: "/images/strength-training-2.jpg",
+    category: "classes",
+    alt: "Strength training",
   },
   {
     id: 11,
-    src: "https://images.unsplash.com/photo-1607962837359-5e7e89f86776?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-    category: "transformations",
-    alt: "Before and after transformation",
+    src: "/images/outdoor-group-class.jpg",
+    category: "classes",
+    alt: "Outdoor Group Class",
   },
   {
     id: 12,
-    src: "https://images.unsplash.com/photo-1604480133435-25b86862d276?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1025&q=80",
-    category: "events",
-    alt: "Fitness workshop",
+    src: "/images/body-weight-training.jpg",
+    category: "classes",
+    alt: "Body Weight Training",
   },
 ];
 
@@ -141,7 +141,7 @@ const Gallery = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
         </div>
-        <div className="container mx-auto px-4 relative">
+        <div className="sm:container mx-auto px-4 relative">
           <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -152,8 +152,7 @@ const Gallery = () => {
               Our Gallery
             </h1>
             <p className="text-lg max-w-3xl mx-auto text-gray-300">
-              Take a look at our state-of-the-art facilities and vibrant fitness
-              community
+              Take a look at our gym facilities and vibrant fitness community
             </p>
           </motion.div>
         </div>
@@ -165,7 +164,7 @@ const Gallery = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
         </div>
-        <div className="container mx-auto px-4 relative">
+        <div className="sm:container mx-auto px-4 relative">
           {/* Category Filter */}
           <motion.div
             className="flex flex-wrap justify-center gap-4 mb-12"
@@ -333,7 +332,7 @@ const Gallery = () => {
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
         </div>
-        <div className="container mx-auto px-4 relative">
+        <div className="sm:container mx-auto px-4 relative">
           <motion.div
             className="text-center text-white"
             initial={{ opacity: 0, y: 20 }}
