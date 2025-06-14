@@ -45,7 +45,7 @@ const AboutSection = () => {
             <div className="relative">
               <div className="aspect-square rounded-2xl overflow-hidden glow">
                 <img
-                  src="/images/about-image.jpg"
+                  src="/images/001.jpg"
                   alt="Gym interior"
                   className="w-full h-full object-cover"
                 />

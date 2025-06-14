@@ -7,9 +7,9 @@ import { useAnimation } from "../context/AnimationContext";
 const galleryImages = [
   {
     id: 1,
-    src: "/images/modern-gym-equipment.jpg",
+    src: "/images/013.jpg",
     category: "facilities",
-    alt: "Modern gym equipment",
+    alt: "Gym equipments",
   },
   {
     id: 2,
@@ -25,9 +25,9 @@ const galleryImages = [
   },
   {
     id: 4,
-    src: "/images/group-fitness-class.jpg",
+    src: "/images/007.jpg",
     category: "classes",
-    alt: "Group fitness class",
+    alt: "Workout class in session",
   },
   {
     id: 5,
@@ -37,7 +37,7 @@ const galleryImages = [
   },
   {
     id: 6,
-    src: "/images/cardio-equipment-area.jpg",
+    src: "/images/014.jpg",
     category: "facilities",
     alt: "Cardio equipment area",
   },
@@ -49,8 +49,8 @@ const galleryImages = [
   },
   {
     id: 8,
-    src: "/images/weight-training-area.jpg",
-    category: "facilities",
+    src: "/images/004.jpg",
+    category: "classes",
     alt: "Weight training area",
   },
   {
@@ -61,7 +61,7 @@ const galleryImages = [
   },
   {
     id: 10,
-    src: "/images/strength-training-2.jpg",
+    src: "/images/016.jpg",
     category: "classes",
     alt: "Strength training",
   },
@@ -76,6 +76,54 @@ const galleryImages = [
     src: "/images/body-weight-training.jpg",
     category: "classes",
     alt: "Body Weight Training",
+  },
+  {
+    id: 13,
+    src: "/images/015.jpg",
+    category: "classes",
+    alt: "Strength training",
+  },
+  {
+    id: 14,
+    src: "/images/017.jpg",
+    category: "classes",
+    alt: "Workout in session",
+  },
+  {
+    id: 15,
+    src: "/images/011.jpg",
+    category: "classes",
+    alt: "Workout in session",
+  },
+  {
+    id: 16,
+    src: "/images/010.jpg",
+    category: "classes",
+    alt: "Workout in session",
+  },
+  {
+    id: 17,
+    src: "/images/012.jpg",
+    category: "classes",
+    alt: "Workout in session",
+  },
+  {
+    id: 18,
+    src: "/images/018.jpg",
+    category: "classes",
+    alt: "Workout in session",
+  },
+  {
+    id: 19,
+    src: "/images/019.jpg",
+    category: "facilities",
+    alt: "Weightlifting area",
+  },
+  {
+    id: 20,
+    src: "/images/005.jpg",
+    category: "classes",
+    alt: "Training in session",
   },
 ];
 
@@ -204,17 +252,6 @@ const Gallery = () => {
               }`}
             >
               Classes
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectedCategory("events")}
-              className={`px-6 py-3 rounded-full font-semibold transition-all ${
-                selectedCategory === "events"
-                  ? "bg-brand-blue text-white shadow-lg"
-                  : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
-              }`}
-            >
-              Events
             </button>
             <button
               type="button"

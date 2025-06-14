@@ -21,7 +21,7 @@ const services = [
     description:
       "Our comprehensive weight loss program combines effective cardio workouts, strength training, and nutritional guidance to help you shed unwanted pounds and create lasting lifestyle changes.",
     icon: "⚖️",
-    image: "/images/weight-loss.jpg",
+    image: "/images/016.jpg",
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const services = [
     description:
       "Take your physique to the next level with our bodybuilding program designed to maximize muscle growth, improve symmetry, and enhance overall strength through progressive resistance training.",
     icon: "🏋️",
-    image: "/images/body-building.jpg",
+    image: "/images/004.jpg",
   },
   {
     id: 4,
@@ -71,6 +71,14 @@ const services = [
     icon: "🥗",
     image:
       "https://img.freepik.com/premium-photo/bowl-buddha-chicken-broccoli-chickpeas-pumpkin-avocado-carrot-tomato-lettuce-plate-with-knife-fork_156140-4658.jpg?semt=ais_hybrid&w=740",
+  },
+  {
+    id: 9,
+    title: "Gym Accessories",
+    description:
+      "Explore our range of high-quality gym accessories including branded workout clothes, socks, tops, gym bags, and gym gloves to enhance your workout experience and support your fitness journey.",
+    icon: "🛒",
+    image: "/images/008.jpg",
   },
 ];
 
