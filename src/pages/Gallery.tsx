@@ -85,7 +85,7 @@ const galleryImages = [
   },
   {
     id: 14,
-    src: "/images/017.jpg",
+    src: "/images/017_.jpg",
     category: "classes",
     alt: "Workout in session",
   },
