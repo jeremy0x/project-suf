@@ -69,12 +69,18 @@ export default {
 					gold: '#febf00',
 					dark: '#000000',
 					light: '#ffffff',
-				}
+				},
+				// Rainbow button colors
+				"color-1": "hsl(var(--color-1))",
+				"color-2": "hsl(var(--color-2))",
+				"color-3": "hsl(var(--color-3))",
+				"color-4": "hsl(var(--color-4))",
+				"color-5": "hsl(var(--color-5))",
 			},
 			fontFamily: {
 				sans: ['Geist', 'sans-serif'],
 				geist: ['Geist', 'sans-serif'],
-				crimson: ['Crimson Pro', 'serif'],
+				heading: ['"Plus Jakarta Sans"', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -125,7 +131,11 @@ export default {
 				'spin-slow': {
 					'0%': { transform: 'rotate(0deg)' },
 					'100%': { transform: 'rotate(360deg)' }
-				}
+				},
+				rainbow: {
+					"0%": { "background-position": "0%" },
+					"100%": { "background-position": "200%" },
+				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -140,7 +150,8 @@ export default {
 				'blur-reveal': 'blur-reveal 0.3s ease-out forwards',
 				'spin-slow': 'spin-slow 20s linear infinite',
 				'enter': 'fade-in 0.3s ease-out, scale-in 0.2s ease-out',
-				'exit': 'fade-out 0.3s ease-out, scale-out 0.2s ease-out'
+				'exit': 'fade-out 0.3s ease-out, scale-out 0.2s ease-out',
+				rainbow: "rainbow var(--speed, 2s) infinite linear",
 			}
 		}
 	},

@@ -43,7 +43,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-brand-gold">
+            <h3 className="text-xl font-bold mb-4 text-brand-gold font-heading">
               Quick Links
             </h3>
             <ul className="space-y-2">
@@ -53,12 +53,13 @@ const Footer = () => {
               <FooterLink to="/pricing" label="Membership" />
               <FooterLink to="/gallery" label="Gallery" />
               <FooterLink to="/contact" label="Contact Us" />
+              <FooterLink to="/pricing#faq" label="FAQ" />
             </ul>
           </div>
 
           {/* Services */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-brand-gold">Services</h3>
+            <h3 className="text-xl font-bold mb-4 text-brand-gold font-heading">Services</h3>
             <ul className="space-y-2">
               <FooterLink to="/services" label="Body Toning" />
               <FooterLink to="/services" label="Weight Loss" />
@@ -71,18 +72,18 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-brand-gold">
+            <h3 className="text-xl font-bold mb-4 text-brand-gold font-heading">
               Contact Info
             </h3>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start">
-                <MapPinIcon className="mr-2 flex-shrink-0 text-brand-blue mt-1 size-4" />
+                <MapPinIcon className="mr-3 flex-shrink-0 text-brand-blue mt-0.5 size-5" />
                 <p>
                   Embassy Lodge, FUTA South Gate, Akure, Ondo State, Nigeria
                 </p>
               </li>
               <li className="flex items-center">
-                <PhoneIcon className="mr-2 flex-shrink-0 text-brand-blue size-4" />
+                <PhoneIcon className="mr-3 flex-shrink-0 text-brand-blue size-5" />
                 <a
                   href="tel:08134460609"
                   className="hover:text-brand-blue transition-colors"
@@ -91,7 +92,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="flex items-center">
-                <MailIcon className="mr-2 flex-shrink-0 text-brand-blue size-4" />
+                <MailIcon className="mr-3 flex-shrink-0 text-brand-blue size-5" />
                 <a
                   href="mailto:shapeupfitnessclub326@gmail.com"
                   className="hover:text-brand-blue transition-colors"
@@ -102,28 +103,6 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-
-        {/* Newsletter */}
-        {/* <div className="py-8 border-t border-gray-800">
-          <div className="max-w-3xl mx-auto text-center">
-            <h3 className="text-xl font-bold mb-2">
-              Subscribe to Our Newsletter
-            </h3>
-            <p className="mb-4 text-gray-300">
-              Stay updated with our latest offers, tips and events
-            </p>
-            <form className="flex flex-col sm:flex-row gap-2">
-              <input
-                type="email"
-                placeholder="Your Email Address"
-                className="px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-blue bg-gray-900 text-white flex-grow"
-              />
-              <button type="submit" className="btn-primary sm:flex-shrink-0">
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </div> */}
 
         {/* Copyright */}
         <div className="py-6 text-center text-sm text-gray-400 border-t border-gray-800 relative">
@@ -138,15 +117,6 @@ const Footer = () => {
           </motion.button>
           <p>
             © {new Date().getFullYear()} Shape Up Fitness. All rights reserved.
-          </p>
-          <p className="mt-1">
-            <Link to="/privacy" className="hover:text-white">
-              Privacy Policy
-            </Link>{" "}
-            |
-            <Link to="/terms" className="hover:text-white ml-2">
-              Terms of Service
-            </Link>
           </p>
         </div>
       </div>

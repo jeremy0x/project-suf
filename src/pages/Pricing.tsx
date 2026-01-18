@@ -4,6 +4,7 @@ import { Check, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/radix-accordion";
 
 const pricingPlans = {
   basic: [
@@ -448,7 +449,7 @@ const Pricing = () => {
       </section>
 
       {/* Frequently Asked Questions */}
-      <section className="section-padding bg-brand-dark text-white">
+      <section id="faq" className="section-padding bg-brand-dark text-white">
         <div className="sm:container mx-auto">
           <motion.div
             className="text-center mb-12"
@@ -457,105 +458,77 @@ const Pricing = () => {
             viewport={{ once: true }}
             transition={{ duration }}
           >
-            <h2 className="section-title font-crimson">
+            <h2 className="section-title font-heading">
               Frequently Asked{" "}
               <span className="text-brand-gold">Questions</span>
             </h2>
-            <p className="section-subtitle text-sm">
-              Answers to common questions about our membership options and
-              pricing
+            <p className="text-sm max-w-2xl mx-auto">
+              Answers to common questions about our membership options and pricing
             </p>
           </motion.div>
 
           <motion.div
-            className="max-w-4xl mx-auto grid gap-6"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
+            className="max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration }}
           >
-            <motion.div
-              variants={itemVariants}
-              className="bg-gray-800/60 rounded-xl p-6 glass-card"
-            >
-              <h3 className="text-xl font-bold mb-3 font-crimson">
-                Do I need to pay the registration fee even if I'm only signing
-                up for a month?
-              </h3>
-              <p className="text-sm">
-                Yes, the registration fee is a one-time payment for all new
-                members regardless of which membership plan you choose. It
-                covers your initial fitness assessment and orientation.
-              </p>
-            </motion.div>
+            <Accordion type="single" collapsible className="space-y-4">
+              <AccordionItem value="item-1" className="bg-gray-800/60 rounded-xl px-6 border-0">
+                <AccordionTrigger className="text-left font-heading hover:no-underline">
+                  Do I need to pay the registration fee even if I'm only signing up for a month?
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-gray-300">
+                  Yes, the registration fee is a one-time payment for all new members regardless of which membership plan you choose. It covers your initial fitness assessment and orientation.
+                </AccordionContent>
+              </AccordionItem>
 
-            <motion.div
-              variants={itemVariants}
-              className="bg-gray-800/60 rounded-xl p-6 glass-card"
-            >
-              <h3 className="text-xl font-bold mb-3 font-crimson">
-                What's included in the personal training packages?
-              </h3>
-              <p className="text-sm">
-                Our personal training packages include one-on-one sessions with
-                a certified trainer, customized workout plans, form correction,
-                progress tracking, and basic nutritional guidance.
-              </p>
-            </motion.div>
-            <motion.div
-              variants={itemVariants}
-              className="bg-gray-800/60 rounded-xl p-6 glass-card"
-            >
-              <h3 className="text-xl font-bold mb-3 font-crimson">
-                Can I freeze my membership if I need to take a break?
-              </h3>
-              <p className="text-sm">
-                While direct pausing of a gym subscription isn't an option once
-                it's active, rest assured that your membership clock only starts
-                ticking from your first activation, even if you've completed
-                your payment in advance. We want to make sure you get the most
-                out of every moment with us!
-              </p>
-            </motion.div>
-            <motion.div
-              variants={itemVariants}
-              className="bg-gray-800/60 rounded-xl p-6 glass-card"
-            >
-              <h3 className="text-xl font-bold mb-3 font-crimson">
-                Are there any hidden fees?
-              </h3>
-              <p className="text-sm">
-                No, we believe in transparent pricing. All of our fees are
-                clearly listed on our pricing page. The only additional cost
-                would be if you choose to add a personal trainer to a standard
-                membership plan.
-              </p>
-            </motion.div>
-            <motion.div
-              variants={itemVariants}
-              className="bg-gray-800/60 rounded-xl p-6 glass-card"
-            >
-              <h3 className="text-xl font-bold mb-3 font-crimson">
-                Do you offer student discounts?
-              </h3>
-              <p className="text-sm">
-                Yes, we offer special rates for students. Please contact us or
-                visit our gym with valid ID to learn about these special rates.
-              </p>
-            </motion.div>
-            <motion.div
-              variants={itemVariants}
-              className="bg-gray-800/60 rounded-xl p-6 glass-card"
-            >
-              <h3 className="text-xl font-bold mb-3 font-crimson">
-                Can I pay my gym subscription in installments?
-              </h3>
-              <p className="text-sm">
-                Yes, we offer the convenience of paying your gym subscription in
-                two installments. This option is available to help make managing
-                your membership more flexible.
-              </p>
-            </motion.div>
+              <AccordionItem value="item-2" className="bg-gray-800/60 rounded-xl px-6 border-0">
+                <AccordionTrigger className="text-left font-heading hover:no-underline">
+                  What's included in the personal training packages?
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-gray-300">
+                  Our personal training packages include one-on-one sessions with a certified trainer, customized workout plans, form correction, progress tracking, and basic nutritional guidance.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-3" className="bg-gray-800/60 rounded-xl px-6 border-0">
+                <AccordionTrigger className="text-left font-heading hover:no-underline">
+                  Can I freeze my membership if I need to take a break?
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-gray-300">
+                  While direct pausing of a gym subscription isn't an option once it's active, rest assured that your membership clock only starts ticking from your first activation, even if you've completed your payment in advance.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-4" className="bg-gray-800/60 rounded-xl px-6 border-0">
+                <AccordionTrigger className="text-left font-heading hover:no-underline">
+                  Are there any hidden fees?
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-gray-300">
+                  No, we believe in transparent pricing. All of our fees are clearly listed on our pricing page. The only additional cost would be if you choose to add a personal trainer to a standard membership plan.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-5" className="bg-gray-800/60 rounded-xl px-6 border-0">
+                <AccordionTrigger className="text-left font-heading hover:no-underline">
+                  Do you offer student discounts?
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-gray-300">
+                  Yes, we offer special rates for students. Please contact us or visit our gym with valid ID to learn about these special rates.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-6" className="bg-gray-800/60 rounded-xl px-6 border-0">
+                <AccordionTrigger className="text-left font-heading hover:no-underline">
+                  Can I pay my gym subscription in installments?
+                </AccordionTrigger>
+                <AccordionContent className="text-sm text-gray-300">
+                  Yes, we offer the convenience of paying your gym subscription in two installments. This option is available to help make managing your membership more flexible.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </motion.div>
         </div>
       </section>
