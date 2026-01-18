@@ -45,7 +45,7 @@ const Logo: React.FC<LogoProps> = ({ variant = "header" }) => {
               : "https://i.ibb.co/27MsdB5r/suf-logo.png"
           }
           alt="Shape Up Fitness Logo"
-          className="h-12 md:h-16"
+          className="h-10 md:h-12"
         />
       </div>
       {variant === "footer" && (

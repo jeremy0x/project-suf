@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
-import { JoinNowButton } from "./ui/join-now-button";
+import { RainbowButton } from "./ui/rainbow-button";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -53,21 +53,32 @@ const Header = () => {
               : "bg-transparent"
           }`}
         >
-          <Link to="/" className="flex items-center">
+          {/* Logo - Left */}
+          <Link to="/" className="flex items-center flex-shrink-0">
             <Logo variant={scrolled ? "header" : "white"} />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-            {navItems.map((item) => (
-              <NavItem
-                key={item.to}
-                to={item.to}
-                label={item.label}
-                scrolled={scrolled}
-              />
-            ))}
-            <JoinNowButton source="navbar" />
+          {/* Desktop Navigation - Center */}
+          <div className="hidden md:flex items-center justify-center flex-1">
+            <div className="flex items-center space-x-6 lg:space-x-8">
+              {navItems.map((item) => (
+                <NavItem
+                  key={item.to}
+                  to={item.to}
+                  label={item.label}
+                  scrolled={scrolled}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Join Now Button - Right */}
+          <div className="hidden md:block flex-shrink-0">
+            <Link to="/contact?source=navbar">
+              <RainbowButton className="font-heading text-sm">
+                Join Now
+              </RainbowButton>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -152,7 +163,11 @@ const Header = () => {
                   transition={{ delay: 0.6, duration: 0.3 }}
                   className="p-6 border-t"
                 >
-                  <JoinNowButton source="navbar" onClick={toggleMenu} />
+                  <Link to="/contact?source=navbar" onClick={toggleMenu}>
+                    <RainbowButton className="w-full font-heading">
+                      Join Now
+                    </RainbowButton>
+                  </Link>
                 </motion.div>
               </div>
             </motion.div>
