@@ -56,7 +56,7 @@ const Gallery = () => {
 
   return (
     <Layout>
-      <BeamsBackground className="pt-32 pb-16 text-white" intensity="medium">
+      <BeamsBackground className="pt-32 pb-16 text-white" intensity="strong">
         <div className="sm:container mx-auto px-4 relative">
           <motion.div className="text-center" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration, delay: 0.2 }}>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 font-heading">Our Gallery</h1>

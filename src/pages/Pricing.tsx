@@ -94,7 +94,7 @@ const Pricing = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <BeamsBackground className="pt-32 pb-16 text-white" intensity="medium">
+      <BeamsBackground className="pt-32 pb-16 text-white" intensity="strong">
         <div className="sm:container mx-auto px-4 relative">
           <motion.div
             className="text-center"

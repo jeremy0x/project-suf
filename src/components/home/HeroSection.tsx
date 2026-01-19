@@ -38,7 +38,7 @@ const HeroSection = () => {
   };
 
   return (
-    <BeamsBackground className="text-white">
+    <BeamsBackground className="text-white" intensity="medium">
       <div className="sm:container mx-auto px-8 min-h-[100dvh] flex flex-col md:flex-row items-center justify-center gap-10 md:justify-between py-16 md:py-0 relative">
         {/* Content */}
         <motion.div

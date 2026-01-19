@@ -102,7 +102,7 @@ const Services = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <BeamsBackground className="pt-32 pb-16 text-white" intensity="medium">
+      <BeamsBackground className="pt-32 pb-16 text-white" intensity="strong">
         <div className="sm:container mx-auto px-8 relative">
           <motion.div
             className="text-center"
