@@ -1,73 +1,67 @@
 import Layout from "../components/Layout";
 import { Link } from "react-router-dom";
-import { Clock, Calendar, Trophy, Users } from "lucide-react";
+import { Calendar, Trophy, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
 import AnimatedSection from "../components/ui/animated-section";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import { BeamsBackground } from "@/components/ui/beams-background";
+import SessionsSection from "@/components/home/SessionsSection";
 
 const services = [
   {
     id: 1,
     title: "Body Toning",
-    description:
-      "Our body toning program focuses on sculpting and defining your muscles through targeted exercises that improve muscle tone without adding bulk. Perfect for those looking to achieve a lean, defined physique.",
+    description: "Sculpt and define your muscles for a lean, toned physique.",
     icon: "💪",
     image: "/images/body-toning.jpg",
   },
   {
     id: 2,
     title: "Weight Loss",
-    description:
-      "Our comprehensive weight loss program combines effective cardio workouts, strength training, and nutritional guidance to help you shed unwanted pounds and create lasting lifestyle changes.",
+    description: "Effective cardio and strength programs to shed unwanted pounds.",
     icon: "⚖️",
     image: "/images/016.jpg",
   },
   {
     id: 3,
     title: "Body Building",
-    description:
-      "Take your physique to the next level with our bodybuilding program designed to maximize muscle growth, improve symmetry, and enhance overall strength through progressive resistance training.",
+    description: "Maximize muscle growth and strength with progressive training.",
     icon: "🏋️",
     image: "/images/004.jpg",
   },
   {
     id: 4,
     title: "Cardio Training",
-    description:
-      "Boost your cardiovascular health, increase stamina, and burn calories with our diverse cardio training options including HIIT, steady-state cardio, and circuit training.",
+    description: "Boost stamina and burn calories with HIIT and circuit training.",
     icon: "🏃",
     image: "/images/cardio-training.jpg",
   },
   {
     id: 5,
     title: "Yoga Training",
-    description:
-      "Find balance, improve flexibility, and reduce stress with our yoga classes that cater to all levels, from beginners to advanced practitioners. Experience the holistic benefits of mind-body connection.",
+    description: "Improve flexibility, balance, and reduce stress for all levels.",
     icon: "🧘‍♀️",
     image: "/images/yoga-training.jpg",
   },
   {
     id: 6,
     title: "Boxing Training",
-    description:
-      "Learn proper boxing techniques while getting an intense full-body workout that improves coordination, speed, power, and cardiovascular fitness under the guidance of experienced boxing coaches.",
+    description: "Learn boxing techniques with an intense full-body workout.",
     icon: "🥊",
     image: "/images/boxing-training.jpg",
   },
   {
     id: 7,
     title: "Dance Aerobics",
-    description:
-      "Enjoy fun, energetic dance routines that boost your mood and fitness simultaneously. Our dance aerobics classes combine choreographed movements with cardio benefits for an enjoyable workout experience.",
+    description: "Fun, energetic dance routines that boost mood and fitness.",
     icon: "💃",
     image: "/images/dance-aerobics.jpg",
   },
   {
     id: 8,
     title: "Diet Training",
-    description:
-      "Receive expert nutritional guidance tailored to your fitness goals, dietary preferences, and lifestyle. Learn how to make sustainable food choices that complement your workout routine.",
+    description: "Expert nutritional guidance tailored to your fitness goals.",
     icon: "🥗",
     image:
       "https://img.freepik.com/premium-photo/bowl-buddha-chicken-broccoli-chickpeas-pumpkin-avocado-carrot-tomato-lettuce-plate-with-knife-fork_156140-4658.jpg?semt=ais_hybrid&w=740",
@@ -75,17 +69,10 @@ const services = [
   {
     id: 9,
     title: "Gym Accessories",
-    description:
-      "Explore our range of high-quality gym accessories including branded workout clothes, socks, tops, gym bags, and gym gloves to enhance your workout experience and support your fitness journey.",
+    description: "Quality workout gear including clothes, bags, and gloves.",
     icon: "🛒",
     image: "/images/008.jpg",
   },
-];
-
-const sessions = [
-  { name: "Morning", time: "7:00am - 10:00am" },
-  { name: "Afternoon", time: "2:00pm - 4:00pm" },
-  { name: "Evening", time: "6:00pm - 9:00pm" },
 ];
 
 const Services = () => {
@@ -115,16 +102,7 @@ const Services = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <motion.section
-        className="pt-32 pb-16 bg-brand-dark text-white relative overflow-hidden"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration }}
-      >
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
-        </div>
+      <BeamsBackground className="pt-32 pb-16 text-white" intensity="medium">
         <div className="sm:container mx-auto px-8 relative">
           <motion.div
             className="text-center"
@@ -141,7 +119,7 @@ const Services = () => {
             </p>
           </motion.div>
         </div>
-      </motion.section>
+      </BeamsBackground>
 
       {/* Services Grid - Full-height images with glass overlay */}
       <section className="section-padding bg-background relative overflow-hidden">
@@ -171,12 +149,12 @@ const Services = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
                   
                   {/* Icon badge */}
-                  <div className="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur-sm text-3xl p-3 rounded-lg border border-white/10">
+                  <div className="absolute top-3 left-3 bg-brand-dark/80 backdrop-blur-sm text-3xl p-3 rounded-lg border border-white/10">
                     {service.icon}
                   </div>
                   
                   {/* Content with glass effect */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <div className="absolute bottom-0 left-0 right-0 p-3">
                     <div className="backdrop-blur-md bg-white/10 rounded-xl p-4 border border-white/20">
                       <h3 className="text-xl font-bold mb-2 text-white">{service.title}</h3>
                       <p className="text-gray-200 text-sm line-clamp-3">
@@ -192,60 +170,7 @@ const Services = () => {
       </section>
 
       {/* Sessions Times */}
-      <section className="section-padding bg-brand-dark text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
-        </div>
-        <div className="sm:container mx-auto px-4 relative">
-          <AnimatedSection className="text-center mb-12">
-            <h2 className="section-title">
-              Session <span className="text-brand-gold">Times</span>
-            </h2>
-            <p className="section-subtitle">
-              Flexible training hours to fit your busy schedule
-            </p>
-          </AnimatedSection>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {sessions.map((session, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                className="bg-gray-800 rounded-xl p-8 text-center hover:bg-brand-blue hover:shadow-lg hover:shadow-brand-blue/20 hover:scale-105 transition-all duration-300"
-              >
-                <div className="mb-4 text-brand-gold">
-                  <Clock size={48} className="mx-auto" />
-                </div>
-                <h3 className="text-xl font-bold mb-2">{session.name}</h3>
-                <p className="text-xl">{session.time}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <AnimatedSection className="text-center mt-12" delay={0.6}>
-            <p className="mb-6 max-w-2xl mx-auto">
-              We offer flexible session times to accommodate your schedule.
-              Whether you prefer morning workouts to energize your day,
-              afternoon sessions for a midday boost, or evening training to
-              release the day's stress, we've got you covered.
-            </p>
-            <Link to="/contact?source=services">
-              <InteractiveHoverButton 
-                text="Book a Session" 
-                className="w-auto px-8 bg-brand-gold border-brand-gold text-brand-dark font-heading"
-                aria-label="Book a training session"
-              />
-            </Link>
-          </AnimatedSection>
-        </div>
-      </section>
+      <SessionsSection />
 
       {/* Training Approach */}
       <section className="section-padding bg-background relative overflow-hidden">

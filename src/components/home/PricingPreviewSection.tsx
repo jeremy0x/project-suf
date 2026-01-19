@@ -18,7 +18,7 @@ const pricingPlans = [
     buttonText: "Choose Plan",
   },
   {
-    name: "Premium",
+    name: "Plus",
     price: "₦17,000",
     duration: "Monthly",
     popular: true,
@@ -34,7 +34,7 @@ const pricingPlans = [
     buttonText: "Choose Plan",
   },
   {
-    name: "Personal Training",
+    name: "Premium",
     price: "₦22,000",
     duration: "Monthly",
     popular: false,

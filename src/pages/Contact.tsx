@@ -5,6 +5,7 @@ import { Phone, Mail, MapPin, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useSearchParams } from "react-router-dom";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import { BeamsBackground } from "@/components/ui/beams-background";
 
 const Contact = () => {
   const [searchParams] = useSearchParams();
@@ -143,11 +144,7 @@ const Contact = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-brand-dark text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
-        </div>
+      <BeamsBackground className="pt-32 pb-16 text-white" intensity="medium">
         <div className="sm:container mx-auto px-4 relative">
           <motion.div
             className="text-center max-w-3xl mx-auto"
@@ -164,7 +161,7 @@ const Contact = () => {
             </p>
           </motion.div>
         </div>
-      </section>
+      </BeamsBackground>
 
       {/* Contact Form Section */}
       <section className="section-padding bg-background relative overflow-hidden">

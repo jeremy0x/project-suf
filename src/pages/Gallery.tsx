@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
 import { ImageGallery } from "@/components/ui/image-gallery";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import { BeamsBackground } from "@/components/ui/beams-background";
 
 const galleryImages = [
   { id: 1, src: "/images/013.jpg", category: "facilities", alt: "Gym equipments" },
@@ -55,18 +56,14 @@ const Gallery = () => {
 
   return (
     <Layout>
-      <section className="pt-32 pb-16 bg-brand-dark text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
-        </div>
+      <BeamsBackground className="pt-32 pb-16 text-white" intensity="medium">
         <div className="sm:container mx-auto px-4 relative">
           <motion.div className="text-center" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration, delay: 0.2 }}>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 font-heading">Our Gallery</h1>
             <p className="text-sm max-w-3xl mx-auto text-gray-300">Take a look at our gym facilities and vibrant fitness community</p>
           </motion.div>
         </div>
-      </section>
+      </BeamsBackground>
 
       <section className="section-padding bg-background relative overflow-hidden">
         <div className="sm:container mx-auto px-4 relative">
