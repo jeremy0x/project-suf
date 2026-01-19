@@ -19,14 +19,42 @@ interface ImageGalleryProps {
 }
 
 export function ImageGallery({ images, onImageClick }: ImageGalleryProps) {
+  const [ratiosBySrc, setRatiosBySrc] = React.useState<Record<string, number>>({});
+
+  React.useEffect(() => {
+    let isActive = true;
+
+    images.forEach((image) => {
+      if (typeof image.isPortrait === "boolean") return;
+      if (ratiosBySrc[image.src]) return;
+
+      const probe = new Image();
+      probe.onload = () => {
+        if (!isActive) return;
+        const ratio = probe.naturalWidth && probe.naturalHeight
+          ? probe.naturalWidth / probe.naturalHeight
+          : undefined;
+        if (!ratio) return;
+        setRatiosBySrc((prev) => (prev[image.src] ? prev : { ...prev, [image.src]: ratio }));
+      };
+      probe.src = image.src;
+    });
+
+    return () => {
+      isActive = false;
+    };
+  }, [images, ratiosBySrc]);
+
   return (
     <div className="w-full">
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
         {images.map((image, index) => {
           const isPortrait = typeof image.isPortrait === "boolean"
             ? image.isPortrait
-            : /portrait/i.test(image.src) || image.id % 3 === 0;
-          const ratio = isPortrait ? 3 / 4 : 4 / 3;
+            : /portrait/i.test(image.src);
+          const ratio = typeof image.isPortrait === "boolean"
+            ? (isPortrait ? 3 / 4 : 4 / 3)
+            : ratiosBySrc[image.src] ?? 4 / 3;
 
           return (
             <div key={image.id} className="mb-4 break-inside-avoid">
