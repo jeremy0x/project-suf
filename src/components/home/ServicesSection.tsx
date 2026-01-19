@@ -9,43 +9,43 @@ const services = [
     title: "Body Toning",
     description:
       "Sculpt and define your muscles with our specialized toning programs",
-    icon: "💪",
+    icon: "/icons/Body toning icon.PNG",
   },
   {
     title: "Weight Loss",
     description: "Sustainable weight loss programs tailored to your goals",
-    icon: "⚖️",
+    icon: "/icons/Weight loss icon.PNG",
   },
   {
     title: "Body Building",
     description: "Build muscle mass and strength with expert guidance",
-    icon: "🏋️",
+    icon: "/icons/Body building icon.PNG",
   },
   {
     title: "Cardio Training",
     description: "Improve your cardiovascular health and endurance",
-    icon: "🏃",
+    icon: "/icons/Cardio Training icon.PNG",
   },
   {
     title: "Yoga Training",
     description: "Enhance flexibility, balance, and mental wellness",
-    icon: "🧘‍♀️",
+    icon: "/icons/Yoga training icon.PNG",
   },
   {
     title: "Boxing Training",
     description: "Learn boxing techniques while getting an intense workout",
-    icon: "🥊",
+    icon: "/icons/Boxing training icon.PNG",
   },
   {
     title: "Dance Aerobics",
     description:
       "Fun, energetic workouts that improve coordination and fitness",
-    icon: "💃",
+    icon: "/icons/Dance Aerobics icon.PNG",
   },
   {
     title: "Diet Training",
     description: "Nutritional guidance to complement your fitness routine",
-    icon: "🥗",
+    icon: "/icons/Diet training icon.PNG",
   },
 ];
 
@@ -118,7 +118,7 @@ const ServicesSection = () => {
               }}
             >
               <div className="p-6">
-                <div className="text-4xl mb-4">{service.icon}</div>
+                <img src={service.icon} alt={service.title} className="w-12 h-12 mb-4 object-contain" />
                 <h3 className="text-md font-bold mb-2 font-heading">
                   {service.title}
                 </h3>

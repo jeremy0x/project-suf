@@ -13,56 +13,56 @@ const services = [
     id: 1,
     title: "Body Toning",
     description: "Get that firm, fit look you've always wanted.",
-    icon: "💪",
+    icon: "/icons/Body toning icon.PNG",
     image: "/images/body-toning.jpg",
   },
   {
     id: 2,
     title: "Weight Loss",
     description: "Burn fat and feel lighter with workouts that actually work.",
-    icon: "⚖️",
+    icon: "/icons/Weight loss icon.PNG",
     image: "/images/016.jpg",
   },
   {
     id: 3,
     title: "Body Building",
     description: "Build serious muscle and get stronger every week.",
-    icon: "🏋️",
+    icon: "/icons/Body building icon.PNG",
     image: "/images/004.jpg",
   },
   {
     id: 4,
     title: "Cardio Training",
     description: "Get your heart pumping and energy levels up.",
-    icon: "🏃",
+    icon: "/icons/Cardio Training icon.PNG",
     image: "/images/cardio-training.jpg",
   },
   {
     id: 5,
     title: "Yoga Training",
     description: "Stretch, relax, and find your inner calm.",
-    icon: "🧘‍♀️",
+    icon: "/icons/Yoga training icon.PNG",
     image: "/images/yoga-training.jpg",
   },
   {
     id: 6,
     title: "Boxing Training",
     description: "Learn to throw punches while getting a killer workout.",
-    icon: "🥊",
+    icon: "/icons/Boxing training icon.PNG",
     image: "/images/boxing-training.jpg",
   },
   {
     id: 7,
     title: "Dance Aerobics",
     description: "Have fun dancing while burning calories.",
-    icon: "💃",
+    icon: "/icons/Dance Aerobics icon.PNG",
     image: "/images/dance-aerobics.jpg",
   },
   {
     id: 8,
     title: "Diet Training",
     description: "Learn what to eat to reach your fitness goals faster.",
-    icon: "🥗",
+    icon: "/icons/Diet training icon.PNG",
     image:
       "https://img.freepik.com/premium-photo/bowl-buddha-chicken-broccoli-chickpeas-pumpkin-avocado-carrot-tomato-lettuce-plate-with-knife-fork_156140-4658.jpg?semt=ais_hybrid&w=740",
   },
@@ -149,8 +149,12 @@ const Services = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
                   
                   {/* Icon badge */}
-                  <div className="absolute top-3 left-3 bg-brand-dark/80 backdrop-blur-sm text-3xl p-3 rounded-lg border border-white/10">
-                    {service.icon}
+                  <div className="absolute top-3 left-3 bg-brand-dark/80 backdrop-blur-sm p-3 rounded-lg border border-white/10">
+                    {service.icon.startsWith("/") ? (
+                      <img src={service.icon} alt={service.title} className="w-10 h-10 object-contain" />
+                    ) : (
+                      <span className="text-3xl">{service.icon}</span>
+                    )}
                   </div>
                   
                   {/* Content with glass effect */}
