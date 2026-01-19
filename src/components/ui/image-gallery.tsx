@@ -10,6 +10,7 @@ interface GalleryImage {
   src: string;
   alt: string;
   category?: string;
+  isPortrait?: boolean;
 }
 
 interface ImageGalleryProps {
@@ -18,41 +19,34 @@ interface ImageGalleryProps {
 }
 
 export function ImageGallery({ images, onImageClick }: ImageGalleryProps) {
-  // Split images into 3 columns
-  const columns: GalleryImage[][] = [[], [], []];
-  images.forEach((image, index) => {
-    columns[index % 3].push(image);
-  });
-
   return (
     <div className="w-full">
-      <div className="flex gap-4">
-        {columns.map((column, colIndex) => (
-          <div key={colIndex} className="flex-1 flex flex-col gap-4">
-            {column.map((image, index) => {
-              // Determine aspect ratio based on position for variety
-              const isPortrait = (colIndex + index) % 3 === 0;
-              const ratio = isPortrait ? 3 / 4 : 4 / 3;
-              const globalIndex = images.findIndex(img => img.id === image.id);
+      <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
+        {images.map((image, index) => {
+          const isPortrait = typeof image.isPortrait === "boolean"
+            ? image.isPortrait
+            : /portrait/i.test(image.src) || index % 3 === 0;
+          const ratio = isPortrait ? 3 / 4 : 4 / 3;
 
-              return (
-                <AnimatedImage
-                  key={image.id}
-                  alt={image.alt}
-                  src={image.src}
-                  ratio={ratio}
-                  onClick={() => onImageClick?.(globalIndex)}
-                />
-              );
-            })}
-          </div>
-        ))}
+          return (
+            <div key={image.id} className="mb-4 break-inside-avoid">
+              <AnimatedImage
+                id={image.id}
+                alt={image.alt}
+                src={image.src}
+                ratio={ratio}
+                onClick={() => onImageClick?.(index)}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 }
 
 interface AnimatedImageProps {
+  id: number;
   alt: string;
   src: string;
   className?: string;
@@ -61,7 +55,7 @@ interface AnimatedImageProps {
   onClick?: () => void;
 }
 
-function AnimatedImage({ alt, src, ratio, placeholder, onClick }: AnimatedImageProps) {
+function AnimatedImage({ id, alt, src, ratio, placeholder, onClick }: AnimatedImageProps) {
   const ref = React.useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isLoading, setIsLoading] = React.useState(true);
@@ -74,12 +68,12 @@ function AnimatedImage({ alt, src, ratio, placeholder, onClick }: AnimatedImageP
   };
 
   return (
-    <AspectRatio ref={ref} ratio={ratio} className="overflow-hidden rounded-xl cursor-pointer group">
+    <AspectRatio ref={ref} ratio={ratio} className="relative overflow-hidden rounded-xl cursor-pointer group">
       <img
         src={imgSrc}
         alt={alt}
         className={cn(
-          "w-full h-full object-cover transition-all duration-700",
+          "w-full h-full object-cover object-top transition-all duration-700",
           isInView ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-105 blur-sm",
           isLoading ? "blur-sm" : "blur-0",
           "group-hover:scale-110 transition-transform duration-500"
@@ -89,10 +83,9 @@ function AnimatedImage({ alt, src, ratio, placeholder, onClick }: AnimatedImageP
         onError={handleError}
         onClick={onClick}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-        <h3 className="text-white text-lg font-bold font-heading">
-          {alt}
-        </h3>
+      <div className="absolute bottom-2 left-2 flex items-center text-xs font-sans text-white/80">
+        <span>{id}</span>
+        <span aria-hidden="true">.</span>
       </div>
     </AspectRatio>
   );

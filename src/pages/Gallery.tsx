@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -9,26 +9,54 @@ import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button
 import { BeamsBackground } from "@/components/ui/beams-background";
 
 const galleryImages = [
-  { id: 1, src: "/images/013.jpg", category: "facilities", alt: "Bench press station with lat pulldown" },
-  { id: 2, src: "/images/free-weights-area.jpg", category: "facilities", alt: "Free weights area" },
-  { id: 3, src: "/images/yoga-class-in-session.jpg", category: "classes", alt: "Yoga class in session" },
-  { id: 4, src: "/images/007.jpg", category: "classes", alt: "Women doing mat exercises" },
-  { id: 5, src: "/images/member-transformation.jpg", category: "transformations", alt: "Member transformation" },
-  { id: 6, src: "/images/014.jpg", category: "facilities", alt: "Exercise bikes and cardio area" },
-  { id: 7, src: "/images/boxing-training-session.jpg", category: "classes", alt: "Boxing training session" },
-  { id: 8, src: "/images/004.jpg", category: "classes", alt: "Member doing bench press with spotter" },
-  { id: 9, src: "/images/strength-training-1.jpg", category: "classes", alt: "Strength training session" },
-  { id: 10, src: "/images/016.jpg", category: "classes", alt: "Member doing barbell curls" },
-  { id: 11, src: "/images/outdoor-group-class.jpg", category: "classes", alt: "Outdoor group fitness class" },
-  { id: 12, src: "/images/body-weight-training.jpg", category: "classes", alt: "Body weight training" },
-  { id: 13, src: "/images/015.jpg", category: "classes", alt: "Member doing lat pulldown" },
-  { id: 14, src: "/images/017_.jpg", category: "classes", alt: "Lat pulldown with trainer assistance" },
-  { id: 15, src: "/images/011.jpg", category: "classes", alt: "Member doing overhead dumbbell press" },
-  { id: 16, src: "/images/010.jpg", category: "classes", alt: "Member doing leg curl exercise" },
-  { id: 17, src: "/images/012.jpg", category: "transformations", alt: "Member showing back muscles" },
-  { id: 18, src: "/images/018.jpg", category: "classes", alt: "Member doing cable exercises" },
-  { id: 19, src: "/images/019.jpg", category: "facilities", alt: "Weight benches and dumbbell rack" },
-  { id: 20, src: "/images/005.jpg", category: "transformations", alt: "Fit member in gym attire" },
+  { id: 1, src: "/images/003.jpg", category: "classes", alt: "Cable pushdown" },
+  { id: 2, src: "/images/005.jpg", category: "classes", alt: "Resting athlete", isPortrait: true },
+  { id: 3, src: "/images/007.jpg", category: "classes", alt: "Core workout", isPortrait: true },
+  { id: 4, src: "/images/008.jpg", category: "facilities", alt: "Gym apparel" },
+  { id: 5, src: "/images/009.jpg", category: "classes", alt: "Floor coaching", isPortrait: true },
+  { id: 6, src: "/images/012.jpg", category: "classes", alt: "Back pose", isPortrait: true },
+  { id: 7, src: "/images/018.jpg", category: "classes", alt: "Cable pulldown", isPortrait: true },
+  { id: 8, src: "/images/about-story-image.jpg", category: "facilities", alt: "Gym interior", isPortrait: true },
+  { id: 11, src: "/images/body-building 2.jpg", category: "classes", alt: "Muscle training" },
+  { id: 12, src: "/images/body-building.jpg", category: "classes", alt: "Strength training" },
+  { id: 13, src: "/images/body-toning 2.jpg", category: "classes", alt: "Toning workout" },
+  { id: 14, src: "/images/body-toning.jpg", category: "classes", alt: "Toning session" },
+  { id: 15, src: "/images/body-weight-training.jpg", category: "classes", alt: "Bodyweight training", isPortrait: true },
+  { id: 16, src: "/images/boxing-training-session.jpg", category: "classes", alt: "Boxing session" },
+  { id: 17, src: "/images/boxing-training.jpg", category: "classes", alt: "Boxing training" },
+  { id: 18, src: "/images/cardio-training.jpg", category: "classes", alt: "Cardio training" },
+  { id: 19, src: "/images/cardio.jpg", category: "facilities", alt: "Cardio equipment", isPortrait: true },
+  { id: 20, src: "/images/dance-aerobics.jpg", category: "classes", alt: "Dance aerobics" },
+  { id: 22, src: "/images/free-weights-area.jpg", category: "facilities", alt: "Free weights" },
+  { id: 23, src: "/images/landing-page-about.jpg", category: "classes", alt: "Gym squat session", isPortrait: true },
+  { id: 24, src: "/images/member-transformation.jpg", category: "transformations", alt: "Member progress" },
+  { id: 25, src: "/images/outdoor-group-class.jpg", category: "classes", alt: "Outdoor class", isPortrait: false },
+  { id: 28, src: "/images/PXL_20260114_072200361.jpg", category: "classes", alt: "Back squat" },
+  { id: 29, src: "/images/PXL_20260114_072220312.jpg", category: "classes", alt: "Cable curls" },
+  { id: 30, src: "/images/PXL_20260114_072309276.jpg", category: "classes", alt: "Squat spotter" },
+  { id: 31, src: "/images/PXL_20260114_072349551.jpg", category: "classes", alt: "Overhead press", isPortrait: true },
+  { id: 32, src: "/images/PXL_20260114_072452547.jpg", category: "classes", alt: "Barbell squat", isPortrait: true },
+  { id: 33, src: "/images/PXL_20260114_072506635.jpg", category: "classes", alt: "Dumbbell lunge" },
+  { id: 34, src: "/images/PXL_20260114_072522281.jpg", category: "classes", alt: "Treadmill walk", isPortrait: true },
+  { id: 35, src: "/images/PXL_20260114_072638874.jpg", category: "facilities", alt: "Squat rack", isPortrait: true },
+  { id: 37, src: "/images/PXL_20260114_072718032.jpg", category: "facilities", alt: "Punching bags" },
+  { id: 38, src: "/images/PXL_20260114_073337967.jpg", category: "facilities", alt: "Loaded barbell", isPortrait: true },
+  { id: 39, src: "/images/PXL_20260114_073426612.jpg", category: "classes", alt: "Heavy squat", isPortrait: true },
+  { id: 40, src: "/images/PXL_20260114_073606558.PORTRAIT.jpg", category: "classes", alt: "Group squat", isPortrait: true },
+  { id: 41, src: "/images/PXL_20260114_074238092.jpg", category: "community", alt: "Front desk", isPortrait: true },
+  { id: 42, src: "/images/PXL_20260114_074503692.PORTRAIT.jpg", category: "classes", alt: "Squat training", isPortrait: true },
+  { id: 44, src: "/images/PXL_20260114_074527063.PORTRAIT.jpg", category: "classes", alt: "Leg raises", isPortrait: true },
+  { id: 45, src: "/images/PXL_20260114_074603211.jpg", category: "classes", alt: "Tire workout", isPortrait: true },
+  { id: 46, src: "/images/PXL_20260114_075121493.PORTRAIT.jpg", category: "classes", alt: "Cable row", isPortrait: true },
+  { id: 47, src: "/images/PXL_20260114_075223092.PORTRAIT.jpg", category: "classes", alt: "Bench dips", isPortrait: true },
+  { id: 48, src: "/images/PXL_20260114_080458231.PORTRAIT.ORIGINAL.jpg", category: "classes", alt: "Bench press", isPortrait: true },
+  { id: 49, src: "/images/PXL_20260114_080526157.PORTRAIT.jpg", category: "classes", alt: "Barbell curl", isPortrait: true },
+  { id: 50, src: "/images/PXL_20260114_080537291.PORTRAIT.jpg", category: "community", alt: "Family visit", isPortrait: true },
+  { id: 51, src: "/images/PXL_20260114_080922222.PORTRAIT.jpg", category: "community", alt: "Front desk", isPortrait: false },
+  { id: 52, src: "/images/PXL_20260114_081601191.PORTRAIT.jpg", category: "classes", alt: "Bicep curls", isPortrait: false },
+  { id: 55, src: "/images/weight-loss.jpg", category: "transformations", alt: "Weight loss" },
+  { id: 56, src: "/images/yoga-class-in-session.jpg", category: "classes", alt: "Yoga class", isPortrait: true },
+  { id: 57, src: "/images/yoga-training.jpg", category: "classes", alt: "Yoga training", isPortrait: false },
 ];
 
 const Gallery = () => {
@@ -46,13 +74,38 @@ const Gallery = () => {
     document.body.style.overflow = "hidden";
   };
 
-  const closeLightbox = () => {
+  const closeLightbox = useCallback(() => {
     setLightboxOpen(false);
     document.body.style.overflow = "auto";
-  };
+  }, []);
 
-  const goToPrevious = () => setCurrentImageIndex((prev) => (prev === 0 ? filteredImages.length - 1 : prev - 1));
-  const goToNext = () => setCurrentImageIndex((prev) => (prev + 1) % filteredImages.length);
+  const goToPrevious = useCallback(
+    () => setCurrentImageIndex((prev) => (prev === 0 ? filteredImages.length - 1 : prev - 1)),
+    [filteredImages.length]
+  );
+  const goToNext = useCallback(
+    () => setCurrentImageIndex((prev) => (prev + 1) % filteredImages.length),
+    [filteredImages.length]
+  );
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        goToPrevious();
+      } else if (event.key === "ArrowRight") {
+        goToNext();
+      } else if (event.key === "Escape") {
+        closeLightbox();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [closeLightbox, goToNext, goToPrevious, lightboxOpen]);
 
   return (
     <Layout>
@@ -68,12 +121,12 @@ const Gallery = () => {
       <section className="section-padding bg-background relative overflow-hidden">
         <div className="sm:container mx-auto px-4 relative">
           <motion.div className="flex flex-wrap justify-center gap-4 mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration }}>
-            {["all", "facilities", "classes", "transformations"].map((cat) => (
+            {["all", "facilities", "classes", "transformations", "community"].map((cat) => (
               <button 
                 key={cat} 
                 type="button" 
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all capitalize ${selectedCategory === cat ? "bg-brand-blue text-white shadow-lg" : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"}`}
+                className={`px-4 py-2 text-xs sm:text-sm sm:px-5 sm:py-2.5 md:px-6 md:py-3 rounded-full font-semibold transition-all capitalize ${selectedCategory === cat ? "bg-brand-blue text-white shadow-lg" : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"}`}
                 aria-label={`Filter by ${cat === "all" ? "all categories" : cat}`}
               >
                 {cat === "all" ? "All" : cat}
@@ -85,7 +138,13 @@ const Gallery = () => {
 
           <AnimatePresence>
             {lightboxOpen && (
-              <motion.div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <motion.div
+                className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={closeLightbox}
+              >
                 <button 
                   type="button" 
                   onClick={closeLightbox} 
@@ -102,9 +161,19 @@ const Gallery = () => {
                 >
                   <ChevronLeft size={24} />
                 </button>
-                <motion.div className="max-w-4xl max-h-[80vh] relative" key={currentImageIndex} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
-                  <img src={filteredImages[currentImageIndex].src} alt={filteredImages[currentImageIndex].alt} className="max-w-full max-h-[80vh] object-contain" />
-                  <div className="text-white text-center mt-4 font-heading">{filteredImages[currentImageIndex].alt}</div>
+                <motion.div
+                  className="max-w-4xl max-h-[80vh] relative"
+                  key={currentImageIndex}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <img
+                    src={filteredImages[currentImageIndex].src}
+                    alt={filteredImages[currentImageIndex].alt}
+                    className="max-w-full max-h-[80vh] object-contain rounded-lg"
+                  />
                 </motion.div>
                 <button 
                   type="button" 
