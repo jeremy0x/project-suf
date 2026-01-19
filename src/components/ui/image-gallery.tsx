@@ -25,7 +25,7 @@ export function ImageGallery({ images, onImageClick }: ImageGalleryProps) {
         {images.map((image, index) => {
           const isPortrait = typeof image.isPortrait === "boolean"
             ? image.isPortrait
-            : /portrait/i.test(image.src) || index % 3 === 0;
+            : /portrait/i.test(image.src) || image.id % 3 === 0;
           const ratio = isPortrait ? 3 / 4 : 4 / 3;
 
           return (

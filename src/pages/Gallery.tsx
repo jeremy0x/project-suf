@@ -9,7 +9,7 @@ import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button
 import { BeamsBackground } from "@/components/ui/beams-background";
 
 const galleryImages = [
-  { id: 1, src: "/images/003.jpg", category: "classes", alt: "Cable pushdown" },
+  { id: 1, src: "/images/003.jpg", category: "classes", alt: "Cable pushdown", isPortrait: true },
   { id: 2, src: "/images/005.jpg", category: "classes", alt: "Resting athlete", isPortrait: true },
   { id: 3, src: "/images/007.jpg", category: "classes", alt: "Core workout", isPortrait: true },
   { id: 4, src: "/images/008.jpg", category: "facilities", alt: "Gym apparel" },
@@ -27,11 +27,11 @@ const galleryImages = [
   { id: 18, src: "/images/cardio-training.jpg", category: "classes", alt: "Cardio training" },
   { id: 19, src: "/images/cardio.jpg", category: "facilities", alt: "Cardio equipment", isPortrait: true },
   { id: 20, src: "/images/dance-aerobics.jpg", category: "classes", alt: "Dance aerobics" },
-  { id: 22, src: "/images/free-weights-area.jpg", category: "facilities", alt: "Free weights" },
+  { id: 22, src: "/images/free-weights-area.jpg", category: "facilities", alt: "Free weights", isPortrait: true },
   { id: 23, src: "/images/landing-page-about.jpg", category: "classes", alt: "Gym squat session", isPortrait: true },
-  { id: 24, src: "/images/member-transformation.jpg", category: "transformations", alt: "Member progress" },
+  { id: 24, src: "/images/member-transformation.jpg", category: "transformations", alt: "Member progress", isPortrait: false },
   { id: 25, src: "/images/outdoor-group-class.jpg", category: "classes", alt: "Outdoor class", isPortrait: false },
-  { id: 28, src: "/images/PXL_20260114_072200361.jpg", category: "classes", alt: "Back squat" },
+  { id: 28, src: "/images/PXL_20260114_072200361.jpg", category: "classes", alt: "Back squat", isPortrait: true },
   { id: 29, src: "/images/PXL_20260114_072220312.jpg", category: "classes", alt: "Cable curls" },
   { id: 30, src: "/images/PXL_20260114_072309276.jpg", category: "classes", alt: "Squat spotter" },
   { id: 31, src: "/images/PXL_20260114_072349551.jpg", category: "classes", alt: "Overhead press", isPortrait: true },
@@ -60,13 +60,13 @@ const galleryImages = [
 ];
 
 const Gallery = () => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { reduceMotion } = useAnimation();
   const duration = reduceMotion ? 0 : 0.3;
 
-  const filteredImages = selectedCategory === "all" ? galleryImages : galleryImages.filter((image) => image.category === selectedCategory);
+  const filteredImages = galleryImages;
+  const currentImage = filteredImages[currentImageIndex];
 
   const openLightbox = (index: number) => {
     setCurrentImageIndex(index);
@@ -79,14 +79,24 @@ const Gallery = () => {
     document.body.style.overflow = "auto";
   }, []);
 
-  const goToPrevious = useCallback(
-    () => setCurrentImageIndex((prev) => (prev === 0 ? filteredImages.length - 1 : prev - 1)),
-    [filteredImages.length]
-  );
-  const goToNext = useCallback(
-    () => setCurrentImageIndex((prev) => (prev + 1) % filteredImages.length),
-    [filteredImages.length]
-  );
+  const goToPrevious = useCallback(() => {
+    if (!filteredImages.length) return;
+    setCurrentImageIndex((prev) => (prev === 0 ? filteredImages.length - 1 : prev - 1));
+  }, [filteredImages.length]);
+  const goToNext = useCallback(() => {
+    if (!filteredImages.length) return;
+    setCurrentImageIndex((prev) => (prev + 1) % filteredImages.length);
+  }, [filteredImages.length]);
+
+  useEffect(() => {
+    if (!filteredImages.length) {
+      setCurrentImageIndex(0);
+      return;
+    }
+    if (currentImageIndex >= filteredImages.length) {
+      setCurrentImageIndex(0);
+    }
+  }, [currentImageIndex, filteredImages.length]);
 
   useEffect(() => {
     if (!lightboxOpen) return;
@@ -120,20 +130,6 @@ const Gallery = () => {
 
       <section className="section-padding bg-background relative overflow-hidden">
         <div className="sm:container mx-auto px-4 relative">
-          <motion.div className="flex flex-wrap justify-center gap-4 mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration }}>
-            {["all", "facilities", "classes", "transformations", "community"].map((cat) => (
-              <button 
-                key={cat} 
-                type="button" 
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 text-xs sm:text-sm sm:px-5 sm:py-2.5 md:px-6 md:py-3 rounded-full font-semibold transition-all capitalize ${selectedCategory === cat ? "bg-brand-blue text-white shadow-lg" : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"}`}
-                aria-label={`Filter by ${cat === "all" ? "all categories" : cat}`}
-              >
-                {cat === "all" ? "All" : cat}
-              </button>
-            ))}
-          </motion.div>
-
           <ImageGallery images={filteredImages} onImageClick={openLightbox} />
 
           <AnimatePresence>
@@ -147,7 +143,10 @@ const Gallery = () => {
               >
                 <button 
                   type="button" 
-                  onClick={closeLightbox} 
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    closeLightbox();
+                  }} 
                   className="absolute top-4 right-4 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"
                   aria-label="Close lightbox"
                 >
@@ -155,29 +154,37 @@ const Gallery = () => {
                 </button>
                 <button 
                   type="button" 
-                  onClick={goToPrevious} 
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    goToPrevious();
+                  }} 
                   className="absolute left-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"
                   aria-label="Previous image"
                 >
                   <ChevronLeft size={24} />
                 </button>
-                <motion.div
-                  className="max-w-4xl max-h-[80vh] relative"
-                  key={currentImageIndex}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  onClick={(event) => event.stopPropagation()}
-                >
-                  <img
-                    src={filteredImages[currentImageIndex].src}
-                    alt={filteredImages[currentImageIndex].alt}
-                    className="max-w-full max-h-[80vh] object-contain rounded-lg"
-                  />
-                </motion.div>
+                {currentImage && (
+                  <motion.div
+                    className="max-w-4xl max-h-[80vh] relative"
+                    key={currentImageIndex}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    <img
+                      src={currentImage.src}
+                      alt={currentImage.alt}
+                      className="max-w-full max-h-[80vh] object-contain rounded-lg"
+                    />
+                  </motion.div>
+                )}
                 <button 
                   type="button" 
-                  onClick={goToNext} 
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    goToNext();
+                  }} 
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"
                   aria-label="Next image"
                 >
