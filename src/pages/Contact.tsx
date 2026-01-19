@@ -277,17 +277,17 @@ const Contact = () => {
                   Contact Information
                 </h2>
                 <div className="space-y-4 *:text-sm">
-                  <div className="flex items-start">
+                  <div className="flex items-center">
                     <MapPin
-                      className="text-brand-blue mr-4 flex-shrink-0 mt-1"
-                      size={24}
+                      className="text-brand-blue mr-3 flex-shrink-0"
+                      size={18}
                     />
                     <p>
                       Embassy Lodge, FUTA South Gate, Akure, Ondo State, Nigeria
                     </p>
                   </div>
                   <div className="flex items-center">
-                    <Phone className="text-brand-blue mr-4" size={24} />
+                    <Phone className="text-brand-blue mr-3 flex-shrink-0" size={18} />
                     <a
                       href="tel:08134460609"
                       className="hover:text-brand-blue transition-colors"
@@ -296,7 +296,7 @@ const Contact = () => {
                     </a>
                   </div>
                   <div className="flex items-center">
-                    <Mail className="text-brand-blue mr-4" size={24} />
+                    <Mail className="text-brand-blue mr-3 flex-shrink-0" size={18} />
                     <a
                       href="mailto:shapeupfitnessclub326@gmail.com"
                       className="hover:text-brand-blue transition-colors"
