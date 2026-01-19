@@ -4,7 +4,7 @@ import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
-import { RainbowButton } from "./ui/rainbow-button";
+import { InteractiveHoverButton } from "./ui/interactive-hover-button";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -75,9 +75,11 @@ const Header = () => {
           {/* Join Now Button - Right */}
           <div className="hidden md:block flex-shrink-0">
             <Link to="/contact?source=navbar">
-              <RainbowButton className="font-heading text-sm">
-                Join Now
-              </RainbowButton>
+              <InteractiveHoverButton 
+                text="Join Now" 
+                className="w-auto px-6 bg-brand-blue border-brand-blue text-white font-heading text-sm"
+                aria-label="Join Shape Up Fitness now"
+              />
             </Link>
           </div>
 
@@ -164,9 +166,11 @@ const Header = () => {
                   className="p-6 border-t"
                 >
                   <Link to="/contact?source=navbar" onClick={toggleMenu}>
-                    <RainbowButton className="w-full font-heading">
-                      Join Now
-                    </RainbowButton>
+                    <InteractiveHoverButton 
+                      text="Join Now" 
+                      className="w-full bg-brand-blue border-brand-blue text-white font-heading"
+                      aria-label="Join Shape Up Fitness now"
+                    />
                   </Link>
                 </motion.div>
               </div>

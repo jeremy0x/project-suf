@@ -1,7 +1,9 @@
+import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import { CheckCircle, Award, Users, Clock } from "lucide-react";
+import { Award, Users, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 
 const About = () => {
   const { reduceMotion } = useAnimation();
@@ -47,7 +49,7 @@ const About = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration, delay: 0.2 }}
           >
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 font-crimson">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-heading">
               About Us
             </h1>
             <p className="text-lg max-w-3xl mx-auto text-gray-300">
@@ -69,7 +71,7 @@ const About = () => {
               viewport={{ once: true }}
               transition={{ duration }}
             >
-              <h2 className="section-title font-crimson">
+              <h2 className="section-title font-heading">
                 Our <span className="text-brand-blue">Story</span>
               </h2>
               <p className="text-sm mb-6">
@@ -127,7 +129,7 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration }}
           >
-            <h2 className="section-title font-crimson">
+            <h2 className="section-title font-heading">
               Our <span className="text-brand-gold">Mission & Values</span>
             </h2>
             <p className="section-subtitle text-sm">
@@ -149,7 +151,7 @@ const About = () => {
               <div className="mb-4 text-brand-gold">
                 <Award size={48} />
               </div>
-              <h3 className="text-xl font-bold mb-4 font-crimson">
+              <h3 className="text-xl font-bold mb-4 font-heading">
                 Excellence
               </h3>
               <p className="text-sm">
@@ -165,7 +167,7 @@ const About = () => {
               <div className="mb-4 text-brand-gold">
                 <Users size={48} />
               </div>
-              <h3 className="text-xl font-bold mb-4 font-crimson">Community</h3>
+              <h3 className="text-xl font-bold mb-4 font-heading">Community</h3>
               <p className="text-sm">
                 We foster a supportive, inclusive community where members
                 motivate each other and celebrate achievements together.
@@ -179,7 +181,7 @@ const About = () => {
               <div className="mb-4 text-brand-gold">
                 <Clock size={48} />
               </div>
-              <h3 className="text-xl font-bold mb-4 font-crimson">
+              <h3 className="text-xl font-bold mb-4 font-heading">
                 Dedication
               </h3>
               <p className="text-sm">
@@ -196,7 +198,7 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration, delay: 0.6 }}
           >
-            <h3 className="text-2xl font-bold mb-4 font-crimson">
+            <h3 className="text-2xl font-bold mb-4 font-heading">
               Our Mission
             </h3>
             <p className="text-sm mb-6">
@@ -221,7 +223,7 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration }}
           >
-            <h2 className="section-title font-crimson">
+            <h2 className="section-title font-heading">
               Our <span className="text-brand-blue">Team</span>
             </h2>
             <p className="section-subtitle text-sm">
@@ -265,7 +267,7 @@ const About = () => {
                 name: "Lawal Oluwatobi",
                 role: "Substitute Coach",
                 image: "/images/lawal-oluwatobi.jpg",
-                specialties: ["Calisthenics", "Strength training"],
+                specialties: ["Calisthenics", "Strength training"],
               },
               {
                 name: "Uthman Raheem",
@@ -296,7 +298,7 @@ const About = () => {
                     />
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-bold mb-1 font-crimson">
+                    <h3 className="text-xl font-bold mb-1 font-heading">
                       {member.name}
                     </h3>
                     <p className="text-brand-blue mb-3">{member.role}</p>
@@ -335,7 +337,7 @@ const About = () => {
             transition={{ duration }}
           >
             <motion.h2
-              className="text-4xl md:text-5xl font-bold mb-6 font-crimson"
+              className="text-3xl md:text-4xl font-bold mb-6 font-heading"
               initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true }}
@@ -359,12 +361,13 @@ const About = () => {
               viewport={{ once: true }}
               transition={{ duration, delay: 0.4 }}
             >
-              <a
-                href="/contact?source=about_cta"
-                className="btn-primary font-crimson"
-              >
-                GET STARTED TODAY
-              </a>
+              <Link to="/contact?source=about_cta">
+                <InteractiveHoverButton 
+                  text="Get Started Today" 
+                  className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
+                  aria-label="Get started with Shape Up Fitness today"
+                />
+              </Link>
             </motion.div>
           </motion.div>
         </div>

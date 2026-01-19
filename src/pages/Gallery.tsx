@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
 import { ImageGallery } from "@/components/ui/image-gallery";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 
 const galleryImages = [
   { id: 1, src: "/images/013.jpg", category: "facilities", alt: "Gym equipments" },
@@ -60,7 +62,7 @@ const Gallery = () => {
         </div>
         <div className="sm:container mx-auto px-4 relative">
           <motion.div className="text-center" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration, delay: 0.2 }}>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 font-heading">Our Gallery</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-heading">Our Gallery</h1>
             <p className="text-sm max-w-3xl mx-auto text-gray-300">Take a look at our gym facilities and vibrant fitness community</p>
           </motion.div>
         </div>
@@ -70,8 +72,13 @@ const Gallery = () => {
         <div className="sm:container mx-auto px-4 relative">
           <motion.div className="flex flex-wrap justify-center gap-4 mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration }}>
             {["all", "facilities", "classes", "transformations"].map((cat) => (
-              <button key={cat} type="button" onClick={() => setSelectedCategory(cat)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all capitalize ${selectedCategory === cat ? "bg-brand-blue text-white shadow-lg" : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"}`}>
+              <button 
+                key={cat} 
+                type="button" 
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-6 py-3 rounded-full font-semibold transition-all capitalize ${selectedCategory === cat ? "bg-brand-blue text-white shadow-lg" : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"}`}
+                aria-label={`Filter by ${cat === "all" ? "all categories" : cat}`}
+              >
                 {cat === "all" ? "All" : cat}
               </button>
             ))}
@@ -82,13 +89,34 @@ const Gallery = () => {
           <AnimatePresence>
             {lightboxOpen && (
               <motion.div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                <button type="button" onClick={closeLightbox} className="absolute top-4 right-4 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"><X size={24} /></button>
-                <button type="button" onClick={goToPrevious} className="absolute left-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"><ChevronLeft size={24} /></button>
+                <button 
+                  type="button" 
+                  onClick={closeLightbox} 
+                  className="absolute top-4 right-4 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"
+                  aria-label="Close lightbox"
+                >
+                  <X size={24} />
+                </button>
+                <button 
+                  type="button" 
+                  onClick={goToPrevious} 
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft size={24} />
+                </button>
                 <motion.div className="max-w-4xl max-h-[80vh] relative" key={currentImageIndex} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
                   <img src={filteredImages[currentImageIndex].src} alt={filteredImages[currentImageIndex].alt} className="max-w-full max-h-[80vh] object-contain" />
                   <div className="text-white text-center mt-4 font-heading">{filteredImages[currentImageIndex].alt}</div>
                 </motion.div>
-                <button type="button" onClick={goToNext} className="absolute right-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"><ChevronRight size={24} /></button>
+                <button 
+                  type="button" 
+                  onClick={goToNext} 
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"
+                  aria-label="Next image"
+                >
+                  <ChevronRight size={24} />
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
@@ -100,7 +128,13 @@ const Gallery = () => {
           <motion.div className="text-center text-white" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration }}>
             <h2 className="text-3xl font-bold mb-6 font-heading">Experience Our Gym in Person</h2>
             <p className="text-sm mb-8 max-w-2xl mx-auto">The photos look great, but nothing compares to seeing our facilities in person. Come visit us for a tour!</p>
-            <a href="/contact?source=gallery" className="btn-secondary inline-block font-heading">SCHEDULE A VISIT</a>
+            <Link to="/contact?source=gallery">
+              <InteractiveHoverButton 
+                text="Schedule a Visit" 
+                className="w-auto px-8 bg-brand-gold border-brand-gold text-brand-dark font-heading"
+                aria-label="Schedule a visit to our facility"
+              />
+            </Link>
           </motion.div>
         </div>
       </section>

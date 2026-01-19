@@ -1,10 +1,10 @@
-import { useEffect } from "react";
 import Layout from "../components/Layout";
 import { Link } from "react-router-dom";
-import { Clock, Calendar, Trophy, ArrowRight, Users } from "lucide-react";
+import { Clock, Calendar, Trophy, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
 import AnimatedSection from "../components/ui/animated-section";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 
 const services = [
   {
@@ -132,7 +132,7 @@ const Services = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration, delay: 0.2 }}
           >
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 font-crimson">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-heading">
               Our Services
             </h1>
             <p className="text-lg max-w-3xl mx-auto text-gray-300">
@@ -143,7 +143,7 @@ const Services = () => {
         </div>
       </motion.section>
 
-      {/* Services Grid */}
+      {/* Services Grid - Full-height images with glass overlay */}
       <section className="section-padding bg-background relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
@@ -157,30 +157,32 @@ const Services = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {services.map((service, index) => (
+            {services.map((service) => (
               <motion.div key={service.id} variants={itemVariants}>
-                <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
-                  <div className="relative h-60">
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      className="w-full h-full object-cover object-top"
-                    />
-                    <div className="absolute top-4 left-4 bg-brand-dark text-white text-3xl p-2 rounded-lg">
-                      {service.icon}
-                    </div>
+                <div className="relative h-[400px] rounded-xl overflow-hidden group">
+                  {/* Full-height background image */}
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                  />
+                  
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+                  
+                  {/* Icon badge */}
+                  <div className="absolute top-4 left-4 bg-brand-dark/80 backdrop-blur-sm text-3xl p-3 rounded-lg border border-white/10">
+                    {service.icon}
                   </div>
-                  <div className="p-6 flex-grow flex flex-col">
-                    <h3 className="text-2xl font-bold mb-3">{service.title}</h3>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4 flex-grow text-sm">
-                      {service.description}
-                    </p>
-                    {/* <Link
-                      to={`#${service.id}`}
-                      className="inline-flex items-center text-brand-blue font-semibold hover:text-brand-gold transition-colors"
-                    >
-                      Learn more <ArrowRight size={16} className="ml-1" />
-                    </Link> */}
+                  
+                  {/* Content with glass effect */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="backdrop-blur-md bg-white/10 rounded-xl p-4 border border-white/20">
+                      <h3 className="text-xl font-bold mb-2 text-white">{service.title}</h3>
+                      <p className="text-gray-200 text-sm line-clamp-3">
+                        {service.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -221,7 +223,7 @@ const Services = () => {
                 <div className="mb-4 text-brand-gold">
                   <Clock size={48} className="mx-auto" />
                 </div>
-                <h3 className="text-2xl font-bold mb-2">{session.name}</h3>
+                <h3 className="text-xl font-bold mb-2">{session.name}</h3>
                 <p className="text-xl">{session.time}</p>
               </motion.div>
             ))}
@@ -234,8 +236,12 @@ const Services = () => {
               afternoon sessions for a midday boost, or evening training to
               release the day's stress, we've got you covered.
             </p>
-            <Link to="/contact?source=services" className="btn-secondary">
-              BOOK A SESSION
+            <Link to="/contact?source=services">
+              <InteractiveHoverButton 
+                text="Book a Session" 
+                className="w-auto px-8 bg-brand-gold border-brand-gold text-brand-dark font-heading"
+                aria-label="Book a training session"
+              />
             </Link>
           </AnimatedSection>
         </div>
@@ -319,8 +325,12 @@ const Services = () => {
               training programs, and a supportive community to help you achieve
               sustainable results.
             </p>
-            <Link to="/contact" className="btn-primary">
-              START YOUR JOURNEY
+            <Link to="/contact">
+              <InteractiveHoverButton 
+                text="Start Your Journey" 
+                className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
+                aria-label="Start your fitness journey"
+              />
             </Link>
           </AnimatedSection>
         </div>
@@ -352,7 +362,7 @@ const Services = () => {
             </AnimatedSection>
 
             <AnimatedSection className="lg:w-1/2" delay={0.3}>
-              <h3 className="text-2xl font-bold mb-6">
+              <h3 className="text-xl font-bold mb-6">
                 Holistic Approach to Fitness
               </h3>
               <p className="mb-6">
@@ -399,31 +409,32 @@ const Services = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-background py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
-        </div>
-        <div className="sm:container mx-auto px-4 relative">
-          <AnimatedSection className="max-w-4xl mx-auto bg-brand-blue rounded-2xl overflow-hidden shadow-xl">
-            <div className="p-12 text-center text-white">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Ready to Transform Your Fitness Journey?
-              </h2>
-              <p className="text-lg mb-8">
-                Join Shape Up Fitness today and experience our comprehensive
-                range of services designed to help you achieve your health and
-                fitness goals.
-              </p>
-              <Link
-                to="/contact?source=services_cta"
-                className="btn-secondary inline-block"
-              >
-                GET STARTED TODAY
-              </Link>
-            </div>
-          </AnimatedSection>
+      {/* CTA Section - Styled like Pricing page */}
+      <section className="py-20 bg-background px-8">
+        <div className="sm:container mx-auto">
+          <motion.div
+            className="max-w-4xl mx-auto text-center"
+            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true }}
+            transition={{ duration }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-heading">
+              Ready to Transform Your Fitness Journey?
+            </h2>
+            <p className="text-lg mb-8">
+              Join Shape Up Fitness today and experience our comprehensive
+              range of services designed to help you achieve your health and
+              fitness goals.
+            </p>
+            <Link to="/contact?source=services_cta">
+              <InteractiveHoverButton 
+                text="Get Started Today" 
+                className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
+                aria-label="Get started with Shape Up Fitness today"
+              />
+            </Link>
+          </motion.div>
         </div>
       </section>
     </Layout>

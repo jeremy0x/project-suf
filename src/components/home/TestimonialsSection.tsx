@@ -93,7 +93,7 @@ const TestimonialsSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground font-heading">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground font-heading">
             What Our <span className="text-brand-blue">Members</span> Say
           </h2>
           <p className="text-sm text-muted-foreground max-w-2xl mx-auto">

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
+import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 
 const stats = [
   { value: "100+", label: "Active Members" },
@@ -57,7 +58,7 @@ const AboutSection = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration }}
               >
-                <h3 className="text-xl font-bold mb-2 font-crimson">
+                <h3 className="text-xl font-bold mb-2 font-heading">
                   Get Started Today
                 </h3>
                 <p className="text-sm mb-3">
@@ -65,7 +66,8 @@ const AboutSection = () => {
                 </p>
                 <Link
                   to="/contact?source=about_cta"
-                  className="text-brand-gold font-semibold font-crimson"
+                  className="text-brand-gold font-semibold font-heading"
+                  aria-label="Join Shape Up Fitness now"
                 >
                   Join Now →
                 </Link>
@@ -108,7 +110,7 @@ const AboutSection = () => {
                   viewport={{ once: true }}
                   transition={{ duration, delay: 0.1 + index * 0.05 }}
                 >
-                  <div className="text-3xl font-bold text-brand-blue font-crimson">
+                  <div className="text-3xl font-bold text-brand-blue font-heading">
                     {stat.value}
                   </div>
                   <div className="text-sm">{stat.label}</div>
@@ -123,7 +125,7 @@ const AboutSection = () => {
               viewport={{ once: true }}
               transition={{ duration, delay: 0.3 }}
             >
-              <h3 className="text-xl font-bold mb-4 font-crimson">
+              <h3 className="text-xl font-bold mb-4 font-heading">
                 Why Choose Us
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -152,8 +154,12 @@ const AboutSection = () => {
               viewport={{ once: true }}
               transition={{ duration, delay: 0.4 }}
             >
-              <Link to="/about" className="btn-primary font-crimson">
-                Learn More About Us
+              <Link to="/about">
+                <InteractiveHoverButton 
+                  text="Learn More About Us" 
+                  className="w-auto px-6 bg-brand-blue border-brand-blue text-white font-heading"
+                  aria-label="Learn more about Shape Up Fitness"
+                />
               </Link>
             </motion.div>
           </div>

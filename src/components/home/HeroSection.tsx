@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
 import { ChevronDown } from "lucide-react";
-import { RainbowButton } from "../ui/rainbow-button";
-import { FloatingPaths } from "../ui/floating-paths";
+import { BeamsBackground } from "../ui/beams-background";
+import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 
 const HeroSection = () => {
   const { reduceMotion } = useAnimation();
@@ -38,17 +38,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="bg-brand-dark text-white overflow-hidden relative">
-      {/* Floating Paths Background */}
-      <FloatingPaths position={1} />
-      <FloatingPaths position={-1} />
-      
-      {/* Decorative elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
-      </div>
-      
+    <BeamsBackground className="text-white">
       <div className="sm:container mx-auto px-8 min-h-[100dvh] flex flex-col md:flex-row items-center justify-center gap-10 md:justify-between py-16 md:py-0 relative">
         {/* Content */}
         <motion.div
@@ -58,19 +48,19 @@ const HeroSection = () => {
           animate="visible"
         >
           <motion.h1
-            className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 font-heading max-md:pt-10"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-heading max-md:pt-10"
             variants={itemVariants}
           >
-            GET <span className="text-brand-gold">IN SHAPE</span>
+            Get <span className="text-brand-gold">In Shape</span>
           </motion.h1>
           <motion.h2
-            className="text-2xl md:text-3xl font-medium mb-6 opacity-90 font-heading"
+            className="text-xl md:text-2xl font-medium mb-6 opacity-90 font-heading"
             variants={itemVariants}
           >
             Transform your body, transform your life
           </motion.h2>
           <motion.p
-            className="text-sm mb-8 max-w-lg opacity-80"
+            className="text-base mb-8 max-w-lg opacity-80"
             variants={itemVariants}
           >
             Join Shape Up Fitness and experience top notch training with the
@@ -79,14 +69,18 @@ const HeroSection = () => {
           </motion.p>
           <motion.div className="flex flex-wrap gap-4" variants={itemVariants}>
             <Link to="/contact?source=hero">
-              <RainbowButton className="font-heading">
-                Join Now
-              </RainbowButton>
+              <InteractiveHoverButton 
+                text="Join Now" 
+                className="w-auto px-6 bg-brand-blue border-brand-blue text-white font-heading"
+                aria-label="Join Shape Up Fitness now"
+              />
             </Link>
-            <Link to="/services" className="glow-gold">
-              <div className="bg-brand-gold text-brand-dark font-heading font-bold py-3 px-8 rounded-full transform transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(254,191,0,0.6)] flex items-center justify-center">
-                <span>EXPLORE SESSIONS</span>
-              </div>
+            <Link to="/services">
+              <InteractiveHoverButton 
+                text="Explore Sessions" 
+                className="w-auto px-6 bg-brand-gold border-brand-gold text-brand-dark font-heading"
+                aria-label="Explore our fitness sessions"
+              />
             </Link>
           </motion.div>
         </motion.div>
@@ -120,6 +114,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.3 }}
+          aria-label="Scroll to next section"
         >
           <motion.div
             animate={{
@@ -135,7 +130,7 @@ const HeroSection = () => {
           </motion.div>
         </motion.button>
       </div>
-    </section>
+    </BeamsBackground>
   );
 };
 

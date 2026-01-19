@@ -5,36 +5,50 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/radix-accordion";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 
 const pricingPlans = {
   basic: [
-    { name: "GYM SESSION (MONTHLY) ONCE DAILY", price: "₦10,000" },
-    { name: "GYM SESSION (MONTHLY) TWICE DAILY", price: "₦15,000" },
-    { name: "GYM SESSION (PER SESSION)", price: "₦1,000" },
-    { name: "GYM SESSION (WEEKLY)", price: "₦3,500" },
-    { name: "GYM SESSION (BI-WEEKLY)", price: "₦5,000" },
-    { name: "3 MONTHS GYM SESSION", price: "₦27,000" },
-    { name: "6 MONTHS GYM SESSION", price: "₦54,000" },
-    { name: "BOXING CLASS (TWICE WEEKLY)", price: "₦12,000" },
+    { name: "Gym Session (Monthly) Once Daily", price: "₦12,000" },
+    { name: "Gym Session (Monthly) Twice Daily", price: "₦17,000" },
+    { name: "Gym Session (Per Session)", price: "₦1,500" },
+    { name: "Gym Session (Weekly)", price: "₦5,000" },
+    { name: "Gym Session (Bi-weekly)", price: "₦7,500" },
+    { name: "2 Months Gym Session", price: "₦23,000", savings: "saves ₦1,000" },
+    { name: "3 Months Gym Session", price: "₦33,000", savings: "saves ₦3,000" },
+    { name: "6 Months Gym Session", price: "₦66,000", savings: "saves ₦6,000" },
+    { name: "Boxing Class (Twice Weekly) / Month", price: "₦14,000" },
+    { name: "Boxing Session with Trainer (Daily)", price: "₦5,000" },
+    { name: "Boxing Session without Trainer (Daily)", price: "₦3,000" },
   ],
   personal: [
     {
-      name: "GYM SESSION (MONTHLY) ONCE DAILY",
-      price: "₦18,000",
+      name: "Gym Session (Monthly) Once Daily",
+      price: "₦22,000",
       recommended: true,
     },
-    { name: "GYM SESSION (MONTHLY) TWICE DAILY", price: "₦23,000" },
+    { name: "Gym Session (Monthly) Twice Daily", price: "₦25,000" },
   ],
   special: [
-    { name: "A MONTH FOR COUPLES", price: "₦18,000" },
-    { name: "WEEKENDS ONLY (SATURDAYS IN A MONTH)", price: "₦3,500" },
-    { name: "2 DAYS WEEKLY FOR A MONTH", price: "₦6,500" },
-    { name: "3 DAYS WEEKLY FOR A MONTH", price: "₦8,500" },
+    { name: "Couples Plan / Monthly", price: "₦22,000", savings: "saves ₦2,000" },
+    { name: "Weekends Only (Saturdays) / Monthly", price: "₦5,000" },
+    { name: "2 Days Weekly for a Month", price: "₦8,000" },
+    { name: "3 Days Weekly for a Month", price: "₦10,000" },
+  ],
+  inHome: [
+    { name: "3 Sessions Weekly for a Month", price: "₦60,000" },
+    { name: "2 Sessions Weekly for a Month", price: "₦40,000" },
+    { name: "1 Session Weekly for a Month", price: "₦20,000" },
+  ],
+  online: [
+    { name: "4 Sessions Weekly for a Month", price: "₦40,000" },
+    { name: "3 Sessions Weekly for a Month", price: "₦30,000" },
+    { name: "2 Sessions Weekly for a Month", price: "₦20,000" },
   ],
   other: [
-    { name: "DIET PLAN", price: "₦5,000" },
-    { name: "DIET TRAINING", price: "₦10,000/M" },
-    { name: "WORKOUT PLAN", price: "₦15,000" },
+    { name: "Customized Diet Plan", price: "₦7,000" },
+    { name: "Diet Training (Monthly)", price: "₦15,000" },
+    { name: "Custom Workout Plan", price: "₦25,000" },
   ],
 };
 
@@ -78,7 +92,7 @@ const Pricing = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration, delay: 0.2 }}
           >
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 font-crimson">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-heading">
               Membership Plans
             </h1>
             <p className="text-lg max-w-3xl mx-auto text-gray-300">
@@ -104,10 +118,10 @@ const Pricing = () => {
             viewport={{ once: true }}
             transition={{ duration }}
           >
-            <h2 className="text-3xl font-bold mb-2 font-crimson">
-              GYM REGISTRATION
+            <h2 className="text-3xl font-bold mb-2 font-heading">
+              Gym Registration
             </h2>
-            <p className="text-5xl font-bold mb-4 font-crimson">₦2,000</p>
+            <p className="text-4xl font-bold mb-4 font-heading">₦2,500</p>
             <p className="max-w-lg mx-auto text-sm">
               One-time registration fee for all new members. Includes initial
               fitness assessment and personalized orientation.
@@ -126,61 +140,29 @@ const Pricing = () => {
             viewport={{ once: true }}
             transition={{ duration }}
           >
+            {[
+              { key: "all", label: "All Plans" },
+              { key: "basic", label: "Basic Memberships" },
+              { key: "personal", label: "Personal Training" },
+              { key: "special", label: "Special Packages" },
+              { key: "inHome", label: "In Home Training" },
+              { key: "online", label: "Online Training" },
+              { key: "other", label: "Other Services" },
+            ].map((tab) => (
             <button
+                key={tab.key}
               type="button"
-              onClick={() => setActiveTab("all")}
+                onClick={() => setActiveTab(tab.key)}
               className={`px-6 py-3 rounded-full font-semibold transition-all ${
-                activeTab === "all"
+                  activeTab === tab.key
                   ? "bg-brand-blue text-white shadow-lg"
                   : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
               }`}
+                aria-label={`View ${tab.label}`}
             >
-              All Plans
+                {tab.label}
             </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("basic")}
-              className={`px-6 py-3 rounded-full font-semibold transition-all ${
-                activeTab === "basic"
-                  ? "bg-brand-blue text-white shadow-lg"
-                  : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
-              }`}
-            >
-              Basic Memberships
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("personal")}
-              className={`px-6 py-3 rounded-full font-semibold transition-all ${
-                activeTab === "personal"
-                  ? "bg-brand-blue text-white shadow-lg"
-                  : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
-              }`}
-            >
-              Personal Training
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("special")}
-              className={`px-6 py-3 rounded-full font-semibold transition-all ${
-                activeTab === "special"
-                  ? "bg-brand-blue text-white shadow-lg"
-                  : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
-              }`}
-            >
-              Special Packages
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("other")}
-              className={`px-6 py-3 rounded-full font-semibold transition-all ${
-                activeTab === "other"
-                  ? "bg-brand-blue text-white shadow-lg"
-                  : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
-              }`}
-            >
-              Other Services
-            </button>
+            ))}
           </motion.div>
 
           {/* Basic Memberships */}
@@ -193,7 +175,7 @@ const Pricing = () => {
               transition={{ duration }}
             >
               <div className="flex items-center mb-6">
-                <h2 className="text-3xl font-bold font-crimson">
+                <h2 className="text-2xl font-bold font-heading">
                   Basic Memberships
                 </h2>
                 <div className="h-px bg-border flex-grow ml-6"></div>
@@ -213,10 +195,15 @@ const Pricing = () => {
                     className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 flex flex-col h-full"
                   >
                     <div className="p-6 flex flex-col flex-grow">
-                      <div className="text-2xl font-bold mb-4 font-crimson">
+                      <div className="text-2xl font-bold mb-2 font-heading">
                         {plan.price}
                       </div>
-                      <h3 className="font-semibold mb-4 font-crimson">
+                      {plan.savings && (
+                        <span className="inline-block bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs px-2 py-1 rounded-full mb-2 w-fit">
+                          {plan.savings}
+                        </span>
+                      )}
+                      <h3 className="font-semibold mb-4 font-heading">
                         {plan.name}
                       </h3>
                       <div className="flex flex-col gap-2 mb-6 flex-grow">
@@ -235,7 +222,8 @@ const Pricing = () => {
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
                           plan.name
                         )}`}
-                        className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-crimson mt-auto"
+                        className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
+                        aria-label={`Choose ${plan.name} plan`}
                       >
                         Choose Plan
                       </Link>
@@ -256,9 +244,12 @@ const Pricing = () => {
               transition={{ duration }}
             >
               <div className="flex items-center mb-6">
-                <h2 className="text-3xl font-bold font-crimson">
+                <h2 className="text-2xl font-bold font-heading">
                   Personal Training
                 </h2>
+                <span className="ml-4 bg-brand-gold text-brand-dark text-sm font-bold px-3 py-1 rounded-full">
+                  Recommended for Beginners
+                </span>
                 <div className="h-px bg-border flex-grow ml-6"></div>
               </div>
 
@@ -278,16 +269,11 @@ const Pricing = () => {
                         plan.recommended ? "border-2 border-brand-gold" : ""
                       }`}
                     >
-                      {index === 0 && (
-                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-brand-gold text-brand-dark text-sm font-bold px-4 py-1 rounded-full text-center whitespace-nowrap z-10">
-                          Recommended for Beginners
-                        </div>
-                      )}
                       <div className="p-6 flex flex-col flex-grow">
-                        <div className="text-2xl font-bold mb-4 font-crimson">
+                        <div className="text-2xl font-bold mb-4 font-heading">
                           {plan.price}
                         </div>
-                        <h3 className="font-semibold mb-4 font-crimson">
+                        <h3 className="font-semibold mb-4 font-heading">
                           {plan.name}
                         </h3>
                         <div className="flex flex-col gap-2 mb-6 flex-grow">
@@ -316,11 +302,12 @@ const Pricing = () => {
                           to={`/contact?source=pricing&plan=${encodeURIComponent(
                             plan.name
                           )}`}
-                          className={`block text-center py-2 px-4 rounded-full transition-colors mt-auto font-crimson ${
+                          className={`block text-center py-2 px-4 rounded-full transition-colors mt-auto font-heading ${
                             plan.recommended
                               ? "bg-brand-gold text-black hover:bg-brand-gold/90"
                               : "bg-brand-blue text-white hover:bg-brand-blue/90"
                           }`}
+                          aria-label={`Choose ${plan.name} plan`}
                         >
                           Choose Plan
                         </Link>
@@ -342,9 +329,12 @@ const Pricing = () => {
               transition={{ duration }}
             >
               <div className="flex items-center mb-6">
-                <h2 className="text-3xl font-bold font-crimson">
+                <h2 className="text-2xl font-bold font-heading">
                   Special Packages
                 </h2>
+                <span className="ml-4 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full">
+                  + Trainer Fee if Required
+                </span>
                 <div className="h-px bg-border flex-grow ml-6"></div>
               </div>
 
@@ -362,17 +352,23 @@ const Pricing = () => {
                     className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 flex flex-col h-full"
                   >
                     <div className="p-6 flex flex-col flex-grow">
-                      <div className="text-2xl font-bold mb-4 font-crimson">
+                      <div className="text-2xl font-bold mb-2 font-heading">
                         {plan.price}
                       </div>
-                      <h3 className="font-semibold mb-4 font-crimson flex-grow">
+                      {plan.savings && (
+                        <span className="inline-block bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs px-2 py-1 rounded-full mb-2 w-fit">
+                          {plan.savings}
+                        </span>
+                      )}
+                      <h3 className="font-semibold mb-4 font-heading flex-grow">
                         {plan.name}
                       </h3>
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
                           plan.name
                         )}`}
-                        className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-crimson mt-auto"
+                        className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
+                        aria-label={`Choose ${plan.name} plan`}
                       >
                         Choose Plan
                       </Link>
@@ -380,18 +376,129 @@ const Pricing = () => {
                   </motion.div>
                 ))}
               </motion.div>
+            </motion.div>
+          )}
+
+          {/* In Home Training */}
+          {(activeTab === "all" || activeTab === "inHome") && (
+            <motion.div
+              className="mb-16"
+              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true }}
+              transition={{ duration }}
+            >
+              <div className="flex items-center mb-6">
+                <h2 className="text-2xl font-bold font-heading">
+                  In Home Training
+                </h2>
+                <div className="h-px bg-border flex-grow ml-6"></div>
+              </div>
 
               <motion.div
-                className="mt-6 bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 flex max-w-2xl"
-                variants={itemVariants}
+                className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
               >
-                <div className="text-amber-600 dark:text-amber-400 mr-3 flex-shrink-0">
-                  <Info size={24} />
+                {pricingPlans.inHome.map((plan, index) => (
+                  <motion.div
+                    key={index}
+                variants={itemVariants}
+                    className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 flex flex-col h-full"
+                  >
+                    <div className="p-6 flex flex-col flex-grow">
+                      <div className="text-2xl font-bold mb-4 font-heading">
+                        {plan.price}
+                      </div>
+                      <h3 className="font-semibold mb-4 font-heading flex-grow">
+                        {plan.name}
+                      </h3>
+                      <div className="flex flex-col gap-2 mb-6">
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-sm">Personal trainer at your home</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-sm">Customized workout plan</span>
+                        </div>
+                      </div>
+                      <Link
+                        to={`/contact?source=pricing&plan=${encodeURIComponent(
+                          plan.name
+                        )}`}
+                        className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
+                        aria-label={`Choose ${plan.name} plan`}
+                      >
+                        Choose Plan
+                      </Link>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
+
+          {/* Online Training */}
+          {(activeTab === "all" || activeTab === "online") && (
+            <motion.div
+              className="mb-16"
+              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: true }}
+              transition={{ duration }}
+            >
+              <div className="flex items-center mb-6">
+                <h2 className="text-2xl font-bold font-heading">
+                  Online Training
+                </h2>
+                <div className="h-px bg-border flex-grow ml-6"></div>
+              </div>
+
+              <motion.div
+                className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                {pricingPlans.online.map((plan, index) => (
+                  <motion.div
+                    key={index}
+                    variants={itemVariants}
+                    className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 flex flex-col h-full"
+                  >
+                    <div className="p-6 flex flex-col flex-grow">
+                      <div className="text-2xl font-bold mb-4 font-heading">
+                        {plan.price}
+                      </div>
+                      <h3 className="font-semibold mb-4 font-heading flex-grow">
+                        {plan.name}
+                      </h3>
+                      <div className="flex flex-col gap-2 mb-6">
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-sm">Virtual training sessions</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-sm">Video call guidance</span>
+                        </div>
+                      </div>
+                      <Link
+                        to={`/contact?source=pricing&plan=${encodeURIComponent(
+                          plan.name
+                        )}`}
+                        className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
+                        aria-label={`Choose ${plan.name} plan`}
+                      >
+                        Choose Plan
+                      </Link>
                 </div>
-                <p className="text-sm">
-                  Additional ₦8,000 applies if a personal trainer is required
-                  for any of the special packages.
-                </p>
+                  </motion.div>
+                ))}
               </motion.div>
             </motion.div>
           )}
@@ -405,7 +512,7 @@ const Pricing = () => {
               transition={{ duration }}
             >
               <div className="flex items-center mb-6">
-                <h2 className="text-3xl font-bold font-crimson">
+                <h2 className="text-2xl font-bold font-heading">
                   Other Services
                 </h2>
                 <div className="h-px bg-border flex-grow ml-6"></div>
@@ -425,17 +532,18 @@ const Pricing = () => {
                     className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 flex flex-col h-full"
                   >
                     <div className="p-6 flex flex-col flex-grow">
-                      <div className="text-2xl font-bold mb-4 font-crimson">
+                      <div className="text-2xl font-bold mb-4 font-heading">
                         {plan.price}
                       </div>
-                      <h3 className="font-semibold mb-4 font-crimson flex-grow">
+                      <h3 className="font-semibold mb-4 font-heading flex-grow">
                         {plan.name}
                       </h3>
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
                           plan.name
                         )}`}
-                        className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-crimson mt-auto"
+                        className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
+                        aria-label={`Choose ${plan.name} service`}
                       >
                         Choose Service
                       </Link>
@@ -543,25 +651,27 @@ const Pricing = () => {
             viewport={{ once: true }}
             transition={{ duration }}
           >
-            <h2 className="text-4xl font-bold mb-6 font-crimson">
+            <h2 className="text-3xl font-bold mb-6 font-heading">
               Ready to Begin Your Fitness Journey?
             </h2>
-            <p className="text-xl mb-8 text-sm">
+            <p className="text-base mb-8">
               Take the first step towards a healthier lifestyle with a Shape Up
               Fitness membership that fits your needs and goals.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link
-                to="/contact?source=pricing_join"
-                className="btn-primary font-crimson"
-              >
-                JOIN NOW
+              <Link to="/contact?source=pricing_join">
+                <InteractiveHoverButton 
+                  text="Join Now" 
+                  className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
+                  aria-label="Join Shape Up Fitness now"
+                />
               </Link>
-              <Link
-                to="/contact?source=pricing_tour"
-                className="btn-secondary font-crimson"
-              >
-                SCHEDULE A TOUR
+              <Link to="/contact?source=pricing_tour">
+                <InteractiveHoverButton 
+                  text="Schedule a Tour" 
+                  className="w-auto px-8 bg-brand-gold border-brand-gold text-brand-dark font-heading"
+                  aria-label="Schedule a facility tour"
+                />
               </Link>
             </div>
           </motion.div>

@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
+import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 
 const pricingPlans = [
   {
     name: "Basic",
-    price: "₦10,000",
+    price: "₦12,000",
     duration: "Monthly",
     popular: false,
     description: "Perfect for beginners",
@@ -18,7 +19,7 @@ const pricingPlans = [
   },
   {
     name: "Premium",
-    price: "₦15,000",
+    price: "₦17,000",
     duration: "Monthly",
     popular: true,
     description: "Our most popular choice",
@@ -34,7 +35,7 @@ const pricingPlans = [
   },
   {
     name: "Personal Training",
-    price: "₦18,000",
+    price: "₦22,000",
     duration: "Monthly",
     popular: false,
     description: "Recommended for beginners",
@@ -91,7 +92,7 @@ const PricingPreviewSection = () => {
                   {plan.description}
                 </p>
                 <div className="mb-6">
-                  <span className="text-4xl font-bold">{plan.price}</span>
+                  <span className="text-3xl font-bold">{plan.price}</span>
                   <span className="text-gray-500">
                     /{plan.duration.toLowerCase()}
                   </span>
@@ -116,6 +117,7 @@ const PricingPreviewSection = () => {
                       ? "bg-brand-blue text-white hover:bg-brand-blue/90"
                       : "bg-gray-100 dark:bg-gray-800 hover:bg-brand-gold hover:text-black"
                   }`}
+                  aria-label={`Choose ${plan.name} plan`}
                 >
                   {plan.buttonText}
                 </Link>
@@ -125,8 +127,12 @@ const PricingPreviewSection = () => {
         </div>
 
         <div className="text-center mt-12">
-          <Link to="/pricing" className="btn-primary">
-            View All Pricing Options
+          <Link to="/pricing">
+            <InteractiveHoverButton 
+              text="View All Pricing" 
+              className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
+              aria-label="View all pricing options"
+            />
           </Link>
         </div>
       </div>

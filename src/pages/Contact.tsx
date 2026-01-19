@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useSearchParams } from "react-router-dom";
+import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 
 const Contact = () => {
   const [searchParams] = useSearchParams();
@@ -154,7 +155,7 @@ const Contact = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-crimson">
+            <h1 className="text-3xl md:text-4xl font-bold mb-4 font-heading">
               Contact Us
             </h1>
             <p className="text-lg text-white/80">
@@ -179,7 +180,7 @@ const Contact = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <h2 className="text-3xl font-bold mb-6 font-crimson">
+              <h2 className="text-2xl font-bold mb-6 font-heading">
                 Send Us a Message
               </h2>
 
@@ -258,20 +259,13 @@ const Contact = () => {
                   ></textarea>
                 </div>
 
-                <button
+                <InteractiveHoverButton
                   type="submit"
                   disabled={isSubmitting}
-                  className="btn-primary w-full text-sm flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    "Send Message"
-                  )}
-                </button>
+                  text={isSubmitting ? "Sending..." : "Send Message"}
+                  className="w-full bg-brand-blue border-brand-blue text-white font-heading disabled:opacity-70 disabled:cursor-not-allowed"
+                  aria-label={isSubmitting ? "Sending message" : "Send message"}
+                />
               </form>
             </motion.div>
 
@@ -282,7 +276,7 @@ const Contact = () => {
               className="space-y-8"
             >
               <div className="glass-card p-8 rounded-xl space-y-6">
-                <h2 className="text-3xl font-bold mb-4 font-crimson">
+                <h2 className="text-2xl font-bold mb-4 font-heading">
                   Contact Information
                 </h2>
                 <div className="space-y-4 *:text-sm">

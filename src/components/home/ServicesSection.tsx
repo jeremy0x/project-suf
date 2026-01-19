@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
+import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 
 const services = [
   {
@@ -118,13 +119,17 @@ const ServicesSection = () => {
             >
               <div className="p-6">
                 <div className="text-4xl mb-4">{service.icon}</div>
-                <h3 className="text-xl font-bold mb-2 font-crimson">
+                <h3 className="text-md font-bold mb-2 font-heading">
                   {service.title}
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
                   {service.description}
                 </p>
-                <Link to="/services" className="arrow-link group font-crimson">
+                <Link 
+                  to="/services" 
+                  className="arrow-link group font-heading"
+                  aria-label={`Learn more about ${service.title}`}
+                >
                   Learn more
                   <ArrowRight
                     size={16}
@@ -143,8 +148,12 @@ const ServicesSection = () => {
           viewport={{ once: true }}
           transition={{ duration, delay: 0.2 }}
         >
-          <Link to="/services" className="btn-primary font-crimson">
-            View All Services
+          <Link to="/services">
+            <InteractiveHoverButton 
+              text="View All Services" 
+              className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
+              aria-label="View all our fitness services"
+            />
           </Link>
         </motion.div>
       </div>

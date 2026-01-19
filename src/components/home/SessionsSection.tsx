@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
+import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 
 const sessions = [
   { name: "Morning", time: "7:00am - 10:00am" },
@@ -101,14 +103,14 @@ const SessionsSection = () => {
                   : "bg-gray-800/50"
               }`}
             >
-              <h3 className="text-2xl font-bold mb-2 font-crimson">
+              <h3 className="text-xl font-bold mb-2 font-heading">
                 {session.name}
               </h3>
               <p className="text-xl mb-4">{session.time}</p>
               {currentSession === session.name && (
                 <div className="glow-blue rounded-full px-4 py-1 inline-flex items-center justify-center bg-brand-blue/20 border border-brand-blue/50">
                   <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                  <span className="text-sm font-crimson">In Progress</span>
+                  <span className="text-sm font-heading">In Progress</span>
                 </div>
               )}
             </motion.div>
@@ -127,12 +129,13 @@ const SessionsSection = () => {
             you're an early bird or prefer evening workouts, we have a time slot
             that works for you.
           </p>
-          <a
-            href="/contact?source=sessions"
-            className="btn-secondary font-crimson"
-          >
-            BOOK A SESSION
-          </a>
+          <Link to="/contact?source=sessions">
+            <InteractiveHoverButton 
+              text="Book a Session" 
+              className="w-auto px-8 bg-brand-gold border-brand-gold text-brand-dark font-heading"
+              aria-label="Book a training session"
+            />
+          </Link>
         </motion.div>
       </div>
     </section>

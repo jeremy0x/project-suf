@@ -3,16 +3,17 @@ import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
 import Logo from "../../components/Logo";
+import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 
 const membershipPlans = [
   {
-    name: "BASIC",
-    price: "₦10,000/Month",
+    name: "Basic",
+    price: "₦12,000/Month",
     features: ["Limited gym access", "One gym session daily"],
   },
   {
-    name: "PLUS",
-    price: "₦35,000/Month",
+    name: "Plus",
+    price: "₦17,000/Month",
     features: [
       "Full gym access",
       "Two gym sessions daily",
@@ -22,17 +23,14 @@ const membershipPlans = [
     ],
   },
   {
-    name: "PREMIUM",
-    price: "₦50,000/Month",
+    name: "Premium",
+    price: "₦22,000/Month",
     features: [
       "Full gym access",
-      "Three gym sessions daily",
-      "Personal training",
-      "Gym vouchers",
-      "Free bottle water",
-      "One guest pass",
-      "All group classes",
-      "10% off gym wears",
+      "Personal trainer",
+      "Customized workout plan",
+      "Progress tracking",
+      "Nutritional guidance",
     ],
   },
 ];
@@ -55,7 +53,7 @@ const MembershipPlansSection = () => {
             <div className="flex justify-center">
               <Logo variant="white" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mt-6 mb-4 text-white">
+            <h2 className="text-3xl md:text-4xl font-bold mt-6 mb-4 text-white">
               Membership Plans
             </h2>
           </div>
@@ -77,7 +75,7 @@ const MembershipPlansSection = () => {
               transition={{ duration, delay: index * 0.1 }}
               className="rounded-xl border-2 border-brand-blue p-6 flex flex-col"
             >
-              <h3 className="text-3xl font-bold mb-6 text-center font-crimson">
+              <h3 className="text-2xl font-bold mb-6 text-center font-heading">
                 {plan.name}
               </h3>
 
@@ -93,7 +91,7 @@ const MembershipPlansSection = () => {
               </div>
 
               <div className="mt-auto">
-                <div className="bg-brand-blue text-white text-center py-2 px-4 rounded-full font-bold text-lg font-crimson">
+                <div className="bg-brand-blue text-white text-center py-2 px-4 rounded-full font-bold text-lg font-heading">
                   {plan.price}
                 </div>
               </div>
@@ -108,8 +106,12 @@ const MembershipPlansSection = () => {
           viewport={{ once: true }}
           transition={{ duration, delay: 0.4 }}
         >
-          <Link to="/pricing" className="btn-primary font-crimson">
-            View Full Pricing Details
+          <Link to="/pricing">
+            <InteractiveHoverButton 
+              text="View Full Pricing" 
+              className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
+              aria-label="View full pricing details"
+            />
           </Link>
         </motion.div>
       </div>

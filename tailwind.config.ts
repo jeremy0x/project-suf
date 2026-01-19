@@ -78,8 +78,7 @@ export default {
 				"color-5": "hsl(var(--color-5))",
 			},
 			fontFamily: {
-				sans: ['Geist', 'sans-serif'],
-				geist: ['Geist', 'sans-serif'],
+				sans: ['Geom', 'sans-serif'],
 				heading: ['"Plus Jakarta Sans"', 'sans-serif'],
 			},
 			borderRadius: {

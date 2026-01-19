@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geom:ital,wght@0,300..900;1,300..900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -88,7 +88,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-geist;
+    @apply bg-background text-foreground font-sans;
     font-feature-settings: "ss01";
   }
   h1,
@@ -119,11 +119,11 @@
   }
 
   .section-title {
-    @apply text-4xl md:text-5xl font-bold mb-6 font-heading;
+    @apply text-3xl md:text-4xl font-bold mb-6 font-heading;
   }
 
   .section-subtitle {
-    @apply text-xl md:text-2xl font-medium mb-12 max-w-2xl mx-auto;
+    @apply text-lg md:text-xl font-medium mb-12 max-w-2xl mx-auto;
   }
 
   .arrow-link {
