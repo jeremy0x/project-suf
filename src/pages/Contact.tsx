@@ -92,7 +92,7 @@ const Contact = () => {
   }, [searchParams]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -115,7 +115,7 @@ const Contact = () => {
             Accept: "application/json",
           },
           body: JSON.stringify(formData),
-        }
+        },
       );
 
       const data = await response.json();
@@ -287,7 +287,10 @@ const Contact = () => {
                     </p>
                   </div>
                   <div className="flex items-center">
-                    <Phone className="text-brand-blue mr-3 flex-shrink-0" size={18} />
+                    <Phone
+                      className="text-brand-blue mr-3 flex-shrink-0"
+                      size={18}
+                    />
                     <a
                       href="tel:08134460609"
                       className="hover:text-brand-blue transition-colors"
@@ -296,7 +299,10 @@ const Contact = () => {
                     </a>
                   </div>
                   <div className="flex items-center">
-                    <Mail className="text-brand-blue mr-3 flex-shrink-0" size={18} />
+                    <Mail
+                      className="text-brand-blue mr-3 flex-shrink-0"
+                      size={18}
+                    />
                     <a
                       href="mailto:shapeupfitnessclub326@gmail.com"
                       className="hover:text-brand-blue transition-colors"
@@ -340,10 +346,8 @@ const Contact = () => {
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Shape Up Fitness Location"
                 ></iframe>
-                
               </div>
             </motion.div>
-
           </div>
         </div>
       </section>
