@@ -40,10 +40,27 @@ const pricingPlans = {
       name: "Couples Plan / Monthly",
       price: "₦22,000",
       savings: "saves ₦2,000",
+      tagline: "Shared Access for Two",
+      trainerAddOn: "Add a Couples Personal Trainer for ₦12,000/month",
     },
-    { name: "Weekends Only (Saturdays) / Monthly", price: "₦5,000" },
-    { name: "2 Days Weekly for a Month", price: "₦8,000" },
-    { name: "3 Days Weekly for a Month", price: "₦10,000" },
+    {
+      name: "3 Days Weekly for a Month",
+      price: "₦10,000",
+      tagline: "Most Popular for Consistency",
+      trainerAddOn: "Add a Dedicated Personal Trainer for ₦8,000/month",
+    },
+    {
+      name: "2 Days Weekly for a Month",
+      price: "₦8,000",
+      tagline: "Perfect for Busy Schedules",
+      trainerAddOn: "Add a Dedicated Personal Trainer for ₦6,000/month",
+    },
+    {
+      name: "Weekends Only (Saturdays) / Monthly",
+      price: "₦5,000",
+      tagline: "4 Sessions/Month • Saturdays Only",
+      trainerAddOn: "Add a Dedicated Personal Trainer for ₦4,000/month",
+    },
   ],
   inHome: [
     { name: "3 Sessions Weekly for a Month", price: "₦60,000" },
@@ -153,7 +170,7 @@ const Pricing = () => {
       <section className="section-padding bg-background">
         <div className="sm:container mx-auto">
           <motion.div
-            className="flex flex-wrap justify-center gap-4 mb-12"
+            className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -172,7 +189,7 @@ const Pricing = () => {
                 key={tab.key}
                 type="button"
                 onClick={() => setActiveTab(tab.key)}
-                className={`px-6 py-3 rounded-full font-semibold transition-all ${
+                className={`px-3 py-2 sm:px-6 sm:py-3 rounded-full text-sm sm:text-base font-semibold transition-all ${
                   activeTab === tab.key
                     ? "bg-brand-blue text-white shadow-lg"
                     : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
@@ -351,9 +368,6 @@ const Pricing = () => {
                 <h2 className="text-2xl font-bold font-heading">
                   Special Packages
                 </h2>
-                <span className="bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full text-center">
-                  + Trainer Fee if Required
-                </span>
                 <div className="h-px bg-border flex-grow ml-auto hidden sm:block"></div>
               </div>
 
@@ -379,9 +393,19 @@ const Pricing = () => {
                           {plan.savings}
                         </span>
                       )}
-                      <h3 className="font-semibold mb-4 font-heading flex-grow">
+                      <h3 className="font-semibold mb-2 font-heading">
                         {plan.name}
                       </h3>
+                      {plan.tagline && (
+                        <p className="text-sm text-brand-blue dark:text-brand-blue/80 font-medium mb-2">
+                          {plan.tagline}
+                        </p>
+                      )}
+                      {plan.trainerAddOn && (
+                        <p className="text-xs text-muted-foreground mb-4 flex-grow">
+                          Optional: {plan.trainerAddOn}
+                        </p>
+                      )}
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
                           plan.name,
