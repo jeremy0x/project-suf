@@ -164,15 +164,15 @@ const Contact = () => {
       </BeamsBackground>
 
       {/* Contact Form Section */}
-      <section className="section-padding bg-background relative overflow-hidden">
+      <section className="section-padding bg-background relative overflow-hidden !px-0 sm:!px-4">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
         </div>
-        <div className="sm:container mx-auto px-4">
+        <div className="sm:container mx-auto px-0 sm:px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <motion.div
-              className="glass-card p-8 rounded-xl"
+              className="glass-card p-6 sm:p-8 rounded-none sm:rounded-xl shadow-none sm:shadow-lg"
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -272,7 +272,7 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="space-y-8"
             >
-              <div className="glass-card p-8 rounded-xl space-y-6">
+              <div className="glass-card p-6 sm:p-8 rounded-none sm:rounded-xl shadow-none sm:shadow-lg space-y-6">
                 <h2 className="text-2xl font-bold mb-4 font-heading">
                   Contact Information
                 </h2>
