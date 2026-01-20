@@ -13,7 +13,7 @@ const membershipPlans = [
   },
   {
     name: "Plus",
-    price: "₦17,000/Month",
+    price: "₦40,000/Month",
     features: [
       "Full gym access",
       "Two gym sessions daily",
@@ -24,7 +24,7 @@ const membershipPlans = [
   },
   {
     name: "Premium",
-    price: "₦22,000/Month",
+    price: "₦55,000/Month",
     features: [
       "Full gym access",
       "Personal trainer",
@@ -107,8 +107,8 @@ const MembershipPlansSection = () => {
           transition={{ duration, delay: 0.4 }}
         >
           <Link to="/pricing">
-            <InteractiveHoverButton 
-              text="View Full Pricing" 
+            <InteractiveHoverButton
+              text="View Full Pricing"
               className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
               aria-label="View full pricing details"
             />

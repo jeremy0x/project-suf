@@ -19,7 +19,7 @@ const pricingPlans = [
   },
   {
     name: "Plus",
-    price: "₦17,000",
+    price: "₦40,000",
     duration: "Monthly",
     popular: true,
     description: "Our most popular choice",
@@ -35,7 +35,7 @@ const pricingPlans = [
   },
   {
     name: "Premium",
-    price: "₦22,000",
+    price: "₦55,000",
     duration: "Monthly",
     popular: false,
     description: "Recommended for beginners",
@@ -128,8 +128,8 @@ const PricingPreviewSection = () => {
 
         <div className="text-center mt-12">
           <Link to="/pricing">
-            <InteractiveHoverButton 
-              text="View All Pricing" 
+            <InteractiveHoverButton
+              text="View All Pricing"
               className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
               aria-label="View all pricing options"
             />
