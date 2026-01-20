@@ -98,8 +98,8 @@ const About = () => {
             >
               <div className="relative">
                 <img
-                  src="/images/about-story-image.jpg"
-                  alt="Gym interior"
+                  src="/images/community-outdoor-group-photo.jpg"
+                  alt="Shape Up Fitness community outdoor group photo"
                   className="rounded-2xl shadow-xl"
                 />
                 <div className="absolute -bottom-6 -right-6 text-3xl sm:text-5xl font-bold opacity-30 blur-[2px] text-brand-blue">

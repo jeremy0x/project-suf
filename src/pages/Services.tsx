@@ -14,28 +14,28 @@ const services = [
     title: "Body Toning",
     description: "Get that firm, fit look you've always wanted.",
     icon: "/icons/Body toning icon.PNG",
-    image: "/images/body-toning 2.jpg",
+    image: "/images/body-toning-session.jpg",
   },
   {
     id: 2,
     title: "Weight Loss",
     description: "Burn fat and feel lighter with workouts that actually work.",
     icon: "/icons/Weight loss icon.PNG",
-    image: "/images/weight-loss.jpg",
+    image: "/images/treadmill-cardio-workout.jpg",
   },
   {
     id: 3,
     title: "Body Building",
     description: "Build serious muscle and get stronger every week.",
     icon: "/icons/Body building icon.PNG",
-    image: "/images/body-building 2.jpg",
+    image: "/images/bodybuilding-dumbbell-training.jpg",
   },
   {
     id: 4,
     title: "Cardio Training",
     description: "Get your heart pumping and energy levels up.",
     icon: "/icons/Cardio Training icon.PNG",
-    image: "/images/cardio.jpg",
+    image: "/images/stationary-bike-cardio.jpg",
   },
   {
     id: 5,
@@ -71,7 +71,7 @@ const services = [
     title: "Gym Accessories",
     description: "Get quality gym wear, bags, and gloves from us.",
     icon: "🛒",
-    image: "/images/008.jpg",
+    image: "/images/gym-apparel-rack.jpg",
   },
 ];
 
