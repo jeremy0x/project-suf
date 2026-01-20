@@ -4,7 +4,12 @@ import { Check, Info } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/radix-accordion";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/radix-accordion";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import { BeamsBackground } from "@/components/ui/beams-background";
 
@@ -31,7 +36,11 @@ const pricingPlans = {
     { name: "Gym Session (Monthly) Twice Daily", price: "₦25,000" },
   ],
   special: [
-    { name: "Couples Plan / Monthly", price: "₦22,000", savings: "saves ₦2,000" },
+    {
+      name: "Couples Plan / Monthly",
+      price: "₦22,000",
+      savings: "saves ₦2,000",
+    },
     { name: "Weekends Only (Saturdays) / Monthly", price: "₦5,000" },
     { name: "2 Days Weekly for a Month", price: "₦8,000" },
     { name: "3 Days Weekly for a Month", price: "₦10,000" },
@@ -159,19 +168,19 @@ const Pricing = () => {
               { key: "online", label: "Online Training" },
               { key: "other", label: "Other Services" },
             ].map((tab) => (
-            <button
+              <button
                 key={tab.key}
-              type="button"
+                type="button"
                 onClick={() => setActiveTab(tab.key)}
-              className={`px-6 py-3 rounded-full font-semibold transition-all ${
+                className={`px-6 py-3 rounded-full font-semibold transition-all ${
                   activeTab === tab.key
-                  ? "bg-brand-blue text-white shadow-lg"
-                  : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
-              }`}
+                    ? "bg-brand-blue text-white shadow-lg"
+                    : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
+                }`}
                 aria-label={`View ${tab.label}`}
-            >
+              >
                 {tab.label}
-            </button>
+              </button>
             ))}
           </motion.div>
 
@@ -230,7 +239,7 @@ const Pricing = () => {
                       </div>
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
-                          plan.name
+                          plan.name,
                         )}`}
                         className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
                         aria-label={`Choose ${plan.name} plan`}
@@ -253,14 +262,14 @@ const Pricing = () => {
               viewport={{ once: true }}
               transition={{ duration }}
             >
-              <div className="flex items-center mb-6">
+              <div className="flex flex-wrap items-center gap-2 mb-6">
                 <h2 className="text-2xl font-bold font-heading">
                   Personal Training
                 </h2>
-                <span className="ml-4 bg-brand-gold text-brand-dark text-sm font-bold px-3 py-1 rounded-full">
+                <span className="bg-brand-gold text-brand-dark text-sm font-bold px-3 py-1 rounded-full text-center">
                   Recommended for Beginners
                 </span>
-                <div className="h-px bg-border flex-grow ml-6"></div>
+                <div className="h-px bg-border flex-grow ml-auto hidden sm:block"></div>
               </div>
 
               <div className="relative max-w-3xl mx-auto">
@@ -310,7 +319,7 @@ const Pricing = () => {
                         </div>
                         <Link
                           to={`/contact?source=pricing&plan=${encodeURIComponent(
-                            plan.name
+                            plan.name,
                           )}`}
                           className={`block text-center py-2 px-4 rounded-full transition-colors mt-auto font-heading ${
                             plan.recommended
@@ -338,14 +347,14 @@ const Pricing = () => {
               viewport={{ once: true }}
               transition={{ duration }}
             >
-              <div className="flex items-center mb-6">
+              <div className="flex flex-wrap items-center gap-2 mb-6">
                 <h2 className="text-2xl font-bold font-heading">
                   Special Packages
                 </h2>
-                <span className="ml-4 bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full">
+                <span className="bg-red-500 text-white text-sm font-bold px-3 py-1 rounded-full text-center">
                   + Trainer Fee if Required
                 </span>
-                <div className="h-px bg-border flex-grow ml-6"></div>
+                <div className="h-px bg-border flex-grow ml-auto hidden sm:block"></div>
               </div>
 
               <motion.div
@@ -375,7 +384,7 @@ const Pricing = () => {
                       </h3>
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
-                          plan.name
+                          plan.name,
                         )}`}
                         className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
                         aria-label={`Choose ${plan.name} plan`}
@@ -415,7 +424,7 @@ const Pricing = () => {
                 {pricingPlans.inHome.map((plan, index) => (
                   <motion.div
                     key={index}
-                variants={itemVariants}
+                    variants={itemVariants}
                     className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all hover:-translate-y-1 flex flex-col h-full"
                   >
                     <div className="p-6 flex flex-col flex-grow">
@@ -428,16 +437,20 @@ const Pricing = () => {
                       <div className="flex flex-col gap-2 mb-6">
                         <div className="flex items-center">
                           <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-sm">Personal trainer at your home</span>
+                          <span className="text-sm">
+                            Personal trainer at your home
+                          </span>
                         </div>
                         <div className="flex items-center">
                           <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-sm">Customized workout plan</span>
+                          <span className="text-sm">
+                            Customized workout plan
+                          </span>
                         </div>
                       </div>
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
-                          plan.name
+                          plan.name,
                         )}`}
                         className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
                         aria-label={`Choose ${plan.name} plan`}
@@ -490,7 +503,9 @@ const Pricing = () => {
                       <div className="flex flex-col gap-2 mb-6">
                         <div className="flex items-center">
                           <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-sm">Virtual training sessions</span>
+                          <span className="text-sm">
+                            Virtual training sessions
+                          </span>
                         </div>
                         <div className="flex items-center">
                           <Check className="text-green-500 mr-2" size={16} />
@@ -499,14 +514,14 @@ const Pricing = () => {
                       </div>
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
-                          plan.name
+                          plan.name,
                         )}`}
                         className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
                         aria-label={`Choose ${plan.name} plan`}
                       >
                         Choose Plan
                       </Link>
-                </div>
+                    </div>
                   </motion.div>
                 ))}
               </motion.div>
@@ -550,7 +565,7 @@ const Pricing = () => {
                       </h3>
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
-                          plan.name
+                          plan.name,
                         )}`}
                         className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
                         aria-label={`Choose ${plan.name} service`}
@@ -581,7 +596,8 @@ const Pricing = () => {
               <span className="text-brand-gold">Questions</span>
             </h2>
             <p className="text-sm max-w-2xl mx-auto">
-              Answers to common questions about our membership options and pricing
+              Answers to common questions about our membership options and
+              pricing
             </p>
           </motion.div>
 
@@ -593,57 +609,90 @@ const Pricing = () => {
             transition={{ duration }}
           >
             <Accordion type="single" collapsible className="space-y-4">
-              <AccordionItem value="item-1" className="bg-gray-800/60 rounded-xl px-6 border-0">
+              <AccordionItem
+                value="item-1"
+                className="bg-gray-800/60 rounded-xl px-6 border-0"
+              >
                 <AccordionTrigger className="text-left font-heading hover:no-underline">
-                  Do I need to pay the registration fee even if I'm only signing up for a month?
+                  Do I need to pay the registration fee even if I'm only signing
+                  up for a month?
                 </AccordionTrigger>
                 <AccordionContent className="text-sm text-gray-300">
-                  Yes, the registration fee is a one-time payment for all new members regardless of which membership plan you choose. It covers your initial fitness assessment and orientation.
+                  Yes, the registration fee is a one-time payment for all new
+                  members regardless of which membership plan you choose. It
+                  covers your initial fitness assessment and orientation.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-2" className="bg-gray-800/60 rounded-xl px-6 border-0">
+              <AccordionItem
+                value="item-2"
+                className="bg-gray-800/60 rounded-xl px-6 border-0"
+              >
                 <AccordionTrigger className="text-left font-heading hover:no-underline">
                   What's included in the personal training packages?
                 </AccordionTrigger>
                 <AccordionContent className="text-sm text-gray-300">
-                  Our personal training packages include one-on-one sessions with a certified trainer, customized workout plans, form correction, progress tracking, and basic nutritional guidance.
+                  Our personal training packages include one-on-one sessions
+                  with a certified trainer, customized workout plans, form
+                  correction, progress tracking, and basic nutritional guidance.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-3" className="bg-gray-800/60 rounded-xl px-6 border-0">
+              <AccordionItem
+                value="item-3"
+                className="bg-gray-800/60 rounded-xl px-6 border-0"
+              >
                 <AccordionTrigger className="text-left font-heading hover:no-underline">
                   Can I freeze my membership if I need to take a break?
                 </AccordionTrigger>
                 <AccordionContent className="text-sm text-gray-300">
-                  While direct pausing of a gym subscription isn't an option once it's active, rest assured that your membership clock only starts ticking from your first activation, even if you've completed your payment in advance.
+                  While direct pausing of a gym subscription isn't an option
+                  once it's active, rest assured that your membership clock only
+                  starts ticking from your first activation, even if you've
+                  completed your payment in advance.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-4" className="bg-gray-800/60 rounded-xl px-6 border-0">
+              <AccordionItem
+                value="item-4"
+                className="bg-gray-800/60 rounded-xl px-6 border-0"
+              >
                 <AccordionTrigger className="text-left font-heading hover:no-underline">
                   Are there any hidden fees?
                 </AccordionTrigger>
                 <AccordionContent className="text-sm text-gray-300">
-                  No, we believe in transparent pricing. All of our fees are clearly listed on our pricing page. The only additional cost would be if you choose to add a personal trainer to a standard membership plan.
+                  No, we believe in transparent pricing. All of our fees are
+                  clearly listed on our pricing page. The only additional cost
+                  would be if you choose to add a personal trainer to a standard
+                  membership plan.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-5" className="bg-gray-800/60 rounded-xl px-6 border-0">
+              <AccordionItem
+                value="item-5"
+                className="bg-gray-800/60 rounded-xl px-6 border-0"
+              >
                 <AccordionTrigger className="text-left font-heading hover:no-underline">
                   Do you offer student discounts?
                 </AccordionTrigger>
                 <AccordionContent className="text-sm text-gray-300">
-                  Yes, we offer special rates for students. Please contact us or visit our gym with valid ID to learn about these special rates.
+                  Yes, we offer special rates for students. Please contact us or
+                  visit our gym with valid ID to learn about these special
+                  rates.
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="item-6" className="bg-gray-800/60 rounded-xl px-6 border-0">
+              <AccordionItem
+                value="item-6"
+                className="bg-gray-800/60 rounded-xl px-6 border-0"
+              >
                 <AccordionTrigger className="text-left font-heading hover:no-underline">
                   Can I pay my gym subscription in installments?
                 </AccordionTrigger>
                 <AccordionContent className="text-sm text-gray-300">
-                  Yes, we offer the convenience of paying your gym subscription in two installments. This option is available to help make managing your membership more flexible.
+                  Yes, we offer the convenience of paying your gym subscription
+                  in two installments. This option is available to help make
+                  managing your membership more flexible.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -670,15 +719,15 @@ const Pricing = () => {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link to="/contact?source=pricing_join">
-                <InteractiveHoverButton 
-                  text="Join Now" 
+                <InteractiveHoverButton
+                  text="Join Now"
                   className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
                   aria-label="Join Shape Up Fitness now"
                 />
               </Link>
               <Link to="/contact?source=pricing_tour">
-                <InteractiveHoverButton 
-                  text="Schedule a Tour" 
+                <InteractiveHoverButton
+                  text="Schedule a Tour"
                   className="w-auto px-8 bg-brand-gold border-brand-gold text-brand-dark font-heading"
                   aria-label="Schedule a facility tour"
                 />
