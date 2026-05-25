@@ -1,5 +1,7 @@
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Check } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CheckmarkCircle01Icon } from "@hugeicons/core-free-icons";
 import { motion } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
 import Logo from "../../components/Logo";
@@ -37,17 +39,27 @@ const membershipPlans = [
 
 const MembershipPlansSection = () => {
   const { reduceMotion } = useAnimation();
-  const duration = reduceMotion ? 0 : 0.3;
+
+  const headerAnimProps = useMemo(() => ({
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true } as const,
+    transition: { duration: reduceMotion ? 0 : 0.3 },
+  }), [reduceMotion]);
+
+  const ctaAnimProps = useMemo(() => ({
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true } as const,
+    transition: { duration: reduceMotion ? 0 : 0.3, delay: 0.4 },
+  }), [reduceMotion]);
 
   return (
     <section className="section-padding section-dark relative overflow-hidden">
       <div className="sm:container mx-auto px-4 relative">
         <motion.div
           className="text-center mb-12"
-          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration }}
+          {...headerAnimProps}
         >
           <div className="text-center mb-12">
             <div className="flex justify-center">
@@ -59,7 +71,6 @@ const MembershipPlansSection = () => {
           </div>
         </motion.div>
 
-        {/* Decorative elements */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
           <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
@@ -69,10 +80,10 @@ const MembershipPlansSection = () => {
           {membershipPlans.map((plan, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration, delay: index * 0.1 }}
+              transition={{ duration: reduceMotion ? 0 : 0.3, delay: index * 0.1 }}
               className="rounded-xl border-2 border-brand-blue p-6 flex flex-col"
             >
               <h3 className="text-2xl font-bold mb-6 text-center font-heading">
@@ -83,7 +94,7 @@ const MembershipPlansSection = () => {
                 {plan.features.map((feature, idx) => (
                   <div key={idx} className="flex items-center">
                     <div className="bg-brand-blue rounded-full p-1 mr-3 flex-shrink-0">
-                      <Check size={18} className="text-white" />
+                      <HugeiconsIcon icon={CheckmarkCircle01Icon} size={18} className="text-white" />
                     </div>
                     <span className="text-sm">{feature}</span>
                   </div>
@@ -101,10 +112,7 @@ const MembershipPlansSection = () => {
 
         <motion.div
           className="text-center mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration, delay: 0.4 }}
+          {...ctaAnimProps}
         >
           <Link to="/pricing">
             <InteractiveHoverButton

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Check } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CheckmarkCircle01Icon } from "@hugeicons/core-free-icons";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
 
 const pricingPlans = [
@@ -101,7 +102,8 @@ const PricingPreviewSection = () => {
                 <div className="space-y-3 mb-8">
                   {plan.features.map((feature, idx) => (
                     <div key={idx} className="flex items-center">
-                      <Check
+                      <HugeiconsIcon
+                        icon={CheckmarkCircle01Icon}
                         size={18}
                         className="mr-2 text-green-500 flex-shrink-0"
                       />

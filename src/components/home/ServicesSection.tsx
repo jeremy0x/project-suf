@@ -1,4 +1,6 @@
-import { ArrowRight } from "lucide-react";
+import { useMemo } from "react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
@@ -49,35 +51,33 @@ const services = [
   },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+};
+
 const ServicesSection = () => {
   const { reduceMotion } = useAnimation();
-  const duration = reduceMotion ? 0 : 0.3;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.05,
-      },
-    },
-  };
-
-  const itemVariants = {
+  const itemVariants = useMemo(() => ({
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration },
+      transition: { duration: reduceMotion ? 0 : 0.3 },
     },
-  };
+  }), [reduceMotion]);
 
   return (
     <section
       id="services"
       className="section-padding bg-background relative overflow-hidden"
     >
-      {/* Decorative elements */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
         <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
@@ -85,10 +85,10 @@ const ServicesSection = () => {
       <div className="sm:container mx-auto relative">
         <motion.div
           className="text-center mb-12"
-          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration }}
+          transition={{ duration: reduceMotion ? 0 : 0.3 }}
         >
           <h2 className="section-title">
             Our <span className="text-brand-blue">Services</span>
@@ -110,12 +110,7 @@ const ServicesSection = () => {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="glass-card bg-white/50 dark:bg-gray-800/50 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:translate-y-[-5px]"
-              whileHover={{
-                scale: 1.03,
-                boxShadow:
-                  "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-              }}
+              className="glass-card bg-white/50 dark:bg-gray-800/50 rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-xl hover:translate-y-[-5px]"
             >
               <div className="p-6">
                 <img src={service.icon} alt={service.title} className="w-12 h-12 mb-4 object-contain" />
@@ -131,7 +126,8 @@ const ServicesSection = () => {
                   aria-label={`Learn more about ${service.title}`}
                 >
                   Learn more
-                  <ArrowRight
+                  <HugeiconsIcon
+                    icon={ArrowRight01Icon}
                     size={16}
                     className="ml-2 inline transform transition-transform group-hover:translate-x-1"
                   />
@@ -146,7 +142,7 @@ const ServicesSection = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration, delay: 0.2 }}
+          transition={{ duration: reduceMotion ? 0 : 0.3, delay: 0.2 }}
         >
           <Link to="/services">
             <InteractiveHoverButton 
