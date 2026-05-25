@@ -1,0 +1,163 @@
+import { mutation } from "./_generated/server";
+
+const MOCK_PRODUCTS = [
+  {
+    name: "Premium Fitness Tank Top",
+    description: "Breathable, moisture-wicking fabric designed for intense workouts. Features a relaxed fit with reinforced stitching for durability. Perfect for both gym sessions and casual wear.",
+    price: 8500,
+    category: "apparel",
+    stockQuantity: 50,
+    featured: true,
+    imageSeed: "tank-top",
+  },
+  {
+    name: "Performance Compression Shorts",
+    description: "High-performance compression shorts with 4-way stretch technology. Supports muscle recovery during and after workouts. Flat-lock seams prevent chafing.",
+    price: 12000,
+    category: "apparel",
+    stockQuantity: 35,
+    featured: true,
+    imageSeed: "shorts",
+  },
+  {
+    name: "Whey Isolate Protein 2kg",
+    description: "Premium whey protein isolate with 25g of protein per serving. Zero added sugar, low fat, and fast-absorbing for optimal muscle recovery. Available in vanilla and chocolate.",
+    price: 35000,
+    category: "supplements",
+    stockQuantity: 3,
+    featured: true,
+    imageSeed: "protein",
+  },
+  {
+    name: "Pre-Workout Extreme 300g",
+    description: "Explosive pre-workout formula with beta-alanine, caffeine, and citrulline malate. Delivers intense energy, focus, and pumps for your most demanding sessions.",
+    price: 22000,
+    category: "supplements",
+    stockQuantity: 0,
+    featured: false,
+    imageSeed: "preworkout",
+  },
+  {
+    name: "Lifting Straps (Pair)",
+    description: "Heavy-duty cotton lifting straps for secure grip during deadlifts, rows, and pull-ups. Reinforced stitching ensures longevity under heavy loads.",
+    price: 4500,
+    category: "gear",
+    stockQuantity: 12,
+    featured: false,
+    imageSeed: "straps",
+  },
+  {
+    name: "Weight Lifting Belt",
+    description: "Premium leather lifting belt with double-prong buckle. Provides core stability and back support for heavy compound lifts. 10cm width for optimal support.",
+    price: 18000,
+    category: "gear",
+    stockQuantity: 2,
+    featured: true,
+    imageSeed: "belt",
+  },
+  {
+    name: "Gym Gloves with Wrist Support",
+    description: "Breathable mesh gym gloves with integrated wrist wraps. Silicone padded palm protects against calluses. Adjustable wrist support for pressing movements.",
+    price: 6500,
+    category: "gear",
+    stockQuantity: 20,
+    featured: false,
+    imageSeed: "gloves",
+  },
+  {
+    name: "Insulated Shaker Bottle 700ml",
+    description: "Double-wall insulated shaker bottle keeps drinks cold for hours. Leak-proof design with mixing grid for clump-free shakes. BPA-free and dishwasher safe.",
+    price: 5500,
+    category: "accessories",
+    stockQuantity: 45,
+    featured: false,
+    imageSeed: "shaker",
+  },
+  {
+    name: "Premium Gym Towel",
+    description: "Microfiber gym towel with quick-dry technology. Compact and lightweight — folds neatly into any gym bag. Antimicrobial treatment prevents odors.",
+    price: 3500,
+    category: "accessories",
+    stockQuantity: 100,
+    featured: false,
+    imageSeed: "towel",
+  },
+  {
+    name: "Resistance Bands Set (5 Levels)",
+    description: "Set of 5 resistance bands ranging from light to extra-heavy. Made from natural latex with reinforced edges. Perfect for warm-ups, rehab, and home workouts.",
+    price: 9500,
+    category: "gear",
+    stockQuantity: 1,
+    featured: true,
+    imageSeed: "bands",
+  },
+];
+
+export const run = mutation({
+  handler: async (ctx) => {
+    const existing = await ctx.db.query("products").collect();
+    if (existing.length > 0) {
+      return { skipped: true, message: "Products already exist, skipping seed" };
+    }
+
+    for (const product of MOCK_PRODUCTS) {
+      const { imageSeed, ...data } = product;
+      await ctx.db.insert("products", {
+        ...data,
+        images: [
+          {
+            url: `https://picsum.photos/seed/${imageSeed}/600/600`,
+            alt: product.name,
+            order: 0,
+          },
+          {
+            url: `https://picsum.photos/seed/${imageSeed}-2/600/600`,
+            alt: `${product.name} (alternate view)`,
+            order: 1,
+          },
+        ],
+        createdAt: Date.now(),
+      });
+    }
+
+    const existingCats = await ctx.db
+      .query("imageCategories")
+      .withIndex("by_section", (q) => q.eq("section", "gallery"))
+      .collect();
+
+    if (existingCats.length === 0) {
+      const galleryCats = [
+        { name: "facilities", label: "Facilities" },
+        { name: "workout", label: "Workout" },
+        { name: "community", label: "Community" },
+        { name: "transformation", label: "Transformation" },
+        { name: "accessories", label: "Accessories" },
+      ];
+      for (let i = 0; i < galleryCats.length; i++) {
+        await ctx.db.insert("imageCategories", {
+          section: "gallery",
+          ...galleryCats[i],
+          order: i + 1,
+        });
+      }
+    }
+
+    const existingProdCats = await ctx.db.query("productCategories").collect();
+    if (existingProdCats.length === 0) {
+      const prodCatNames = [...new Set(MOCK_PRODUCTS.map((p) => p.category))];
+      for (let i = 0; i < prodCatNames.length; i++) {
+        await ctx.db.insert("productCategories", {
+          name: prodCatNames[i],
+          label: prodCatNames[i].charAt(0).toUpperCase() + prodCatNames[i].slice(1),
+          order: i,
+        });
+      }
+    }
+
+    return {
+      skipped: false,
+      productsCreated: MOCK_PRODUCTS.length,
+      categoriesCreated: 5,
+    };
+  },
+});
