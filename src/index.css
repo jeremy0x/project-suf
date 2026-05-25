@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Geom:ital,wght@0,300..900;1,300..900&display=swap");
 
 @tailwind base;
@@ -185,5 +185,57 @@
     content: "";
     @apply absolute -inset-0.5 bg-brand-gold opacity-30 blur rounded-lg;
     z-index: -1;
+  }
+}
+
+.animate-bounce-chevron {
+  animation: bounce-chevron 1.5s ease-in-out infinite;
+}
+
+@keyframes bounce-chevron {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-bounce-chevron {
+    animation: none !important;
+  }
+}
+
+/* Shimmer Skeleton Loader */
+@keyframes shimmer-swipe {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 25%,
+    #e5e7eb 50%,
+    #f3f4f6 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-swipe 1.5s infinite linear;
+}
+
+.dark .shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    #1f2937 25%,
+    #374151 50%,
+    #1f2937 75%
+  );
+  background-size: 200% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-bg {
+    animation: none !important;
   }
 }

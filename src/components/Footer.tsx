@@ -1,6 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import Logo from "./Logo";
-import { MapPinIcon, PhoneIcon, MailIcon, ArrowUpIcon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  Location01Icon,
+  CallingIcon,
+  Mail01Icon,
+  ArrowUp01Icon,
+} from "@hugeicons/core-free-icons";
 import { BsFacebook, BsInstagram, BsTwitterX } from "react-icons/bs";
 import { motion } from "framer-motion";
 
@@ -16,7 +22,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12">
           {/* Logo and About */}
           <div>
-            <Logo variant="footer" />
+            <Logo variant="white" />
             <p className="mt-4 text-gray-300 text-sm">
               Discover your fitness potential at Akure's premier destination. We
               help you achieve your goals through a blend of expert coaching and
@@ -77,13 +83,13 @@ const Footer = () => {
             </h3>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start">
-                <MapPinIcon className="mr-3 flex-shrink-0 text-brand-blue mt-0.5 size-5" />
+                <HugeiconsIcon icon={Location01Icon} className="mr-3 flex-shrink-0 text-brand-blue mt-0.5" size={20} />
                 <p>
                   Embassy Lodge, FUTA South Gate, Akure, Ondo State, Nigeria
                 </p>
               </li>
               <li className="flex items-center">
-                <PhoneIcon className="mr-3 flex-shrink-0 text-brand-blue size-5" />
+                <HugeiconsIcon icon={CallingIcon} className="mr-3 flex-shrink-0 text-brand-blue" size={20} />
                 <a
                   href="tel:08134460609"
                   className="hover:text-brand-blue transition-colors"
@@ -92,7 +98,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="flex items-center">
-                <MailIcon className="mr-3 flex-shrink-0 text-brand-blue size-5" />
+                <HugeiconsIcon icon={Mail01Icon} className="mr-3 flex-shrink-0 text-brand-blue" size={20} />
                 <a
                   href="mailto:shapeupfitnessclub326@gmail.com"
                   className="hover:text-brand-blue transition-colors"
@@ -113,7 +119,7 @@ const Footer = () => {
             whileTap={{ scale: 0.9 }}
             aria-label="Back to top"
           >
-            <ArrowUpIcon size={24} />
+            <HugeiconsIcon icon={ArrowUp01Icon} size={24} />
           </motion.button>
           <p>
             © {new Date().getFullYear()} Shape Up Fitness. All rights reserved.

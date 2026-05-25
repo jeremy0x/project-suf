@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {
+  CallingIcon,
+  Mail01Icon,
+  Location01Icon,
+  Loading02Icon,
+} from "@hugeicons/core-free-icons";
+import { gooeyToast } from "goey-toast";
 import { useSearchParams } from "react-router-dom";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { BeamsBackground } from "@/components/ui/beams-background";
+import { GridBackground } from "@/components/ui/grid-background";
 
 const Contact = () => {
   const [searchParams] = useSearchParams();
@@ -121,7 +127,7 @@ const Contact = () => {
       const data = await response.json();
 
       if (data.success === "true") {
-        toast.success("Message sent successfully!", {
+        gooeyToast.success("Message sent successfully!", {
           description: "We'll get back to you soon.",
         });
         setFormData({
@@ -135,7 +141,7 @@ const Contact = () => {
         throw new Error("Failed to send message");
       }
     } catch (error) {
-      toast.error("Failed to send message. Please try again later.");
+      gooeyToast.error("Failed to send message. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }
@@ -144,7 +150,7 @@ const Contact = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <BeamsBackground className="pt-32 pb-16 text-white" intensity="strong">
+      <GridBackground className="pt-32 pb-16 text-white">
         <div className="sm:container mx-auto px-4 relative">
           <motion.div
             className="text-center max-w-3xl mx-auto"
@@ -161,7 +167,7 @@ const Contact = () => {
             </p>
           </motion.div>
         </div>
-      </BeamsBackground>
+      </GridBackground>
 
       {/* Contact Form Section */}
       <section className="section-padding bg-background relative overflow-hidden !px-0 sm:!px-4">
@@ -278,7 +284,8 @@ const Contact = () => {
                 </h2>
                 <div className="space-y-4 *:text-sm">
                   <div className="flex items-center">
-                    <MapPin
+                    <HugeiconsIcon
+                      icon={Location01Icon}
                       className="text-brand-blue mr-3 flex-shrink-0"
                       size={18}
                     />
@@ -287,7 +294,8 @@ const Contact = () => {
                     </p>
                   </div>
                   <div className="flex items-center">
-                    <Phone
+                    <HugeiconsIcon
+                      icon={CallingIcon}
                       className="text-brand-blue mr-3 flex-shrink-0"
                       size={18}
                     />
@@ -299,7 +307,8 @@ const Contact = () => {
                     </a>
                   </div>
                   <div className="flex items-center">
-                    <Mail
+                    <HugeiconsIcon
+                      icon={Mail01Icon}
                       className="text-brand-blue mr-3 flex-shrink-0"
                       size={18}
                     />

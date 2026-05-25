@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import { Award, Users, Clock } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Award01Icon, UserGroupIcon, Clock01Icon } from "@hugeicons/core-free-icons";
 import { motion } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { BeamsBackground } from "@/components/ui/beams-background";
+import { GridBackground } from "@/components/ui/grid-background";
 
 const About = () => {
   const { reduceMotion } = useAnimation();
@@ -21,11 +22,10 @@ const About = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      filter: "blur(0px)",
       transition: { duration },
     },
   };
@@ -33,7 +33,7 @@ const About = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <BeamsBackground className="pt-32 pb-16 text-white" intensity="strong">
+      <GridBackground className="pt-32 pb-16 text-white">
         <div className="sm:container mx-auto px-8 relative">
           <motion.div
             className="text-center"
@@ -50,7 +50,7 @@ const About = () => {
             </p>
           </motion.div>
         </div>
-      </BeamsBackground>
+      </GridBackground>
 
       {/* Our Story Section */}
       <section className="section-padding bg-background">
@@ -58,8 +58,8 @@ const About = () => {
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <motion.div
               className="lg:w-1/2"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration }}
             >
@@ -91,8 +91,8 @@ const About = () => {
             </motion.div>
             <motion.div
               className="lg:w-1/2"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration, delay: 0.3 }}
             >
@@ -101,6 +101,7 @@ const About = () => {
                   src="/images/community-outdoor-group-photo.jpg"
                   alt="Shape Up Fitness community outdoor group photo"
                   className="rounded-2xl shadow-xl"
+                  onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
                 />
                 <div className="absolute -bottom-6 -right-6 text-3xl sm:text-5xl font-bold opacity-30 blur-[2px] text-brand-blue">
                   SINCE 2020
@@ -116,8 +117,8 @@ const About = () => {
         <div className="sm:container mx-auto">
           <motion.div
             className="text-center mb-16"
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration }}
           >
@@ -141,7 +142,7 @@ const About = () => {
               className="bg-gray-800/60 p-8 rounded-xl shadow-lg glass-card"
             >
               <div className="mb-4 text-brand-gold">
-                <Award size={48} />
+                <HugeiconsIcon icon={Award01Icon} size={48} />
               </div>
               <h3 className="text-xl font-bold mb-4 font-heading">
                 Excellence
@@ -157,7 +158,7 @@ const About = () => {
               className="bg-gray-800/60 p-8 rounded-xl shadow-lg glass-card"
             >
               <div className="mb-4 text-brand-gold">
-                <Users size={48} />
+                <HugeiconsIcon icon={UserGroupIcon} size={48} />
               </div>
               <h3 className="text-xl font-bold mb-4 font-heading">Community</h3>
               <p className="text-sm">
@@ -171,7 +172,7 @@ const About = () => {
               className="bg-gray-800/60 p-8 rounded-xl shadow-lg glass-card"
             >
               <div className="mb-4 text-brand-gold">
-                <Clock size={48} />
+                <HugeiconsIcon icon={Clock01Icon} size={48} />
               </div>
               <h3 className="text-xl font-bold mb-4 font-heading">
                 Dedication
@@ -185,8 +186,8 @@ const About = () => {
 
           <motion.div
             className="mt-16 max-w-3xl mx-auto text-center"
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration, delay: 0.6 }}
           >
@@ -210,8 +211,8 @@ const About = () => {
         <div className="sm:container mx-auto">
           <motion.div
             className="text-center mb-16"
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration }}
           >
@@ -287,6 +288,7 @@ const About = () => {
                       src={member.image}
                       alt={member.name}
                       className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110"
+                      onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
                     />
                   </div>
                   <div className="p-6">
@@ -330,8 +332,8 @@ const About = () => {
           >
             <motion.h2
               className="text-3xl md:text-4xl font-bold mb-6 font-heading"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration }}
             >
@@ -339,8 +341,8 @@ const About = () => {
             </motion.h2>
             <motion.p
               className="text-lg mb-8 text-gray-300"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration, delay: 0.2 }}
             >

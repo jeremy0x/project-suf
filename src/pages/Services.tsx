@@ -1,11 +1,12 @@
 import Layout from "../components/Layout";
 import { Link } from "react-router-dom";
-import { Calendar, Trophy, Users } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Calendar01Icon, ChampionIcon, UserGroupIcon } from "@hugeicons/core-free-icons";
 import { motion } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
 import AnimatedSection from "../components/ui/animated-section";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { BeamsBackground } from "@/components/ui/beams-background";
+import { GridBackground } from "@/components/ui/grid-background";
 import SessionsSection from "@/components/home/SessionsSection";
 
 const services = [
@@ -90,11 +91,10 @@ const Services = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      filter: "blur(0px)",
       transition: { duration },
     },
   };
@@ -102,7 +102,7 @@ const Services = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <BeamsBackground className="pt-32 pb-16 text-white" intensity="strong">
+      <GridBackground className="pt-32 pb-16 text-white">
         <div className="sm:container mx-auto px-8 relative">
           <motion.div
             className="text-center"
@@ -119,7 +119,7 @@ const Services = () => {
             </p>
           </motion.div>
         </div>
-      </BeamsBackground>
+      </GridBackground>
 
       {/* Services Grid - Full-height images with glass overlay */}
       <section className="section-padding bg-background relative overflow-hidden">
@@ -143,6 +143,7 @@ const Services = () => {
                     src={service.image}
                     alt={service.title}
                     className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
+                    onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
                   />
                   
                   {/* Gradient overlay */}
@@ -151,7 +152,7 @@ const Services = () => {
                   {/* Icon badge */}
                   <div className="absolute top-3 left-3 bg-brand-dark/80 backdrop-blur-sm p-3 rounded-lg border border-white/10">
                     {service.icon.startsWith("/") ? (
-                      <img src={service.icon} alt={service.title} className="w-10 h-10 object-contain" />
+                      <img src={service.icon} alt={service.title} className="w-10 h-10 object-contain" onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }} />
                     ) : (
                       <span className="text-3xl">{service.icon}</span>
                     )}
@@ -204,7 +205,7 @@ const Services = () => {
               className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <div className="text-brand-blue mb-4">
-                <Users size={40} className="mx-auto" />
+                <HugeiconsIcon icon={UserGroupIcon} size={40} className="mx-auto" />
               </div>
               <h3 className="text-xl font-bold mb-4 text-center">
                 Personalized Programs
@@ -220,7 +221,7 @@ const Services = () => {
               className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <div className="text-brand-blue mb-4">
-                <Trophy size={40} className="mx-auto" />
+                <HugeiconsIcon icon={ChampionIcon} size={40} className="mx-auto" />
               </div>
               <h3 className="text-xl font-bold mb-4 text-center">
                 Progress Tracking
@@ -236,7 +237,7 @@ const Services = () => {
               className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
             >
               <div className="text-brand-blue mb-4">
-                <Calendar size={40} className="mx-auto" />
+                <HugeiconsIcon icon={Calendar01Icon} size={40} className="mx-auto" />
               </div>
               <h3 className="text-xl font-bold mb-4 text-center">
                 Flexible Scheduling
@@ -287,6 +288,7 @@ const Services = () => {
                 src="/images/trainer.jpg"
                 alt="Trainer"
                 className="rounded-2xl shadow-xl"
+                onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
               />
             </AnimatedSection>
 
@@ -311,7 +313,7 @@ const Services = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="bg-gray-800 p-6 rounded-xl">
                   <div className="text-brand-gold mb-4">
-                    <Trophy size={32} />
+                    <HugeiconsIcon icon={ChampionIcon} size={32} />
                   </div>
                   <h4 className="text-lg font-bold mb-2">Result-Oriented</h4>
                   <p className="text-gray-300">
@@ -322,7 +324,7 @@ const Services = () => {
 
                 <div className="bg-gray-800 p-6 rounded-xl">
                   <div className="text-brand-gold mb-4">
-                    <Users size={32} />
+                    <HugeiconsIcon icon={UserGroupIcon} size={32} />
                   </div>
                   <h4 className="text-lg font-bold mb-2">
                     Personalized Approach
@@ -343,8 +345,8 @@ const Services = () => {
         <div className="sm:container mx-auto">
           <motion.div
             className="max-w-4xl mx-auto text-center"
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration }}
           >

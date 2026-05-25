@@ -79,7 +79,7 @@ export default {
 			},
 			fontFamily: {
 				sans: ['Geom', 'sans-serif'],
-				heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+				heading: ['"Bricolage Grotesque"', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

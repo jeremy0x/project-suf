@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
-import { Check, Info } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CheckmarkCircle01Icon, InformationCircleIcon } from "@hugeicons/core-free-icons";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
@@ -11,7 +12,7 @@ import {
   AccordionContent,
 } from "@/components/ui/radix-accordion";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { BeamsBackground } from "@/components/ui/beams-background";
+import { GridBackground } from "@/components/ui/grid-background";
 
 const pricingPlans = {
   basic: [
@@ -85,14 +86,11 @@ const Pricing = () => {
   const duration = reduceMotion ? 0 : 0.3;
   const location = useLocation();
 
-  // Handle hash scroll on mount and location change
   useEffect(() => {
     if (location.hash) {
-      const element = document.querySelector(location.hash);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth" });
-        }, 100);
+      const el = document.querySelector(location.hash);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 100);
       }
     }
   }, [location]);
@@ -108,11 +106,10 @@ const Pricing = () => {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+    hidden: { opacity: 0, y: 20, },
     visible: {
       opacity: 1,
       y: 0,
-      filter: "blur(0px)",
       transition: { duration },
     },
   };
@@ -120,7 +117,7 @@ const Pricing = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <BeamsBackground className="pt-32 pb-16 text-white" intensity="strong">
+      <GridBackground className="pt-32 pb-16 text-white">
         <div className="sm:container mx-auto px-4 relative">
           <motion.div
             className="text-center"
@@ -136,7 +133,7 @@ const Pricing = () => {
             </p>
           </motion.div>
         </div>
-      </BeamsBackground>
+      </GridBackground>
 
       {/* Registration Fee */}
       <motion.section
@@ -149,8 +146,8 @@ const Pricing = () => {
         <div className="sm:container mx-auto px-8">
           <motion.div
             className="text-center"
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20, }}
+            whileInView={{ opacity: 1, y: 0, }}
             viewport={{ once: true }}
             transition={{ duration }}
           >
@@ -205,8 +202,8 @@ const Pricing = () => {
           {(activeTab === "all" || activeTab === "basic") && (
             <motion.div
               className="mb-16"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20, }}
+              whileInView={{ opacity: 1, y: 0, }}
               viewport={{ once: true }}
               transition={{ duration }}
             >
@@ -244,20 +241,19 @@ const Pricing = () => {
                       </h3>
                       <div className="flex flex-col gap-2 mb-6 flex-grow">
                         <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
+                          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-green-500 mr-2" size={16} />
                           <span className="text-sm">
                             Access to all equipment
                           </span>
                         </div>
                         <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
+                          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-green-500 mr-2" size={16} />
                           <span className="text-sm">Dressing room access</span>
                         </div>
                       </div>
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
-                          plan.name,
-                        )}`}
+                          plan.name)}`}
                         className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
                         aria-label={`Choose ${plan.name} plan`}
                       >
@@ -274,8 +270,8 @@ const Pricing = () => {
           {(activeTab === "all" || activeTab === "personal") && (
             <motion.div
               className="mb-16"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20, }}
+              whileInView={{ opacity: 1, y: 0, }}
               viewport={{ once: true }}
               transition={{ duration }}
             >
@@ -314,21 +310,21 @@ const Pricing = () => {
                         </h3>
                         <div className="flex flex-col gap-2 mb-6 flex-grow">
                           <div className="flex items-center">
-                            <Check className="text-green-500 mr-2" size={16} />
+                            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-green-500 mr-2" size={16} />
                             <span className="text-sm">Personal trainer</span>
                           </div>
                           <div className="flex items-center">
-                            <Check className="text-green-500 mr-2" size={16} />
+                            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-green-500 mr-2" size={16} />
                             <span className="text-sm">
                               Customized workout plan
                             </span>
                           </div>
                           <div className="flex items-center">
-                            <Check className="text-green-500 mr-2" size={16} />
+                            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-green-500 mr-2" size={16} />
                             <span className="text-sm">Progress tracking</span>
                           </div>
                           <div className="flex items-center">
-                            <Check className="text-green-500 mr-2" size={16} />
+                            <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-green-500 mr-2" size={16} />
                             <span className="text-sm">
                               Nutritional guidance
                             </span>
@@ -336,8 +332,7 @@ const Pricing = () => {
                         </div>
                         <Link
                           to={`/contact?source=pricing&plan=${encodeURIComponent(
-                            plan.name,
-                          )}`}
+                            plan.name)}`}
                           className={`block text-center py-2 px-4 rounded-full transition-colors mt-auto font-heading ${
                             plan.recommended
                               ? "bg-brand-gold text-black hover:bg-brand-gold/90"
@@ -359,8 +354,8 @@ const Pricing = () => {
           {(activeTab === "all" || activeTab === "special") && (
             <motion.div
               className="mb-16"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20, }}
+              whileInView={{ opacity: 1, y: 0, }}
               viewport={{ once: true }}
               transition={{ duration }}
             >
@@ -408,8 +403,7 @@ const Pricing = () => {
                       )}
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
-                          plan.name,
-                        )}`}
+                          plan.name)}`}
                         className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
                         aria-label={`Choose ${plan.name} plan`}
                       >
@@ -426,8 +420,8 @@ const Pricing = () => {
           {(activeTab === "all" || activeTab === "inHome") && (
             <motion.div
               className="mb-16"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20, }}
+              whileInView={{ opacity: 1, y: 0, }}
               viewport={{ once: true }}
               transition={{ duration }}
             >
@@ -460,13 +454,13 @@ const Pricing = () => {
                       </h3>
                       <div className="flex flex-col gap-2 mb-6">
                         <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
+                          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-green-500 mr-2" size={16} />
                           <span className="text-sm">
                             Personal trainer at your home
                           </span>
                         </div>
                         <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
+                          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-green-500 mr-2" size={16} />
                           <span className="text-sm">
                             Customized workout plan
                           </span>
@@ -474,8 +468,7 @@ const Pricing = () => {
                       </div>
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
-                          plan.name,
-                        )}`}
+                          plan.name)}`}
                         className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
                         aria-label={`Choose ${plan.name} plan`}
                       >
@@ -492,8 +485,8 @@ const Pricing = () => {
           {(activeTab === "all" || activeTab === "online") && (
             <motion.div
               className="mb-16"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20, }}
+              whileInView={{ opacity: 1, y: 0, }}
               viewport={{ once: true }}
               transition={{ duration }}
             >
@@ -526,20 +519,19 @@ const Pricing = () => {
                       </h3>
                       <div className="flex flex-col gap-2 mb-6">
                         <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
+                          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-green-500 mr-2" size={16} />
                           <span className="text-sm">
                             Virtual training sessions
                           </span>
                         </div>
                         <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
+                          <HugeiconsIcon icon={CheckmarkCircle01Icon} className="text-green-500 mr-2" size={16} />
                           <span className="text-sm">Video call guidance</span>
                         </div>
                       </div>
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
-                          plan.name,
-                        )}`}
+                          plan.name)}`}
                         className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
                         aria-label={`Choose ${plan.name} plan`}
                       >
@@ -555,8 +547,8 @@ const Pricing = () => {
           {/* Other Services */}
           {(activeTab === "all" || activeTab === "other") && (
             <motion.div
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20, }}
+              whileInView={{ opacity: 1, y: 0, }}
               viewport={{ once: true }}
               transition={{ duration }}
             >
@@ -589,8 +581,7 @@ const Pricing = () => {
                       </h3>
                       <Link
                         to={`/contact?source=pricing&plan=${encodeURIComponent(
-                          plan.name,
-                        )}`}
+                          plan.name)}`}
                         className="block text-center py-2 px-4 bg-brand-blue text-white rounded-full hover:bg-brand-blue/90 transition-colors font-heading mt-auto"
                         aria-label={`Choose ${plan.name} service`}
                       >
@@ -610,8 +601,8 @@ const Pricing = () => {
         <div className="sm:container mx-auto">
           <motion.div
             className="text-center mb-12"
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20, }}
+            whileInView={{ opacity: 1, y: 0, }}
             viewport={{ once: true }}
             transition={{ duration }}
           >
@@ -729,8 +720,8 @@ const Pricing = () => {
         <div className="sm:container mx-auto">
           <motion.div
             className="max-w-4xl mx-auto text-center"
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20, }}
+            whileInView={{ opacity: 1, y: 0, }}
             viewport={{ once: true }}
             transition={{ duration }}
           >

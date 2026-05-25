@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { motion } from "framer-motion";
 
 interface JoinNowButtonProps {
@@ -30,7 +31,7 @@ export function JoinNowButton({
       whileTap={{ scale: 0.95 }}
     >
       <span>JOIN NOW</span>
-      <ArrowRight size={16} className="ml-2" />
+      <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2"  />
     </motion.div>
   );
 

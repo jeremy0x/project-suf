@@ -6,54 +6,37 @@ interface AnimatedSectionProps {
   className?: string;
   delay?: number;
   direction?: "up" | "down" | "left" | "right";
-  blurAmount?: number;
 }
+
+const INITIAL_POSITIONS = {
+  up: { y: 20, opacity: 0 },
+  down: { y: -20, opacity: 0 },
+  left: { x: 20, opacity: 0 },
+  right: { x: -20, opacity: 0 },
+} as const;
+
+const ANIMATE_POSITIONS = {
+  up: { y: 0, opacity: 1 },
+  down: { y: 0, opacity: 1 },
+  left: { x: 0, opacity: 1 },
+  right: { x: 0, opacity: 1 },
+} as const;
 
 const AnimatedSection: React.FC<AnimatedSectionProps> = ({
   children,
   className = "",
   delay = 0,
   direction = "up",
-  blurAmount = 8,
 }) => {
   const { reduceMotion } = useAnimation();
-  const duration = reduceMotion ? 0 : 0.3;
-
-  const getInitialPosition = () => {
-    switch (direction) {
-      case "up":
-        return { y: 20, opacity: 0, filter: `blur(${blurAmount}px)` };
-      case "down":
-        return { y: -20, opacity: 0, filter: `blur(${blurAmount}px)` };
-      case "left":
-        return { x: 20, opacity: 0, filter: `blur(${blurAmount}px)` };
-      case "right":
-        return { x: -20, opacity: 0, filter: `blur(${blurAmount}px)` };
-      default:
-        return { y: 20, opacity: 0, filter: `blur(${blurAmount}px)` };
-    }
-  };
-
-  const getAnimatePosition = () => {
-    switch (direction) {
-      case "up":
-      case "down":
-        return { y: 0, opacity: 1, filter: "blur(0px)" };
-      case "left":
-      case "right":
-        return { x: 0, opacity: 1, filter: "blur(0px)" };
-      default:
-        return { y: 0, opacity: 1, filter: "blur(0px)" };
-    }
-  };
 
   return (
     <motion.div
       className={className}
-      initial={getInitialPosition()}
-      whileInView={getAnimatePosition()}
-      viewport={{ once: true }}
-      transition={{ duration: 0.3, delay }}
+      initial={INITIAL_POSITIONS[direction]}
+      whileInView={ANIMATE_POSITIONS[direction]}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: reduceMotion ? 0 : 0.3, delay }}
     >
       {children}
     </motion.div>
