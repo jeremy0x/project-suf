@@ -97,7 +97,10 @@ const Gallery = () => {
       else if (event.key === "Escape") closeLightbox();
     };
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
   }, [closeLightbox, goToNext, goToPrevious, lightboxOpen]);
 
   return (

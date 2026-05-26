@@ -31,10 +31,14 @@ const FeaturedProductsSection = () => {
 
   React.useEffect(() => {
     if (!carouselApi) return;
-    setCanScroll(carouselApi.scrollSnapList().length > 1);
-    carouselApi.on("reInit", () => {
+    const updateCanScroll = () => {
       setCanScroll(carouselApi.scrollSnapList().length > 1);
-    });
+    };
+    updateCanScroll();
+    carouselApi.on("reInit", updateCanScroll);
+    return () => {
+      carouselApi.off("reInit", updateCanScroll);
+    };
   }, [carouselApi]);
 
   if (!isLoading && products.length === 0) return null;

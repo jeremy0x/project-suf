@@ -137,11 +137,15 @@ export function CategoryManager({ categories, onAdd, onRename, onRemove }: Categ
       <ConfirmModal
         open={!!confirmDel}
         onConfirm={async () => {
-          if (confirmDel) {
+          if (!confirmDel) return;
+          try {
             await onRemove(confirmDel);
             gooeyToast.success("Category removed");
+          } catch {
+            gooeyToast.error("Failed to remove category");
+          } finally {
+            setConfirmDel(null);
           }
-          setConfirmDel(null);
         }}
         onCancel={() => setConfirmDel(null)}
         title="Delete Category"

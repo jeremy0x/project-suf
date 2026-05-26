@@ -71,10 +71,15 @@ export function ProductForm({ product, onDone, categories }: ProductFormProps) {
       gooeyToast.error("Name and price are required");
       return;
     }
+    const price = Number(form.price);
+    if (!Number.isFinite(price) || price < 0) {
+      gooeyToast.error("Price must be a valid non-negative number");
+      return;
+    }
     const data = {
       name: form.name,
       description: form.description,
-      price: parseFloat(form.price),
+      price,
       category: form.category || "general",
       images: form.images,
       stockQuantity: parseInt(form.stockQuantity.toString()) || 0,

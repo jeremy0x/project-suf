@@ -36,6 +36,15 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     const { id, ...fields } = args;
+    if (fields.name) {
+      const existing = await ctx.db
+        .query("productCategories")
+        .withIndex("by_name", (q) => q.eq("name", fields.name!))
+        .first();
+      if (existing && existing._id !== id) {
+        throw new Error("Category already exists");
+      }
+    }
     await ctx.db.patch(id, fields);
   },
 });

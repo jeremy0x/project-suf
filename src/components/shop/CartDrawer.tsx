@@ -67,7 +67,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                   <HugeiconsIcon icon={ShoppingCart02Icon} size={20} className="text-brand-blue" />
                   <h2 className="font-heading font-bold text-lg">Cart ({totalItems})</h2>
                 </div>
-                <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+                <button onClick={onClose} aria-label="Close cart" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
                   <HugeiconsIcon icon={Cancel01Icon} size={20} />
                 </button>
               </div>
@@ -93,7 +93,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
                   <HugeiconsIcon icon={ShoppingCart02Icon} size={20} className="text-brand-blue" />
                   <h2 className="font-heading font-bold text-lg">Cart ({totalItems})</h2>
                 </div>
-                <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+                <button onClick={onClose} aria-label="Close cart" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
                   <HugeiconsIcon icon={Cancel01Icon} size={20} />
                 </button>
               </div>
@@ -153,6 +153,7 @@ function CartContent({
                 <div className="flex items-center gap-2 mt-2">
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    aria-label={`Decrease quantity of ${item.name}`}
                     className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
                   >
                     <HugeiconsIcon icon={MinusSignIcon} size={14} />
@@ -160,12 +161,14 @@ function CartContent({
                   <span className="text-sm font-medium w-6 text-center">{item.quantity}</span>
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    aria-label={`Increase quantity of ${item.name}`}
                     className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
                   >
                     <HugeiconsIcon icon={PlusSignIcon} size={14} />
                   </button>
                   <button
                     onClick={() => removeItem(item.id)}
+                    aria-label={`Remove ${item.name} from cart`}
                     className="p-1 ml-auto hover:bg-red-50 dark:hover:bg-red-950 text-red-400 rounded-md transition-colors"
                   >
                     <HugeiconsIcon icon={Delete02Icon} size={14} />

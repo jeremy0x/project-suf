@@ -96,68 +96,34 @@ const MOCK_PRODUCTS = [
 export const run = mutation({
   handler: async (ctx) => {
     const existing = await ctx.db.query("products").collect();
-    if (existing.length > 0) {
-      return { skipped: true, message: "Products already exist, skipping seed" };
-    }
-
-    for (const product of MOCK_PRODUCTS) {
-      const { imageSeed, ...data } = product;
-      await ctx.db.insert("products", {
-        ...data,
-        images: [
-          {
-            url: `https://picsum.photos/seed/${imageSeed}/600/600`,
-            alt: product.name,
-            order: 0,
-          },
-          {
-            url: `https://picsum.photos/seed/${imageSeed}-2/600/600`,
-            alt: `${product.name} (alternate view)`,
-            order: 1,
-          },
-        ],
-        createdAt: Date.now(),
-      });
-    }
-
-    const existingCats = await ctx.db
-      .query("imageCategories")
-      .withIndex("by_section", (q) => q.eq("section", "gallery"))
-      .collect();
-
-    if (existingCats.length === 0) {
-      const galleryCats = [
-        { name: "facilities", label: "Facilities" },
-        { name: "workout", label: "Workout" },
-        { name: "community", label: "Community" },
-        { name: "transformation", label: "Transformation" },
-        { name: "accessories", label: "Accessories" },
-      ];
-      for (let i = 0; i < galleryCats.length; i++) {
-        await ctx.db.insert("imageCategories", {
-          section: "gallery",
-          ...galleryCats[i],
-          order: i + 1,
+    if (existing.length === 0) {
+      for (const product of MOCK_PRODUCTS) {
+        const { imageSeed, ...data } = product;
+        await ctx.db.insert("products", {
+          ...data,
+          images: [
+            { url: `https://picsum.photos/seed/${imageSeed}/600/600`, alt: product.name, order: 0 },
+            { url: `https://picsum.photos/seed/${imageSeed}-2/600/600`, alt: `${product.name} (alternate view)`, order: 1 },
+          ],
+          createdAt: Date.now(),
         });
       }
     }
 
-    const existingProdCats = await ctx.db.query("productCategories").collect();
-    if (existingProdCats.length === 0) {
-      const prodCatNames = [...new Set(MOCK_PRODUCTS.map((p) => p.category))];
-      for (let i = 0; i < prodCatNames.length; i++) {
-        await ctx.db.insert("productCategories", {
-          name: prodCatNames[i],
-          label: prodCatNames[i].charAt(0).toUpperCase() + prodCatNames[i].slice(1),
-          order: i,
-        });
+    const categories = await ctx.db.query("imageCategories").collect();
+    if (categories.length === 0) {
+      for (const cat of GALLERY_CATEGORIES) {
+        await ctx.db.insert("imageCategories", cat);
       }
     }
 
-    return {
-      skipped: false,
-      productsCreated: MOCK_PRODUCTS.length,
-      categoriesCreated: 5,
-    };
+    const productCats = await ctx.db.query("productCategories").collect();
+    if (productCats.length === 0) {
+      for (const cat of PRODUCT_CATEGORIES) {
+        await ctx.db.insert("productCategories", cat);
+      }
+    }
+
+    return { skipped: false, message: "Seed complete" };
   },
 });
