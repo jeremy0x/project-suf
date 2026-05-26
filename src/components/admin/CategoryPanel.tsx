@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { HugeiconsIcon } from "@hugeicons/react";
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
 import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface CategoryPanelProps {
   title: string;
-  icon: React.ElementType;
+  icon: IconSvgElement;
   children: React.ReactNode;
   onClose: () => void;
 }

@@ -126,7 +126,7 @@ export default function Admin() {
           </div>
         </header>
 
-        <main className="p-6 space-y-6">
+        <main className="p-4 sm:p-6 space-y-6">
           <Suspense fallback={<TabFallback />}>
             {activeTab === "dashboard" && <DashboardTab />}
             {activeTab === "products" && <ProductsTab />}

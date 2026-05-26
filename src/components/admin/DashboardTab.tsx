@@ -59,7 +59,7 @@ export function DashboardTab() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 border border-gray-200 dark:border-gray-800">
           <h3 className="font-heading font-bold text-sm mb-4 text-gray-500">Stock Status</h3>
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
             <ResponsiveContainer width={160} height={160}>
               <PieChart>
                 <Pie

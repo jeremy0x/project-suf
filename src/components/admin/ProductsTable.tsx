@@ -63,90 +63,125 @@ export function ProductsTable({ products, onEdit, onDelete, categoryLabels }: Pr
     return "text-green-600 bg-green-50 dark:bg-green-950";
   };
 
+  const catLabel = (cat: string) => categoryLabels?.[cat] || cat.charAt(0).toUpperCase() + cat.slice(1);
+
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm">
-        <thead className="bg-gray-50 dark:bg-gray-800/50">
-          <tr>
-            <th className="text-left px-3 py-3 font-medium">Product</th>
-            <th className="text-left px-3 py-3 font-medium">Price</th>
-            <th className="text-left px-3 py-3 font-medium">Category</th>
-            <th className="text-left px-3 py-3 font-medium">Stock</th>
-            <th className="text-right px-3 py-3 font-medium">Actions</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-          {sorted.map((product, idx) => (
-            <tr
-              key={product._id}
-              className={`hover:bg-gray-50 dark:hover:bg-gray-800/30 ${dragId === product._id ? "opacity-50" : ""}`}
-              draggable
-              onDragStart={() => setDragId(product._id)}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={() => handleDrop(idx)}
-            >
-              <td className="px-3 py-3">
-                <div className="flex items-center gap-3">
-                  {product.images?.[0] && (
-                    <img src={product.images[0].url} alt="" className="w-14 h-14 rounded-xl object-cover shrink-0" />
-                  )}
-                  <div className="min-w-0 max-w-[240px]">
-                    <p className="font-medium truncate">{product.name}</p>
-                    <p className="text-xs text-gray-400 truncate">{product.description}</p>
-                  </div>
-                </div>
-              </td>
-              <td className="px-3 py-3 tabular-nums">
-                {"\u20A6"}{product.price.toLocaleString()}
-              </td>
-              <td className="px-3 py-3 text-gray-500">
-                {categoryLabels?.[product.category] || product.category.charAt(0).toUpperCase() + product.category.slice(1)}
-              </td>
-              <td className="px-3 py-3">
-                <span className={`text-xs font-medium px-2 py-1 rounded-full ${stockColor(product.stockQuantity)}`}>
+    <>
+      {/* Mobile card view */}
+      <div className="sm:hidden divide-y divide-gray-100 dark:divide-gray-800">
+        {sorted.map((product, idx) => (
+          <div key={product._id} className="p-4 space-y-3">
+            <div className="flex items-start gap-3">
+              {product.images?.[0] && (
+                <img src={product.images[0].url} alt="" className="w-16 h-16 rounded-xl object-cover shrink-0" />
+              )}
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-sm truncate">{product.name}</p>
+                <p className="text-xs text-gray-400 truncate mt-0.5">{product.description}</p>
+                <p className="text-sm font-semibold mt-1 tabular-nums">
+                  {"\u20A6"}{product.price.toLocaleString()}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-500">{catLabel(product.category)}</span>
+                <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${stockColor(product.stockQuantity)}`}>
                   {product.stockQuantity ?? 0}
                 </span>
-              </td>
-              <td className="px-3 py-3 text-right">
-                <div className="flex items-center justify-end gap-0.5">
-                  <button
-                    onClick={() => moveUp(idx)}
-                    disabled={idx === 0}
-                    className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded disabled:opacity-20 transition-colors"
-                    title="Move up"
-                    aria-label={`Move ${product.name} up`}
-                  >
-                    <HugeiconsIcon icon={ArrowUp01Icon} size={14} />
-                  </button>
-                  <button
-                    onClick={() => moveDown(idx)}
-                    disabled={idx === sorted.length - 1}
-                    className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded disabled:opacity-20 transition-colors"
-                    title="Move down"
-                    aria-label={`Move ${product.name} down`}
-                  >
-                    <HugeiconsIcon icon={ArrowDown01Icon} size={14} />
-                  </button>
-                  <button
-                    onClick={() => onEdit(product)}
-                    className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
-                    aria-label={`Edit ${product.name}`}
-                  >
-                    <HugeiconsIcon icon={Edit02Icon} size={14} />
-                  </button>
-                  <button
-                    onClick={() => onDelete(product)}
-                    className="p-1.5 hover:bg-red-50 dark:hover:bg-red-950 text-red-400 rounded-full transition-colors"
-                    aria-label={`Delete ${product.name}`}
-                  >
-                    <HugeiconsIcon icon={Delete02Icon} size={14} />
-                  </button>
-                </div>
-              </td>
+              </div>
+              <div className="flex items-center gap-0.5">
+                <button onClick={() => moveUp(idx)} disabled={idx === 0}
+                  className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded disabled:opacity-20 transition-colors"
+                  aria-label={`Move ${product.name} up`}>
+                  <HugeiconsIcon icon={ArrowUp01Icon} size={14} />
+                </button>
+                <button onClick={() => moveDown(idx)} disabled={idx === sorted.length - 1}
+                  className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded disabled:opacity-20 transition-colors"
+                  aria-label={`Move ${product.name} down`}>
+                  <HugeiconsIcon icon={ArrowDown01Icon} size={14} />
+                </button>
+                <button onClick={() => onEdit(product)}
+                  className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                  aria-label={`Edit ${product.name}`}>
+                  <HugeiconsIcon icon={Edit02Icon} size={14} />
+                </button>
+                <button onClick={() => onDelete(product)}
+                  className="p-1.5 hover:bg-red-50 dark:hover:bg-red-950 text-red-400 rounded-full transition-colors"
+                  aria-label={`Delete ${product.name}`}>
+                  <HugeiconsIcon icon={Delete02Icon} size={14} />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop table view */}
+      <div className="hidden sm:block overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead className="bg-gray-50 dark:bg-gray-800/50">
+            <tr>
+              <th className="text-left px-3 py-3 font-medium">Product</th>
+              <th className="text-left px-3 py-3 font-medium">Price</th>
+              <th className="text-left px-3 py-3 font-medium">Category</th>
+              <th className="text-left px-3 py-3 font-medium">Stock</th>
+              <th className="text-right px-3 py-3 font-medium">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+            {sorted.map((product, idx) => (
+              <tr key={product._id}
+                className={`hover:bg-gray-50 dark:hover:bg-gray-800/30 ${dragId === product._id ? "opacity-50" : ""}`}
+                draggable onDragStart={() => setDragId(product._id)}
+                onDragOver={(e) => e.preventDefault()} onDrop={() => handleDrop(idx)}>
+                <td className="px-3 py-3">
+                  <div className="flex items-center gap-3">
+                    {product.images?.[0] && (
+                      <img src={product.images[0].url} alt="" className="w-14 h-14 rounded-xl object-cover shrink-0" />
+                    )}
+                    <div className="min-w-0 max-w-[240px]">
+                      <p className="font-medium truncate">{product.name}</p>
+                      <p className="text-xs text-gray-400 truncate">{product.description}</p>
+                    </div>
+                  </div>
+                </td>
+                <td className="px-3 py-3 tabular-nums">{"\u20A6"}{product.price.toLocaleString()}</td>
+                <td className="px-3 py-3 text-gray-500">{catLabel(product.category)}</td>
+                <td className="px-3 py-3">
+                  <span className={`text-xs font-medium px-2 py-1 rounded-full ${stockColor(product.stockQuantity)}`}>
+                    {product.stockQuantity ?? 0}
+                  </span>
+                </td>
+                <td className="px-3 py-3 text-right">
+                  <div className="flex items-center justify-end gap-0.5">
+                    <button onClick={() => moveUp(idx)} disabled={idx === 0}
+                      className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded disabled:opacity-20 transition-colors"
+                      title="Move up" aria-label={`Move ${product.name} up`}>
+                      <HugeiconsIcon icon={ArrowUp01Icon} size={14} />
+                    </button>
+                    <button onClick={() => moveDown(idx)} disabled={idx === sorted.length - 1}
+                      className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded disabled:opacity-20 transition-colors"
+                      title="Move down" aria-label={`Move ${product.name} down`}>
+                      <HugeiconsIcon icon={ArrowDown01Icon} size={14} />
+                    </button>
+                    <button onClick={() => onEdit(product)}
+                      className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                      aria-label={`Edit ${product.name}`}>
+                      <HugeiconsIcon icon={Edit02Icon} size={14} />
+                    </button>
+                    <button onClick={() => onDelete(product)}
+                      className="p-1.5 hover:bg-red-50 dark:hover:bg-red-950 text-red-400 rounded-full transition-colors"
+                      aria-label={`Delete ${product.name}`}>
+                      <HugeiconsIcon icon={Delete02Icon} size={14} />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }

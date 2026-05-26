@@ -96,9 +96,9 @@ export function GalleryTab() {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
         <p className="text-sm text-gray-500">{filtered.length} images</p>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => setShowGalleryCatPanel(true)}
             className="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 rounded-full font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
@@ -250,7 +250,7 @@ export function GalleryTab() {
             categories={galleryCats as Category[]}
             onAdd={async (name, label) => { await createCat({ section: "gallery", name, label, order: galleryCats.length + 1 }); }}
             onRename={async (id, name, label, oldName) => { await renameCat({ id, name, label, oldName }); }}
-            onRemove={async (id) => { await removeCat({ id }); }}
+            onRemove={async (id) => { await removeCat({ id: id as Id<"imageCategories"> }); }}
           />
         </CategoryPanel>
         )}

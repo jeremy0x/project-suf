@@ -85,9 +85,9 @@ export function CategoryManager({ categories, onAdd, onRename, onRemove }: Categ
       {categories.length === 0 ? (
         <div className="text-center py-10 text-gray-400 text-sm">No categories yet</div>
       ) : (
-        <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {categories.map((cat, i) => (
-            <div key={cat._id} className="relative flex items-center justify-between px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+            <div key={cat._id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 flex items-center justify-between gap-2 hover:shadow-sm transition-shadow">
               {editId === cat._id ? (
                 <input
                   type="text"
@@ -111,13 +111,13 @@ export function CategoryManager({ categories, onAdd, onRename, onRemove }: Categ
                     }
                     handleRename(cat, editVal);
                   }}
-                  className="flex-1 text-sm font-medium bg-gray-100 dark:bg-gray-800 rounded-full px-3 py-1 focus:outline-none focus:ring-2 focus:ring-brand-blue"
+                  className="flex-1 text-sm font-medium bg-gray-100 dark:bg-gray-700 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-brand-blue"
                   autoFocus
                 />
               ) : (
                 <button
                   onClick={() => { setEditId(cat._id); setEditVal(cat.label); }}
-                  className="text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-brand-blue transition-colors text-left"
+                  className="text-sm font-medium text-gray-900 dark:text-gray-100 hover:text-brand-blue transition-colors text-left truncate"
                 >
                   {cat.label}
                 </button>
@@ -128,7 +128,6 @@ export function CategoryManager({ categories, onAdd, onRename, onRemove }: Categ
               >
                 <HugeiconsIcon icon={Delete02Icon} size={14} />
               </button>
-              {i < categories.length - 1 && <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[10%] border-t border-dashed border-gray-200 dark:border-gray-700" />}
             </div>
           ))}
         </div>

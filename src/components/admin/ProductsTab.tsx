@@ -4,7 +4,7 @@ import { api } from "../../../convex/_generated/api";
 import { gooeyToast } from "goey-toast";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon, Package02Icon } from "@hugeicons/core-free-icons";
-import type { Doc } from "../../../convex/_generated/dataModel";
+import type { Doc, Id } from "../../../convex/_generated/dataModel";
 import { AnimatePresence } from "framer-motion";
 import { ProductsTable } from "@/components/admin/ProductsTable";
 import { ProductForm } from "@/components/admin/ProductForm";
@@ -29,9 +29,9 @@ export function ProductsTab() {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex flex-col sm:flex-row items-end sm:items-center justify-between gap-3 mb-4">
         <div />
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => setShowProductCatPanel(true)}
             className="px-4 py-2 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 rounded-full font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
@@ -98,7 +98,7 @@ export function ProductsTab() {
             categories={prodCats}
             onAdd={async (name, label) => { await createProductCat({ name, label }); }}
             onRename={async (id, name, label, oldName) => { await renameProductCat({ id, name, label, oldName }); }}
-            onRemove={async (id) => { await removeProductCat({ id }); }}
+            onRemove={async (id) => { await removeProductCat({ id: id as Id<"productCategories"> }); }}
           />
         </CategoryPanel>
       )}
