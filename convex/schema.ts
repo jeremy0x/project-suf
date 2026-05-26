@@ -43,4 +43,9 @@ export default defineSchema({
     label: v.string(),
     order: v.number(),
   }).index("by_name", ["name"]),
+
+  sessions: defineTable({
+    token: v.string(),
+    expiresAt: v.number(),
+  }).index("by_token", ["token"]),
 });

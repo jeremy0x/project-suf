@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { LoaderPinwheelIcon, Menu01Icon } from "@hugeicons/core-free-icons";
-import { verifyToken, getCookie, eraseCookie } from "@/lib/crypto";
+import { getCookie, eraseCookie } from "@/lib/crypto";
 import { AdminLogin } from "@/components/admin/AdminLogin";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 
@@ -34,41 +36,39 @@ export default function Admin() {
   const pathTab = location.pathname.replace(/^\/admin\/?/, "");
   const activeTab = (pathTab && TAB_LABELS[pathTab as Tab] ? pathTab : "dashboard") as Tab;
 
-  const [authenticated, setAuthenticated] = useState(false);
-  const [checkingAuth, setCheckingAuth] = useState(true);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [cookieToken, setCookieToken] = useState<string | undefined>(undefined);
+  const [checkedCookie, setCheckedCookie] = useState(false);
 
   useEffect(() => {
-    async function verifyPersistedSession() {
-      try {
-        const token = getCookie("suf_admin_token");
-        if (token) {
-          const isValid = await verifyToken(token);
-          if (isValid) {
-            setAuthenticated(true);
-          } else {
-            eraseCookie("suf_admin_token");
-          }
-        }
-      } catch (err) {
-        console.error("Auto-login error:", err);
-      } finally {
-        setCheckingAuth(false);
-      }
-    }
-    verifyPersistedSession();
+    const token = getCookie("suf_admin_token");
+    setCookieToken(token);
+    setCheckedCookie(true);
   }, []);
 
+  const sessionValid = useQuery(api.auth.verify, cookieToken ? { token: cookieToken } : "skip");
+  const authenticated = sessionValid === true;
+  const checkingAuth = !checkedCookie || (cookieToken !== undefined && sessionValid === undefined);
+
+  useEffect(() => {
+    if (sessionValid === false) {
+      eraseCookie("suf_admin_token");
+    }
+  }, [sessionValid]);
+
+  const logoutMutation = useMutation(api.auth.logout);
   const handleLogout = useCallback(async () => {
     setShowLogoutConfirm(false);
     setIsLoggingOut(true);
+    if (cookieToken) {
+      await logoutMutation({ token: cookieToken });
+    }
     eraseCookie("suf_admin_token");
-    setAuthenticated(false);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setIsLoggingOut(false);
-  }, []);
+  }, [cookieToken, logoutMutation]);
 
   if (checkingAuth) {
     return (

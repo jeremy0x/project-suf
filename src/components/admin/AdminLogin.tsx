@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 import { motion } from "framer-motion";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
@@ -9,7 +11,7 @@ import {
   EyeIcon,
   ViewOffIcon,
 } from "@hugeicons/core-free-icons";
-import { generateToken, setCookie } from "@/lib/crypto";
+import { setCookie } from "@/lib/crypto";
 import Logo from "@/components/Logo";
 
 const itemVariants = {
@@ -66,23 +68,21 @@ export function AdminLogin({ onLogin }: { onLogin: () => void }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const loginMutation = useMutation(api.auth.login);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
-    if (password === adminPassword) {
-      setIsSigningIn(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      try {
-        const token = await generateToken();
-        setCookie("suf_admin_token", token, 7);
-        onLogin();
-      } catch {
-        setIsSigningIn(false);
-        setError("Encryption error occurred");
-      }
-    } else {
-      setError("Invalid password");
+    setIsSigningIn(true);
+    setError("");
+    try {
+      const result = await loginMutation({ password });
+      setCookie("suf_admin_token", result.token, 7);
+      onLogin();
+    } catch (err) {
+      setIsSigningIn(false);
+      setError(err instanceof Error ? err.message : "Invalid password");
+    }
+  };
     }
   };
 
