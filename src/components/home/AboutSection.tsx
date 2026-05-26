@@ -1,10 +1,13 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CheckmarkCircle01Icon } from "@hugeicons/core-free-icons";
 import { motion } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
+import { responsiveUrl } from "@/lib/images";
 
 const stats = [
   { value: "100+", label: "Active Members" },
@@ -24,6 +27,8 @@ const benefits = [
 
 const AboutSection = () => {
   const { reduceMotion } = useAnimation();
+  const aboutImages = useQuery(api.siteImages.listBySection, { section: "home-about" }) || [];
+  const aboutImage = aboutImages[0]?.url;
 
   const imageAnimProps = useMemo(() => ({
     initial: { opacity: 0, y: 20 },
@@ -63,7 +68,7 @@ const AboutSection = () => {
             <div className="relative">
               <div className="aspect-square rounded-2xl overflow-hidden glow">
                 <img
-                  src="/images/gym-squat-session.jpg"
+                  src={responsiveUrl(aboutImage, "medium")}
                   alt="Gym members performing barbell and goblet squats on green turf flooring"
                   className="w-full h-full object-cover"
                   onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}

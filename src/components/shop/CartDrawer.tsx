@@ -2,6 +2,7 @@ import { useCart } from "@/context/CartContext";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { responsiveUrl } from "@/lib/images";
 import {
   Cancel01Icon,
   MinusSignIcon,
@@ -140,7 +141,7 @@ function CartContent({
           items.map((item) => (
             <div key={item.id} className="flex gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50">
               <img
-                src={item.image}
+                src={responsiveUrl(item.image, "thumb")}
                 alt={item.name}
                 className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
               />

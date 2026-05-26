@@ -6,6 +6,7 @@ import { useAnimation } from "../../context/AnimationContext";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowDown01Icon } from "@hugeicons/core-free-icons";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
+import { responsiveUrl } from "@/lib/images";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -39,7 +40,7 @@ const scrollBtn = (
 const HeroSection = () => {
   const { reduceMotion } = useAnimation();
   const heroImages = useQuery(api.siteImages.listBySection, { section: "hero" }) || [];
-  const heroImage = heroImages[0]?.url || "/images/hero-image.jpg";
+  const heroImage = heroImages[0]?.url;
   const duration = reduceMotion ? 0 : 0.3;
 
   return (
@@ -117,7 +118,7 @@ const HeroSection = () => {
             <div className="absolute top-[-10%] right-[-10%] w-48 h-48 bg-brand-gold rounded-full blur-3xl opacity-30" />
             <div className="bg-gray-800 rounded-full overflow-hidden relative z-10 w-full h-full border-4 border-brand-blue shadow-xl shadow-brand-blue/20">
               <img
-                src={heroImage}
+                src={responsiveUrl(heroImage, "medium")}
                 alt="Shape Up Fitness hero"
                 className="w-full h-full object-cover object-center"
                 onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}

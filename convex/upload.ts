@@ -100,6 +100,8 @@ export const processUpload = action({
 
     const imageUrl = imgBBData.data.url;
 
+    let imageId: string | undefined;
+
     if (args.productId) {
       await ctx.runMutation(api.products.addImage, {
         productId: args.productId,
@@ -107,7 +109,7 @@ export const processUpload = action({
         alt: args.alt,
       });
     } else {
-      await ctx.runMutation(api.siteImages.create, {
+      imageId = await ctx.runMutation(api.siteImages.create, {
         section: args.section,
         category: args.category,
         url: imageUrl,
@@ -118,7 +120,7 @@ export const processUpload = action({
 
     await ctx.storage.delete(args.storageId);
 
-    return { url: imageUrl, deleteUrl: imgBBData.data.delete_url };
+    return { url: imageUrl, deleteUrl: imgBBData.data.delete_url, imageId };
   },
 });
 

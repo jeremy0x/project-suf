@@ -4,6 +4,7 @@ import { useFavorites } from "@/context/FavoritesContext";
 import { gooeyToast } from "goey-toast";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ShoppingCartCheckIn02Icon, FavouriteIcon } from "@hugeicons/core-free-icons";
+import { responsiveUrl } from "@/lib/images";
 
 interface ProductCardProps {
   _id: string;
@@ -29,7 +30,7 @@ export function ProductCard(props: ProductCardProps) {
   const { _id, name, price, description, images, stockQuantity } = props;
   const { addItem } = useCart();
   const { isFavorite, toggleFavorite } = useFavorites();
-  const image = images?.[0]?.url || "/placeholder.svg";
+  const image = images?.[0]?.url || "";
   const linkTo = `/shop/${_id.slice(-8)}`;
   const inStock = stockQuantity === undefined || stockQuantity > 0;
 
@@ -53,7 +54,7 @@ export function ProductCard(props: ProductCardProps) {
 
       <Link to={linkTo} className="block aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800 shrink-0 relative">
         <img
-          src={image}
+          src={responsiveUrl(image, "medium")}
           alt={name}
           className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${!inStock ? "opacity-50" : ""}`}
           onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}

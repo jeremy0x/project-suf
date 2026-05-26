@@ -7,6 +7,7 @@ import { useCart } from "@/context/CartContext";
 import { useFavorites } from "@/context/FavoritesContext";
 import { gooeyToast } from "goey-toast";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { responsiveUrl } from "@/lib/images";
 import {
   ArrowLeft01Icon,
   ArrowRight01Icon,
@@ -62,7 +63,7 @@ const ProductDetail = () => {
     .slice()
     .sort((a, b) => a.order - b.order)
     .map((img) => ({ url: img.url, alt: img.alt }));
-  if (images.length === 0) images.push({ url: "/placeholder.svg", alt: product.name });
+  if (images.length === 0) images.push({ url: "", alt: product.name });
 
   const inStock = product.stockQuantity === undefined || product.stockQuantity > 0;
 
@@ -71,7 +72,7 @@ const ProductDetail = () => {
       id: product._id,
       name: product.name,
       price: product.price,
-      image: images[0]?.url || "/placeholder.svg",
+      image: images[0]?.url || "",
       quantity: 1,
     });
     gooeyToast.success("Added to cart!");
@@ -120,7 +121,7 @@ const ProductDetail = () => {
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={currentImage}
-                    src={images[currentImage].url}
+                    src={responsiveUrl(images[currentImage].url, "medium")}
                     alt={images[currentImage].alt}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -158,7 +159,7 @@ const ProductDetail = () => {
                         i === currentImage ? "border-brand-blue" : "border-transparent opacity-60 hover:opacity-100"
                       }`}
                     >
-                      <img src={img.url} alt="" className="w-full h-full object-cover" />
+                      <img src={responsiveUrl(img.url, "thumb")} alt="" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }} />
                     </button>
                   ))}
                 </div>

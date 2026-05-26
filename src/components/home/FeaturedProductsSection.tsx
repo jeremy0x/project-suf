@@ -7,6 +7,7 @@ import { useCart } from "@/context/CartContext";
 import { useAnimation } from "../../context/AnimationContext";
 import { motion } from "framer-motion";
 import { gooeyToast } from "goey-toast";
+import { responsiveUrl } from "@/lib/images";
 import React from "react";
 import {
   Carousel,
@@ -87,7 +88,7 @@ const FeaturedProductsSection = () => {
               ))
             ) : (
               displayProducts.map((product, i) => {
-                const img = product.images?.[0]?.url || "/placeholder.svg";
+                const img = product.images?.[0]?.url || "";
                 return (
                   <CarouselItem
                     key={product._id}
@@ -108,10 +109,11 @@ const FeaturedProductsSection = () => {
                         className="block aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800 shrink-0"
                       >
                         <img
-                          src={img}
+                          src={responsiveUrl(img, "medium")}
                           alt={product.name}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           loading="lazy"
+                          onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
                         />
                       </Link>
                       <div className="p-4 flex flex-col flex-1">
