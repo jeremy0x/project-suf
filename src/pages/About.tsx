@@ -1,39 +1,95 @@
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
 import Layout from "../components/Layout";
-import { Award, Users, Clock } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Award01Icon, UserGroupIcon, Clock01Icon } from "@hugeicons/core-free-icons";
 import { motion } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { BeamsBackground } from "@/components/ui/beams-background";
+import { GridBackground } from "@/components/ui/grid-background";
+import { responsiveUrl } from "@/lib/images";
+
+const teamMembers = [
+  {
+    category: "adebayo-williams",
+    name: "Adebayo Williams",
+    role: "Founder & Head Coach",
+    image: "",
+    specialties: ["Body Building", "Strength Training", "Weight Loss", "Diet Training", "Boxing Training", "Cardio Training"],
+  },
+  {
+    category: "eteng-elvis",
+    name: "Eteng Elvis",
+    role: "Assistant Coach",
+    image: "",
+    specialties: ["Body Building", "Strength Training", "Weight Loss", "Cardio Training"],
+  },
+  {
+    category: "lawal-oluwatobi",
+    name: "Lawal Oluwatobi",
+    role: "Substitute Coach",
+    image: "",
+    specialties: ["Calisthenics", "Strength training"],
+  },
+  {
+    category: "uthman-raheem",
+    name: "Uthman Raheem",
+    role: "Boxing Coach",
+    image: "",
+    specialties: ["Boxing"],
+  },
+  {
+    category: "yusuf-mimololuwami",
+    name: "Yusuf Mimololuwami",
+    role: "Yoga instructor",
+    image: "",
+    specialties: ["Yoga", "Flexibility"],
+  },
+  {
+    category: "akande-moses",
+    name: "Akande Moses Oluwafemi",
+    role: "Data Manager",
+    image: "",
+    specialties: ["Records Management", "Subscription Management"],
+  },
+];
 
 const About = () => {
   const { reduceMotion } = useAnimation();
   const duration = reduceMotion ? 0 : 0.3;
 
+  const aboutImages = useQuery(api.siteImages.listBySection, { section: "about-story" }) || [];
+  const aboutImage = aboutImages[0]?.url;
+  const rawTeamImages = useQuery(api.siteImages.listBySection, { section: "team" }) || [];
+  const teamImageByCategory = Object.fromEntries(
+    (rawTeamImages as { category?: string; url: string }[]).map((i) => [i.category, i.url])
+  );
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.1 },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: { duration },
-    },
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration } },
   };
+
+  const teamWithImages = useMemo(() =>
+    teamMembers.map((member) => ({
+      ...member,
+      image: (member.category && teamImageByCategory[member.category]) || member.image,
+    })),
+  [teamImageByCategory]);
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <BeamsBackground className="pt-32 pb-16 text-white" intensity="strong">
+      <GridBackground className="pt-32 pb-16 text-white">
         <div className="sm:container mx-auto px-8 relative">
           <motion.div
             className="text-center"
@@ -45,21 +101,19 @@ const About = () => {
               About Us
             </h1>
             <p className="text-lg max-w-3xl mx-auto text-gray-300">
-              Learn more about Shape Up Fitness, our mission, values, and the
-              team behind our success.
+              Learn more about Shape Up Fitness, our mission, values, and the team behind our success.
             </p>
           </motion.div>
         </div>
-      </BeamsBackground>
+      </GridBackground>
 
-      {/* Our Story Section */}
       <section className="section-padding bg-background">
         <div className="sm:container mx-auto">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <motion.div
               className="lg:w-1/2"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration }}
             >
@@ -91,16 +145,17 @@ const About = () => {
             </motion.div>
             <motion.div
               className="lg:w-1/2"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration, delay: 0.3 }}
             >
               <div className="relative">
                 <img
-                  src="/images/community-outdoor-group-photo.jpg"
+                  src={responsiveUrl(aboutImage, "medium")}
                   alt="Shape Up Fitness community outdoor group photo"
                   className="rounded-2xl shadow-xl"
+                  onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
                 />
                 <div className="absolute -bottom-6 -right-6 text-3xl sm:text-5xl font-bold opacity-30 blur-[2px] text-brand-blue">
                   SINCE 2020
@@ -111,13 +166,12 @@ const About = () => {
         </div>
       </section>
 
-      {/* Mission & Values */}
       <section className="section-padding bg-brand-dark text-white px-8">
         <div className="sm:container mx-auto">
           <motion.div
             className="text-center mb-16"
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration }}
           >
@@ -141,11 +195,9 @@ const About = () => {
               className="bg-gray-800/60 p-8 rounded-xl shadow-lg glass-card"
             >
               <div className="mb-4 text-brand-gold">
-                <Award size={48} />
+                <HugeiconsIcon icon={Award01Icon} size={48} />
               </div>
-              <h3 className="text-xl font-bold mb-4 font-heading">
-                Excellence
-              </h3>
+              <h3 className="text-xl font-bold mb-4 font-heading">Excellence</h3>
               <p className="text-sm">
                 We strive for excellence in everything we do, from our facility
                 maintenance to our training programs and customer service.
@@ -157,7 +209,7 @@ const About = () => {
               className="bg-gray-800/60 p-8 rounded-xl shadow-lg glass-card"
             >
               <div className="mb-4 text-brand-gold">
-                <Users size={48} />
+                <HugeiconsIcon icon={UserGroupIcon} size={48} />
               </div>
               <h3 className="text-xl font-bold mb-4 font-heading">Community</h3>
               <p className="text-sm">
@@ -171,11 +223,9 @@ const About = () => {
               className="bg-gray-800/60 p-8 rounded-xl shadow-lg glass-card"
             >
               <div className="mb-4 text-brand-gold">
-                <Clock size={48} />
+                <HugeiconsIcon icon={Clock01Icon} size={48} />
               </div>
-              <h3 className="text-xl font-bold mb-4 font-heading">
-                Dedication
-              </h3>
+              <h3 className="text-xl font-bold mb-4 font-heading">Dedication</h3>
               <p className="text-sm">
                 We're dedicated to your success, providing the guidance, tools,
                 and support you need to reach your fitness goals.
@@ -185,14 +235,12 @@ const About = () => {
 
           <motion.div
             className="mt-16 max-w-3xl mx-auto text-center"
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration, delay: 0.6 }}
           >
-            <h3 className="text-2xl font-bold mb-4 font-heading">
-              Our Mission
-            </h3>
+            <h3 className="text-2xl font-bold mb-4 font-heading">Our Mission</h3>
             <p className="text-sm mb-6">
               To inspire and empower individuals to transform their lives
               through fitness, providing expert guidance and a supportive
@@ -205,13 +253,12 @@ const About = () => {
         </div>
       </section>
 
-      {/* Team Section */}
       <section className="section-padding bg-background px-8">
         <div className="sm:container mx-auto">
           <motion.div
             className="text-center mb-16"
-            initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration }}
           >
@@ -230,71 +277,23 @@ const About = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {[
-              {
-                name: "Adebayo Williams",
-                role: "Founder & Head Coach",
-                image: "/images/adebayo-williams.jpg",
-                specialties: [
-                  "Body Building",
-                  "Strength Training",
-                  "Weight Loss",
-                  "Diet Training",
-                  "Boxing Training",
-                  "Cardio Training",
-                ],
-              },
-              {
-                name: "Eteng Elvis",
-                role: "Assistant Coach",
-                image: "/images/eteng-elvis.jpg",
-                specialties: [
-                  "Body Building",
-                  "Strength Training",
-                  "Weight Loss",
-                  "Cardio Training",
-                ],
-              },
-              {
-                name: "Lawal Oluwatobi",
-                role: "Substitute Coach",
-                image: "/images/lawal-oluwatobi.jpg",
-                specialties: ["Calisthenics", "Strength training"],
-              },
-              {
-                name: "Uthman Raheem",
-                role: "Boxing Coach",
-                image: "/images/uthman-raheem.jpg",
-                specialties: ["Boxing"],
-              },
-              {
-                name: "Yusuf Mimololuwami",
-                role: "Yoga instructor",
-                image: "/images/yusuf-mimololuwami.jpg",
-                specialties: ["Yoga", "Flexibility"],
-              },
-              {
-                name: "Akande Moses Oluwafemi",
-                role: "Data Manager",
-                image: "/images/akande-moses.jpg",
-                specialties: ["Records Management", "Subscription Management"],
-              },
-            ].map((member, index) => (
-              <motion.div key={index} variants={itemVariants}>
-                <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:translate-y-[-5px]">
-                  <div className="h-64 overflow-hidden">
+            {teamWithImages.map((member, index) => (
+              <motion.div key={index} variants={itemVariants} className="h-full">
+                <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:translate-y-[-5px] h-full flex flex-col">
+                  <div className="aspect-[3/4] overflow-hidden shrink-0">
                     <img
-                      src={member.image}
+                      src={responsiveUrl(member.image, "medium")}
                       alt={member.name}
                       className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110"
+                      onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
                     />
                   </div>
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-1">
                     <h3 className="text-xl font-bold mb-1 font-heading">
                       {member.name}
                     </h3>
                     <p className="text-brand-blue mb-3">{member.role}</p>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mt-auto">
                       {member.specialties.map((specialty, idx) => (
                         <span
                           key={idx}
@@ -312,7 +311,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="bg-brand-dark text-white py-20 relative overflow-hidden px-8">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-full h-full">
@@ -330,8 +328,8 @@ const About = () => {
           >
             <motion.h2
               className="text-3xl md:text-4xl font-bold mb-6 font-heading"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration }}
             >
@@ -339,13 +337,12 @@ const About = () => {
             </motion.h2>
             <motion.p
               className="text-lg mb-8 text-gray-300"
-              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration, delay: 0.2 }}
             >
-              Join Shape Up Fitness today and take the first step towards a
-              healthier, stronger you.
+              Join Shape Up Fitness today and take the first step towards a healthier, stronger you.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -354,8 +351,8 @@ const About = () => {
               transition={{ duration, delay: 0.4 }}
             >
               <Link to="/contact?source=about_cta">
-                <InteractiveHoverButton 
-                  text="Get Started Today" 
+                <InteractiveHoverButton
+                  text="Get Started Today"
                   className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
                   aria-label="Get started with Shape Up Fitness today"
                 />

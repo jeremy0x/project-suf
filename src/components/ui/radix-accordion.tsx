@@ -2,8 +2,10 @@
 
 import * as React from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence, type Transition } from 'framer-motion';
+
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowDown01Icon } from '@hugeicons/core-free-icons';
 
 import { cn } from '@/lib/utils';
 
@@ -123,7 +125,7 @@ const AccordionTrigger = React.forwardRef<
             animate={{ rotate: isOpen ? 180 : 0 }}
             transition={transition}
           >
-            <ChevronDown className="h-4 w-4 shrink-0" />
+            <HugeiconsIcon icon={ArrowDown01Icon} className="h-4 w-4 shrink-0"  />
           </motion.div>
         </AccordionPrimitive.Trigger>
       </AccordionPrimitive.Header>
@@ -181,7 +183,6 @@ export {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-  useAccordionItem,
   type AccordionItemContextType,
   type AccordionProps,
   type AccordionItemProps,

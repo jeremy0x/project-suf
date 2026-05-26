@@ -1,8 +1,13 @@
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { CheckCircle } from "lucide-react";
+import { useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { CheckmarkCircle01Icon } from "@hugeicons/core-free-icons";
 import { motion } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
 import { InteractiveHoverButton } from "../ui/interactive-hover-button";
+import { responsiveUrl } from "@/lib/images";
 
 const stats = [
   { value: "100+", label: "Active Members" },
@@ -22,41 +27,56 @@ const benefits = [
 
 const AboutSection = () => {
   const { reduceMotion } = useAnimation();
-  const duration = reduceMotion ? 0 : 0.3;
+  const aboutImages = useQuery(api.siteImages.listBySection, { section: "home-about" }) || [];
+  const aboutImage = aboutImages[0]?.url;
+
+  const imageAnimProps = useMemo(() => ({
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true } as const,
+    transition: { duration: reduceMotion ? 0 : 0.3 },
+  }), [reduceMotion]);
+
+  const badgeAnimProps = useMemo(() => ({
+    initial: { opacity: 0, scale: 0.8 },
+    whileInView: { opacity: 1, scale: 1 },
+    viewport: { once: true } as const,
+    transition: { delay: 0.3, duration: reduceMotion ? 0 : 0.3 },
+  }), [reduceMotion]);
+
+  const titleAnimProps = useMemo(() => ({
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true } as const,
+    transition: { duration: reduceMotion ? 0 : 0.3 },
+  }), [reduceMotion]);
 
   return (
     <section
       id="about"
       className="section-padding bg-background relative overflow-hidden"
     >
-      {/* Decorative elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-brand-blue/10 rounded-full filter blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-brand-gold/10 rounded-full filter blur-3xl"></div>
 
       <div className="sm:container mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-12 items-center">
-          {/* Image */}
           <motion.div
             className="lg:w-1/2"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration }}
+            {...imageAnimProps}
           >
             <div className="relative">
               <div className="aspect-square rounded-2xl overflow-hidden glow">
                 <img
-                  src="/images/gym-squat-session.jpg"
+                  src={responsiveUrl(aboutImage, "medium")}
                   alt="Gym members performing barbell and goblet squats on green turf flooring"
                   className="w-full h-full object-cover"
+                  onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
                 />
               </div>
               <motion.div
                 className="absolute -bottom-8 -right-8 bg-brand-dark text-white p-6 rounded-xl shadow-xl glass-dark"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3, duration }}
+                {...badgeAnimProps}
               >
                 <h3 className="text-xl font-bold mb-2 font-heading">
                   Get Started Today
@@ -75,14 +95,10 @@ const AboutSection = () => {
             </div>
           </motion.div>
 
-          {/* Content */}
           <div className="lg:w-1/2">
             <motion.h2
               className="section-title"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration }}
+              {...titleAnimProps}
             >
               About <span className="text-brand-blue">Shape Up</span>
             </motion.h2>
@@ -91,7 +107,7 @@ const AboutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration, delay: 0.1 }}
+              transition={{ duration: reduceMotion ? 0 : 0.3, delay: 0.1 }}
             >
               Shape Up Fitness is more than just a gym — it's a community
               dedicated to helping you achieve your fitness goals. With our
@@ -108,7 +124,7 @@ const AboutSection = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration, delay: 0.1 + index * 0.05 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.3, delay: 0.1 + index * 0.05 }}
                 >
                   <div className="text-3xl font-bold text-brand-blue font-heading">
                     {stat.value}
@@ -123,7 +139,7 @@ const AboutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration, delay: 0.3 }}
+              transition={{ duration: reduceMotion ? 0 : 0.3, delay: 0.3 }}
             >
               <h3 className="text-xl font-bold mb-4 font-heading">
                 Why Choose Us
@@ -136,9 +152,10 @@ const AboutSection = () => {
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration, delay: 0.3 + index * 0.05 }}
+                    transition={{ duration: reduceMotion ? 0 : 0.3, delay: 0.3 + index * 0.05 }}
                   >
-                    <CheckCircle
+                    <HugeiconsIcon
+                      icon={CheckmarkCircle01Icon}
                       className="text-brand-gold mr-2 flex-shrink-0"
                       size={20}
                     />
@@ -152,7 +169,7 @@ const AboutSection = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration, delay: 0.4 }}
+              transition={{ duration: reduceMotion ? 0 : 0.3, delay: 0.4 }}
             >
               <Link to="/about">
                 <InteractiveHoverButton 

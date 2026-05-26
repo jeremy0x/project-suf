@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAnimation } from "../../context/AnimationContext";
@@ -10,16 +10,34 @@ const sessions = [
   { name: "Evening", time: "6:00pm - 9:00pm" },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.3 },
+  },
+};
+
 const SessionsSection = () => {
   const [currentSession, setCurrentSession] = useState<string | null>(null);
   const { reduceMotion } = useAnimation();
-  const duration = reduceMotion ? 0 : 0.3;
 
   useEffect(() => {
     const determineCurrentSession = () => {
       const now = new Date();
       const hours = now.getHours();
-      const day = now.getDay(); // 0 = Sunday
+      const day = now.getDay();
 
       if (day === 0) {
         setCurrentSession(null);
@@ -38,34 +56,27 @@ const SessionsSection = () => {
     };
 
     determineCurrentSession();
-    const interval = setInterval(determineCurrentSession, 60000); // Update every minute
+    const interval = setInterval(determineCurrentSession, 60000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
+  const sectionAnimProps = useMemo(() => ({
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true } as const,
+    transition: { duration: reduceMotion ? 0 : 0.3 },
+  }), [reduceMotion]);
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      transition: { duration },
-    },
-  };
+  const ctaAnimProps = useMemo(() => ({
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true } as const,
+    transition: { duration: reduceMotion ? 0 : 0.3, delay: 0.2 },
+  }), [reduceMotion]);
 
   return (
     <section className="section-padding bg-brand-dark text-white relative overflow-hidden">
-      {/* Decorative elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
         <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
@@ -73,10 +84,7 @@ const SessionsSection = () => {
       <div className="sm:container mx-auto relative">
         <motion.div
           className="text-center mb-12"
-          initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true }}
-          transition={{ duration }}
+          {...sectionAnimProps}
         >
           <h2 className="section-title">
             Session <span className="text-brand-gold">Times</span>
@@ -119,10 +127,7 @@ const SessionsSection = () => {
 
         <motion.div
           className="text-center mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration, delay: 0.2 }}
+          {...ctaAnimProps}
         >
           <p className="mb-6 max-w-2xl mx-auto text-sm">
             Our sessions are designed to accommodate various schedules. Whether

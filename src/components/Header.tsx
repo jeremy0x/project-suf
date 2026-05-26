@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Menu01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
 import Logo from "./Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
@@ -11,6 +12,12 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const { reduceMotion } = useAnimation();
 
+  const md = reduceMotion ? 0 : 0.3;
+  const backdropAnim = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: md } };
+  const panelAnim = { initial: { x: "-100%" }, animate: { x: 0 }, exit: { x: "-100%" }, transition: { type: "spring" as const, damping: 25, stiffness: 200, duration: md } };
+  const navItemAnim = { initial: { opacity: 0, x: -20 }, animate: { opacity: 1, x: 0 }, transition: { duration: md, ease: "easeOut" as const } };
+  const ctaAnim = { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { delay: reduceMotion ? 0 : 0.6, duration: md } };
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -20,7 +27,7 @@ const Header = () => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
@@ -32,6 +39,8 @@ const Header = () => {
 
   const navItems = [
     { to: "/", label: "Home" },
+    { to: "/shop", label: "Shop" },
+    { to: "/favorites", label: "Wishlist" },
     { to: "/about", label: "About" },
     { to: "/services", label: "Services" },
     { to: "/pricing", label: "Pricing" },
@@ -77,7 +86,7 @@ const Header = () => {
             <Link to="/contact?source=navbar">
               <InteractiveHoverButton 
                 text="Join Now" 
-                className="w-auto px-6 bg-brand-blue border-brand-blue text-white font-heading text-sm"
+                className="w-auto px-6 bg-brand-blue/80 border-brand-blue/80 text-white font-heading text-sm"
                 aria-label="Join Shape Up Fitness now"
               />
             </Link>
@@ -94,7 +103,7 @@ const Header = () => {
             }`}
             aria-label="Toggle menu"
           >
-            <Menu size={24} />
+            <HugeiconsIcon icon={Menu01Icon} size={24} />
           </button>
         </nav>
       </div>
@@ -105,20 +114,14 @@ const Header = () => {
           <>
             {/* Backdrop */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              {...backdropAnim}
               className="fixed inset-0 bg-black/50 md:hidden"
               onClick={toggleMenu}
             />
 
             {/* Menu Panel */}
             <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              {...panelAnim}
               className="fixed top-0 left-0 h-full w-full bg-white text-brand-dark md:hidden"
             >
               <div className="flex flex-col h-full">
@@ -132,7 +135,7 @@ const Header = () => {
                     className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                     aria-label="Close menu"
                   >
-                    <X size={24} />
+                    <HugeiconsIcon icon={Cancel01Icon} size={24} />
                   </button>
                 </div>
 
@@ -141,13 +144,8 @@ const Header = () => {
                     {navItems.map((item, index) => (
                       <motion.div
                         key={item.to}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{
-                          duration: 0.3,
-                          delay: index * 0.1,
-                          ease: "easeOut",
-                        }}
+                        {...navItemAnim}
+                        transition={{ ...navItemAnim.transition, delay: index * 0.1 }}
                       >
                         <MobileNavItem
                           to={item.to}
@@ -160,15 +158,13 @@ const Header = () => {
                 </div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6, duration: 0.3 }}
+                  {...ctaAnim}
                   className="p-6 border-t"
                 >
                   <Link to="/contact?source=navbar" onClick={toggleMenu}>
                     <InteractiveHoverButton 
                       text="Join Now" 
-                      className="w-full bg-brand-blue border-brand-blue text-white font-heading"
+                      className="w-full bg-brand-blue/80 border-brand-blue/80 text-white font-heading"
                       aria-label="Join Shape Up Fitness now"
                     />
                   </Link>

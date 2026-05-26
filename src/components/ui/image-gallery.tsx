@@ -1,120 +1,162 @@
-'use client';
-
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { useInView } from 'framer-motion';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { LoaderPinwheelIcon } from '@hugeicons/core-free-icons';
+import { responsiveUrl } from '@/lib/images';
+
+const FALLBACK = "/placeholder.svg";
+const PAGE_SIZE = 12;
+const BATCH_SIZE = 4;
+
+function useViewOnce(ref: React.RefObject<HTMLElement | null>) {
+  const [seen, setSeen] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const o = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setSeen(true); o.disconnect(); } },
+      { rootMargin: "-100px" }
+    );
+    o.observe(el);
+    return () => o.disconnect();
+  }, [ref]);
+
+  return seen;
+}
 
 interface GalleryImage {
   id: number;
   src: string;
   alt: string;
   category?: string;
-  isPortrait?: boolean;
 }
 
 interface ImageGalleryProps {
   images: GalleryImage[];
   onImageClick?: (index: number) => void;
+  isLoading?: boolean;
 }
 
-export function ImageGallery({ images, onImageClick }: ImageGalleryProps) {
-  const [ratiosBySrc, setRatiosBySrc] = React.useState<Record<string, number>>({});
+export function ImageGallery({ images, onImageClick, isLoading }: ImageGalleryProps) {
+  const [visibleCount, setVisibleCount] = React.useState(PAGE_SIZE);
+  const [loadingMore, setLoadingMore] = React.useState(false);
+  const visibleImages = React.useMemo(() => images.slice(0, visibleCount), [images, visibleCount]);
+  const hasMore = visibleCount < images.length;
 
-  React.useEffect(() => {
-    let isActive = true;
+  const loadMore = React.useCallback(() => {
+    if (loadingMore) return;
+    setLoadingMore(true);
 
-    images.forEach((image) => {
-      if (typeof image.isPortrait === "boolean") return;
-      if (ratiosBySrc[image.src]) return;
+    const target = Math.min(visibleCount + PAGE_SIZE, images.length);
+    let current = visibleCount;
 
-      const probe = new Image();
-      probe.onload = () => {
-        if (!isActive) return;
-        const ratio = probe.naturalWidth && probe.naturalHeight
-          ? probe.naturalWidth / probe.naturalHeight
-          : undefined;
-        if (!ratio) return;
-        setRatiosBySrc((prev) => (prev[image.src] ? prev : { ...prev, [image.src]: ratio }));
-      };
-      probe.src = image.src;
-    });
-
-    return () => {
-      isActive = false;
+    const batch = () => {
+      current = Math.min(current + BATCH_SIZE, target);
+      setVisibleCount(current);
+      if (current < target) {
+        requestAnimationFrame(batch);
+      } else {
+        setLoadingMore(false);
+      }
     };
-  }, [images, ratiosBySrc]);
+
+    requestAnimationFrame(batch);
+  }, [loadingMore, visibleCount, images.length]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full">
+        <div className="flex flex-wrap gap-4">
+          {[...Array(9)].map((_, i) => (
+            <div key={i} className="w-[calc(33.333%-1rem)] max-sm:w-[calc(50%-0.5rem)]">
+              <AspectRatio ratio={3 / 4} className="relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800">
+                <div className="absolute inset-0 shimmer-bg rounded-xl" />
+              </AspectRatio>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
-      <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
-        {images.map((image, index) => {
-          const isPortrait = typeof image.isPortrait === "boolean"
-            ? image.isPortrait
-            : /portrait/i.test(image.src);
-          const ratio = typeof image.isPortrait === "boolean"
-            ? (isPortrait ? 3 / 4 : 4 / 3)
-            : ratiosBySrc[image.src] ?? 4 / 3;
+      <div className="flex flex-wrap gap-4">
+        {visibleImages.map((image, idx) => {
+          const realIndex = images.indexOf(image);
 
           return (
-            <div key={image.id} className="mb-4 break-inside-avoid">
+            <div
+              key={image.id}
+              className="w-[calc(33.333%-1rem)] max-sm:w-[calc(50%-0.5rem)]"
+            >
               <AnimatedImage
-                id={image.id}
-                alt={image.alt}
                 src={image.src}
-                ratio={ratio}
-                onClick={() => onImageClick?.(index)}
+                alt={image.alt}
+                placeholder={FALLBACK}
+                onClick={() => onImageClick?.(realIndex)}
               />
             </div>
           );
         })}
       </div>
+      {hasMore && (
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={loadMore}
+            disabled={loadingMore}
+            className="px-8 py-3 bg-brand-blue text-white rounded-full font-medium hover:opacity-90 transition-opacity disabled:opacity-70 flex items-center gap-2"
+          >
+            {loadingMore && (
+              <HugeiconsIcon icon={LoaderPinwheelIcon} size={16} className="animate-spin" />
+            )}
+            {loadingMore ? "Loading..." : "Load More"}
+          </button>
+        </div>
+      )}
+      {!hasMore && images.length > PAGE_SIZE && (
+        <p className="text-center text-sm text-gray-400 mt-6">
+          Showing all {images.length} images
+        </p>
+      )}
     </div>
   );
 }
 
 interface AnimatedImageProps {
-  id: number;
   alt: string;
   src: string;
-  className?: string;
   placeholder?: string;
-  ratio: number;
   onClick?: () => void;
 }
 
-function AnimatedImage({ id, alt, src, ratio, placeholder, onClick }: AnimatedImageProps) {
+function AnimatedImage({ alt, src, placeholder, onClick }: AnimatedImageProps) {
   const ref = React.useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [imgSrc, setImgSrc] = React.useState(src);
-
-  const handleError = () => {
-    if (placeholder) {
-      setImgSrc(placeholder);
-    }
-  };
+  const seen = useViewOnce(ref);
+  const [loaded, setLoaded] = React.useState(false);
+  const thumbSrc = React.useMemo(() => responsiveUrl(src, "medium"), [src]);
 
   return (
-    <AspectRatio ref={ref} ratio={ratio} className="relative overflow-hidden rounded-xl cursor-pointer group">
+    <AspectRatio ref={ref} ratio={3 / 4} className="relative overflow-hidden rounded-xl cursor-pointer group bg-gray-100 dark:bg-gray-800">
+      {seen && !loaded && (
+        <div className="absolute inset-0 shimmer-bg rounded-xl" />
+      )}
       <img
-        src={imgSrc}
+        src={thumbSrc}
         alt={alt}
         className={cn(
-          "w-full h-full object-cover object-top transition-all duration-700",
-          isInView ? "opacity-100 scale-100 blur-0" : "opacity-0 scale-105 blur-sm",
-          isLoading ? "blur-sm" : "blur-0",
+          "w-full h-full object-cover",
+          "transition-[opacity,transform] duration-700 ease-out",
+          seen && loaded ? "opacity-100" : "opacity-0",
           "group-hover:scale-110 transition-transform duration-500"
         )}
-        onLoad={() => setIsLoading(false)}
+        onLoad={() => setLoaded(true)}
         loading="lazy"
-        onError={handleError}
+        onError={(e) => { (e.target as HTMLImageElement).src = placeholder || FALLBACK; }}
         onClick={onClick}
       />
-      <div className="absolute bottom-2 left-2 flex items-center text-xs font-sans text-white/80">
-        <span>{id}</span>
-        <span aria-hidden="true">.</span>
-      </div>
     </AspectRatio>
   );
 }

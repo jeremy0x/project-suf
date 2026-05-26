@@ -1,5 +1,6 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { cn } from "@/lib/utils";
 
 interface InteractiveHoverButtonProps
@@ -33,7 +34,7 @@ const InteractiveHoverButton = React.forwardRef<
         !disabled && "group-hover:opacity-100"
       )}>
         <span>{text}</span>
-        <ArrowRight className="h-4 w-4" />
+        <HugeiconsIcon icon={ArrowRight01Icon} className="h-4 w-4"  />
       </div>
       <div className={cn(
         "absolute bottom-0 left-0 z-10 h-0 w-full bg-primary transition-all duration-300",
