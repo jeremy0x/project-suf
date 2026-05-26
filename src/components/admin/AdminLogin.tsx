@@ -83,8 +83,6 @@ export function AdminLogin({ onLogin }: { onLogin: () => void }) {
       setError(err instanceof Error ? err.message : "Invalid password");
     }
   };
-    }
-  };
 
   const steps = [
     { number: 1, text: "Authenticate identity", active: true },

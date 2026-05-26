@@ -89,7 +89,11 @@ export default function Admin() {
   }
 
   if (!authenticated) {
-    return <AdminLogin onLogin={() => { setAuthenticated(true); navigate("/admin/dashboard", { replace: true }); }} />;
+    return <AdminLogin onLogin={() => {
+      const token = getCookie("suf_admin_token");
+      if (token) setCookieToken(token);
+      navigate("/admin/dashboard", { replace: true });
+    }} />;
   }
 
   return (

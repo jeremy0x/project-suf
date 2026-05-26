@@ -50,10 +50,11 @@ src/
 ├── context/            # React context providers
 ├── lib/                # Utilities
 │   ├── images.ts       # Responsive image URL helper
-│   ├── crypto.ts       # Admin auth token helpers
+│   ├── crypto.ts       # Cookie helpers (set/get/erase)
 │   └── utils.ts        # Tailwind class merge utility
 └── convex/             # Convex backend (database schema, queries, mutations, actions)
     ├── schema.ts       # Database schema
+    ├── auth.ts         # Admin login, verify, logout
     ├── siteImages.ts   # Site images CRUD
     ├── products.ts     # Products CRUD
     ├── categories.ts   # Image categories
@@ -90,11 +91,12 @@ src/
    npx convex dev
    ```
 
-4. Set the required image API keys in your Convex cloud environment:
+4. Set the required environment variables in your Convex cloud environment:
 
    ```bash
    npx convex env set TINYPNG_API_KEY your_tinypng_api_key
    npx convex env set IMGBB_API_KEY your_imgbb_api_key
+   npx convex env set ADMIN_PASSWORD your_admin_password
    ```
 
 5. Start the Vite development server:
