@@ -33,7 +33,7 @@ const App = () => (
             <Route path="/shop" element={<Shop />} />
             <Route path="/shop/:id" element={<ProductDetail />} />
             <Route path="/favorites" element={<Favorites />} />
-            <Route path="/admin" element={
+            <Route path="/admin/*" element={
               <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
                 <Admin />
               </Suspense>
