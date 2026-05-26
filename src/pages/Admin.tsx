@@ -55,6 +55,7 @@ export default function Admin() {
   useEffect(() => {
     if (sessionValid === false) {
       eraseCookie("suf_admin_token");
+      setCookieToken(undefined);
     }
   }, [sessionValid]);
 
@@ -62,10 +63,15 @@ export default function Admin() {
   const handleLogout = useCallback(async () => {
     setShowLogoutConfirm(false);
     setIsLoggingOut(true);
-    if (cookieToken) {
-      await logoutMutation({ token: cookieToken });
+    try {
+      if (cookieToken) {
+        await logoutMutation({ token: cookieToken });
+      }
+    } catch {
+      // Logout cleanup always runs below
     }
     eraseCookie("suf_admin_token");
+    setCookieToken(undefined);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setIsLoggingOut(false);
   }, [cookieToken, logoutMutation]);

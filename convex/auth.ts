@@ -30,7 +30,6 @@ export const verify = query({
       .first();
     if (!session) return false;
     if (Date.now() > session.expiresAt) {
-      await ctx.db.delete(session._id);
       return false;
     }
     return true;

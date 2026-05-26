@@ -97,11 +97,17 @@ const Gallery = () => {
       else if (event.key === "Escape") closeLightbox();
     };
     window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [closeLightbox, goToNext, goToPrevious, lightboxOpen]);
+
+  useEffect(() => {
+    if (lightboxOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [lightboxOpen]);
 
   return (
     <Layout>

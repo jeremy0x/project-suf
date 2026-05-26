@@ -93,6 +93,21 @@ const MOCK_PRODUCTS = [
   },
 ];
 
+const GALLERY_CATEGORIES: { section: string; name: string; label: string; order: number }[] = [
+  { section: "gallery", name: "facilities", label: "Facilities", order: 1 },
+  { section: "gallery", name: "workout", label: "Workout", order: 2 },
+  { section: "gallery", name: "community", label: "Community", order: 3 },
+  { section: "gallery", name: "transformation", label: "Transformation", order: 4 },
+  { section: "gallery", name: "accessories", label: "Accessories", order: 5 },
+];
+
+const PRODUCT_CATEGORIES: { name: string; label: string; order: number }[] = [
+  { name: "general", label: "General", order: 0 },
+  { name: "supplements", label: "Supplements", order: 1 },
+  { name: "apparel", label: "Apparel", order: 2 },
+  { name: "equipment", label: "Equipment", order: 3 },
+];
+
 export const run = mutation({
   handler: async (ctx) => {
     const existing = await ctx.db.query("products").collect();
