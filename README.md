@@ -1,28 +1,67 @@
 # Shape Up Fitness Website
 
-A responsive React website for Shape Up Fitness, a fitness center in Akure, Nigeria. Built with React, TypeScript, Tailwind CSS, and Convex.
+A responsive website for Shape Up Fitness, a fitness center in Akure, Nigeria. Built with React, TypeScript, Tailwind CSS, and Convex.
 
-Live site: [shapeupfitnessonline.com](https://shapeupfitnessonline.com)
+**Live site:** [shapeupfitnessonline.com](https://shapeupfitnessonline.com)
+
+---
 
 ## Tech Stack
 
 ### Frontend
-
 - React 18 + TypeScript + Vite
 - Tailwind CSS
-- Framer Motion
-- Hugeicons React (`@hugeicons/react`) & React Icons (`react-icons`)
-- Radix UI primitives + shadcn/ui
+- Framer Motion (animations)
+- Hugeicons (icon library)
+- Radix UI primitives + shadcn/ui components
 - goey-toast (notifications)
+- Recharts (dashboard charts)
 
 ### Backend & Database
-
-- Convex (database, functions, and storage)
-
-### Image Optimization
-
-- TinyPNG API (compression and resizing to max 1200px width)
+- Convex (realtime database, server functions, file storage)
+- TinyPNG API (image compression)
 - ImgBB API (image CDN hosting)
+
+---
+
+## Project Structure
+
+```
+src/
+├── pages/              # Route page components
+│   ├── Admin.tsx       # Admin shell (auth + layout)
+│   ├── Gallery.tsx     # Public gallery
+│   ├── Services.tsx    # Services page
+│   └── About.tsx       # About + team
+├── components/
+│   ├── admin/          # Admin panel components
+│   │   ├── AdminLogin.tsx / AdminSidebar.tsx
+│   │   ├── DashboardTab.tsx / ProductsTab.tsx
+│   │   ├── GalleryTab.tsx / SiteImagesTab.tsx
+│   │   ├── LabeledImageManager.tsx / SectionImageManager.tsx
+│   │   ├── ProductForm.tsx / ProductsTable.tsx
+│   │   ├── CategoryManager.tsx / CategoryPanel.tsx
+│   │   ├── ResponsiveModal.tsx / ConfirmModal.tsx
+│   │   └── ImageDropZone.tsx / uploadFileToConvex.ts
+│   ├── home/           # Home page sections
+│   ├── shop/           # Shop components
+│   └── ui/             # Reusable UI primitives
+├── hooks/              # Custom React hooks
+├── context/            # React context providers
+├── lib/                # Utilities
+│   ├── images.ts       # Responsive image URL helper
+│   ├── crypto.ts       # Admin auth token helpers
+│   └── utils.ts        # Tailwind class merge utility
+└── convex/             # Convex backend (database schema, queries, mutations, actions)
+    ├── schema.ts       # Database schema
+    ├── siteImages.ts   # Site images CRUD
+    ├── products.ts     # Products CRUD
+    ├── categories.ts   # Image categories
+    ├── upload.ts       # Upload pipeline (TinyPNG → ImgBB)
+    └── seed.ts         # Mock data seeder
+```
+
+---
 
 ## Getting Started
 
@@ -39,101 +78,89 @@ Live site: [shapeupfitnessonline.com](https://shapeupfitnessonline.com)
    npm install
    ```
 
-2. Start the Convex development backend:
+2. Copy the environment template and fill in your deployment URLs:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+3. Start the Convex development backend:
 
    ```bash
    npx convex dev
    ```
 
-3. Start the Vite development server:
+4. Set the required image API keys in your Convex cloud environment:
+
+   ```bash
+   npx convex env set TINYPNG_API_KEY your_tinypng_api_key
+   npx convex env set IMGBB_API_KEY your_imgbb_api_key
+   ```
+
+5. Start the Vite development server:
+
    ```bash
    npm run dev
    ```
 
-## Environment Configuration
+6. (Optional) Seed the database with mock data:
 
-### Frontend (.env.local)
+   ```bash
+   npx convex run seed:run
+   ```
 
-The `.env.local` file determines which Convex backend environment is used. Comment/uncomment the corresponding block:
+---
 
-```env
-# Development (active development, synchronized by npx convex dev)
-CONVEX_DEPLOYMENT=dev:standing-parrot-671
-VITE_CONVEX_URL=https://standing-parrot-671.convex.cloud
-VITE_CONVEX_SITE_URL=https://standing-parrot-671.convex.site
+## Routes
 
-# Production (building and deploying)
-# CONVEX_DEPLOYMENT=prod:opulent-magpie-843
-# VITE_CONVEX_URL=https://opulent-magpie-843.convex.cloud
-# VITE_CONVEX_SITE_URL=https://opulent-magpie-843.convex.site
-```
+| Path | Page |
+|------|------|
+| `/` | Home page with hero, services, featured products, testimonials |
+| `/about` | About us, mission, team members |
+| `/services` | Services and training programs |
+| `/pricing` | Membership pricing plans |
+| `/gallery` | Filterable facility and workout gallery |
+| `/contact` | Contact info, location, hours |
+| `/shop` | Product listing |
+| `/shop/:id` | Product detail with WhatsApp checkout |
+| `/favorites` | Favorited products |
+| `/admin` | Admin dashboard |
+| `/admin/dashboard` | Admin dashboard (default) |
+| `/admin/products` | Product management (CRUD, reorder) |
+| `/admin/gallery` | Gallery image management |
+| `/admin/site` | Site images (hero, about, team, services) |
 
-### Backend Keys
-
-Set the required image API keys in your Convex cloud environment (dashboard or CLI):
-
-```bash
-npx convex env set TINYPNG_API_KEY your_tinypng_api_key
-npx convex env set IMGBB_API_KEY your_imgbb_api_key
-```
-
-### Seeding Mock Data
-
-To seed the database with mock products and gallery categories:
-
-```bash
-npx convex run seed:run
-```
-
-## Admin Panel
-
-The admin panel is at `/admin`.
-
-| Tab        | Purpose                                                      |
-| :--------- | :----------------------------------------------------------- |
-| Dashboard  | Overview statistics                                          |
-| Products   | CRUD for products, multi-image upload with auto-compression  |
-| Gallery    | Manage site and gallery images (Hero, About, Team, Services) |
-| Categories | Manage gallery filter tags                                   |
-
-## Shop & Favorites
-
-- **Shop:** `/shop`
-- **Favorites:** `/favorites`
-- **Persistence:** Local storage is used for cart and wishlists (`suf-favorites` and `suf-cart`).
-- **Checkout:** Handled via WhatsApp link to `wa.me/2348134460609` with a pre-filled cart description.
+---
 
 ## Image Upload Pipeline
 
-```mermaid
-graph TD
-    A[Admin Selects Image] -->|Max 10MB| B(Convex Temp Storage)
-    B --> C{TinyPNG API}
-    C -->|Compress & Resize to max 1200px| D{ImgBB API}
-    D -->|Host on ImgBB CDN| E[Store URL in Convex DB]
-    E --> F[Delete Temp Image from Convex Storage]
-```
+1. Admin uploads an image (max 10MB)
+2. Image stored temporarily in Convex storage
+3. TinyPNG compresses and resizes the image
+4. Compressed image uploaded to ImgBB CDN
+5. Final URL stored in Convex database
+6. Temporary storage cleaned up
+
+---
+
+## Admin Panel
+
+The admin panel is at `/admin`. Each tab is a separate route:
+
+| Tab | Purpose |
+| :-- | :------ |
+| Dashboard | Overview statistics, charts |
+| Products | Create, edit, reorder products with multi-image upload |
+| Gallery | Manage gallery images with category filters and reorder |
+| Site Images | Manage hero, about, team, services, and philosophy images |
+| (Categories) | Product and gallery category management (accessible within Products/Gallery tabs) |
+
+---
 
 ## Production Build
-
-Build the production assets:
 
 ```bash
 npm run build
 ```
 
-## Application Routes
-
-| Route        | Component           | Description                                   |
-| :----------- | :------------------ | :-------------------------------------------- |
-| `/`          | `Index.tsx`         | Home Page (Hero, Sessions, Testimonials, CTA) |
-| `/about`     | `About.tsx`         | Mission, history, and trainers team           |
-| `/services`  | `Services.tsx`      | Training programs and features                |
-| `/pricing`   | `Pricing.tsx`       | Gym membership pricing plans                  |
-| `/gallery`   | `Gallery.tsx`       | Filterable facility and workout gallery       |
-| `/contact`   | `Contact.tsx`       | Contact info, location, and hours             |
-| `/shop`      | `Shop.tsx`          | Products, supplements, and apparel shop       |
-| `/shop/:id`  | `ProductDetail.tsx` | Product details and WhatsApp checkout trigger |
-| `/favorites` | `Favorites.tsx`     | Liked items list                              |
-| `/admin`     | `Admin.tsx`         | Management dashboard                          |
-| `/*`         | `NotFound.tsx`      | 404 page                                      |
+Output is written to `dist/`.
