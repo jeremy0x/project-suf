@@ -25,7 +25,7 @@ export function ProductsTab() {
   const [showProductForm, setShowProductForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Doc<"products"> | undefined>(undefined);
   const [showProductCatPanel, setShowProductCatPanel] = useState(false);
-  const [confirm, setConfirm] = useState<{ title: string; message: string; action: () => void } | null>(null);
+  const [confirm, setConfirm] = useState<{ title: string; message: string; action: () => Promise<void> } | null>(null);
 
   return (
     <>
@@ -65,8 +65,8 @@ export function ProductsTab() {
             setConfirm({
               title: "Delete Product",
               message: `Delete "${product.name}"?`,
-              action: () => {
-                deleteProduct({ id: product._id });
+              action: async () => {
+                await deleteProduct({ id: product._id });
                 gooeyToast.success("Product deleted");
               },
             });
@@ -106,7 +106,15 @@ export function ProductsTab() {
 
       <ConfirmModal
         open={!!confirm}
-        onConfirm={() => { confirm?.action(); setConfirm(null); }}
+        onConfirm={async () => {
+          if (!confirm) return;
+          try {
+            await confirm.action();
+          } catch {
+            gooeyToast.error("Failed to delete product");
+          }
+          setConfirm(null);
+        }}
         onCancel={() => setConfirm(null)}
         title={confirm?.title || ""}
         message={confirm?.message || ""}

@@ -64,9 +64,9 @@ export default function Admin() {
   const handleLogout = useCallback(async () => {
     setShowLogoutConfirm(false);
     setIsLoggingOut(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     eraseCookie("suf_admin_token");
     setAuthenticated(false);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setIsLoggingOut(false);
   }, []);
 

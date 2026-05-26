@@ -28,7 +28,7 @@ export function AdminSidebar({
 }: AdminSidebarProps) {
   const navigate = useNavigate();
   const [hovered, setHovered] = useState(false);
-  const isExpanded = hovered;
+  const isExpanded = mobileOpen || hovered;
 
   const items = [
     { key: "dashboard" as Tab, label: "Dashboard", icon: DashboardSquareIcon },
@@ -74,6 +74,7 @@ export function AdminSidebar({
                 navigate(`/admin/${item.key}`);
                 onMobileToggle(false);
               }}
+              aria-label={item.label}
               className={`w-full flex items-center justify-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 activeTab === item.key
                   ? "bg-brand-blue/10 text-brand-blue"
@@ -92,6 +93,7 @@ export function AdminSidebar({
           <a
             href="/shop"
             target="_blank"
+            aria-label="View Shop"
             className={`w-full flex items-center justify-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800/50 transition-all`}
           >
             <HugeiconsIcon icon={ShoppingBag02Icon} size={20} className="shrink-0" />
@@ -101,6 +103,7 @@ export function AdminSidebar({
           </a>
           <button
             onClick={onLogout}
+            aria-label="Logout"
             className={`w-full flex items-center justify-center gap-3 px-3 py-2.5 rounded-xl text-sm text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all`}
           >
             <HugeiconsIcon icon={Logout01Icon} size={20} className="shrink-0" />

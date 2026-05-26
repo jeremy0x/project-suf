@@ -112,7 +112,7 @@ export function SectionImageManager({ section, label, description, replaceOnly }
                     alt={img.alt || ""}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="absolute inset-0 bg-black/50 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <button
                       type="button"
                       onClick={() => handleReplace(img._id)}

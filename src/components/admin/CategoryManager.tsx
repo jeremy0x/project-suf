@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { gooeyToast } from "goey-toast";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon, Delete02Icon } from "@hugeicons/core-free-icons";
@@ -22,6 +22,7 @@ export function CategoryManager({ categories, onAdd, onRename, onRemove }: Categ
   const [editId, setEditId] = useState<string | null>(null);
   const [editVal, setEditVal] = useState("");
   const [confirmDel, setConfirmDel] = useState<string | null>(null);
+  const committingRef = useRef(false);
 
   const handleAdd = async () => {
     if (!label.trim()) return;
@@ -92,11 +93,24 @@ export function CategoryManager({ categories, onAdd, onRename, onRemove }: Categ
                   type="text"
                   value={editVal}
                   onChange={(e) => setEditVal(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") handleRename(cat, editVal);
-                    if (e.key === "Escape") setEditId(null);
+                   onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      committingRef.current = true;
+                      handleRename(cat, editVal);
+                    }
+                    if (e.key === "Escape") {
+                      e.preventDefault();
+                      setEditId(null);
+                    }
                   }}
-                  onBlur={() => handleRename(cat, editVal)}
+                  onBlur={() => {
+                    if (committingRef.current) {
+                      committingRef.current = false;
+                      return;
+                    }
+                    handleRename(cat, editVal);
+                  }}
                   className="flex-1 text-sm font-medium bg-gray-100 dark:bg-gray-800 rounded-full px-3 py-1 focus:outline-none focus:ring-2 focus:ring-brand-blue"
                   autoFocus
                 />

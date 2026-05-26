@@ -121,7 +121,7 @@ export function LabeledImageManager({ section, slots, title, description, defaul
                         className={slot.iconSize ? "max-h-16 max-w-16 object-contain" : "w-full h-full object-cover"}
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <div className="absolute inset-0 bg-black/50 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <button
                           type="button"
                           onClick={() => handleReplace(slot.key)}

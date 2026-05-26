@@ -8,11 +8,15 @@ export const list = query({
   },
   handler: async (ctx, args) => {
     if (args.category) {
-      return await ctx.db
+      const results = await ctx.db
         .query("products")
         .withIndex("by_category", (q) => q.eq("category", args.category!))
         .order("desc")
         .collect();
+      if (args.featured !== undefined) {
+        return results.filter((p) => p.featured === args.featured);
+      }
+      return results;
     }
     if (args.featured !== undefined) {
       return await ctx.db

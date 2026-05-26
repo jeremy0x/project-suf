@@ -102,25 +102,79 @@ export const processUpload = action({
 
     let imageId: string | undefined;
 
-    if (args.productId) {
-      await ctx.runMutation(api.products.addImage, {
-        productId: args.productId,
-        url: imageUrl,
-        alt: args.alt,
+    try {
+      const blob = await ctx.storage.get(args.storageId);
+      if (!blob) throw new Error("File not found in storage");
+
+      const buffer = await blob.arrayBuffer();
+      const auth = btoa(`api:${tinyPngKey}`);
+
+      const tinyRes = await fetch("https://api.tinify.com/shrink", {
+        method: "POST",
+        headers: { Authorization: `Basic ${auth}` },
+        body: buffer,
       });
-    } else {
-      imageId = await ctx.runMutation(api.siteImages.create, {
-        section: args.section,
-        category: args.category,
-        url: imageUrl,
-        alt: args.alt,
-        order: Date.now(),
+
+      if (!tinyRes.ok) {
+        const err = await tinyRes.text();
+        throw new Error(`TinyPNG error: ${tinyRes.status} ${err}`);
+      }
+
+      const locationUrl = tinyRes.headers.get("Location");
+      if (!locationUrl) throw new Error("No Location header from TinyPNG");
+
+      const compressedRes = await fetch(locationUrl, {
+        headers: { Authorization: `Basic ${auth}` },
       });
+
+      if (!compressedRes.ok) {
+        throw new Error(`Download compressed failed: ${compressedRes.status}`);
+      }
+
+      const compressedBuffer = await compressedRes.arrayBuffer();
+      const bytes = new Uint8Array(compressedBuffer);
+      let binary = "";
+      for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      const base64 = btoa(binary);
+
+      const imgBBRes = await fetch(
+        `https://api.imgbb.com/1/upload?key=${imgBBKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `image=${encodeURIComponent(base64)}`,
+        }
+      );
+
+      const imgBBData = await imgBBRes.json();
+      if (!imgBBData.success) {
+        throw new Error(`ImgBB error: ${JSON.stringify(imgBBData)}`);
+      }
+
+      const imageUrl = imgBBData.data.url;
+
+      if (args.productId) {
+        await ctx.runMutation(api.products.addImage, {
+          productId: args.productId,
+          url: imageUrl,
+          alt: args.alt,
+        });
+      } else {
+        imageId = await ctx.runMutation(api.siteImages.create, {
+          section: args.section,
+          category: args.category,
+          url: imageUrl,
+          alt: args.alt,
+          order: Date.now(),
+        });
+      }
+
+      return { url: imageUrl, deleteUrl: imgBBData.data.delete_url, imageId };
+    } finally {
+      await ctx.storage.delete(args.storageId).catch(() => {});
     }
-
-    await ctx.storage.delete(args.storageId);
-
-    return { url: imageUrl, deleteUrl: imgBBData.data.delete_url, imageId };
   },
 });
 

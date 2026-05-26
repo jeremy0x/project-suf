@@ -114,6 +114,7 @@ export function ProductsTable({ products, onEdit, onDelete, categoryLabels }: Pr
                     disabled={idx === 0}
                     className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded disabled:opacity-20 transition-colors"
                     title="Move up"
+                    aria-label={`Move ${product.name} up`}
                   >
                     <HugeiconsIcon icon={ArrowUp01Icon} size={14} />
                   </button>
@@ -122,18 +123,21 @@ export function ProductsTable({ products, onEdit, onDelete, categoryLabels }: Pr
                     disabled={idx === sorted.length - 1}
                     className="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded disabled:opacity-20 transition-colors"
                     title="Move down"
+                    aria-label={`Move ${product.name} down`}
                   >
                     <HugeiconsIcon icon={ArrowDown01Icon} size={14} />
                   </button>
                   <button
                     onClick={() => onEdit(product)}
                     className="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                    aria-label={`Edit ${product.name}`}
                   >
                     <HugeiconsIcon icon={Edit02Icon} size={14} />
                   </button>
                   <button
                     onClick={() => onDelete(product)}
                     className="p-1.5 hover:bg-red-50 dark:hover:bg-red-950 text-red-400 rounded-full transition-colors"
+                    aria-label={`Delete ${product.name}`}
                   >
                     <HugeiconsIcon icon={Delete02Icon} size={14} />
                   </button>

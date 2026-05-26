@@ -7,15 +7,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
 import { InteractiveHoverButton } from "./ui/interactive-hover-button";
 
-const backdropAnim = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: 0.2 } };
-const panelAnim = { initial: { x: "-100%" }, animate: { x: 0 }, exit: { x: "-100%" }, transition: { type: "spring" as const, damping: 25, stiffness: 200 } };
-const navItemAnim = { initial: { opacity: 0, x: -20 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.3, ease: "easeOut" as const } };
-const ctaAnim = { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { delay: 0.6, duration: 0.3 } };
-
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { reduceMotion } = useAnimation();
+
+  const md = reduceMotion ? 0 : 0.3;
+  const backdropAnim = { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: md } };
+  const panelAnim = { initial: { x: "-100%" }, animate: { x: 0 }, exit: { x: "-100%" }, transition: { type: "spring" as const, damping: 25, stiffness: 200, duration: md } };
+  const navItemAnim = { initial: { opacity: 0, x: -20 }, animate: { opacity: 1, x: 0 }, transition: { duration: md, ease: "easeOut" as const } };
+  const ctaAnim = { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { delay: reduceMotion ? 0 : 0.6, duration: md } };
 
   useEffect(() => {
     const handleScroll = () => {

@@ -27,10 +27,10 @@ export function DashboardTab() {
   const prodCats = (useQuery(api.productCategories.list) || []) as Doc<"productCategories">[];
 
   const cats = Array.from(new Set(products.map((p) => p.category)));
-  const outQty = products.filter((p) => (p.stockQuantity ?? 0) === 0).length;
+  const outQty = products.filter((p) => p.stockQuantity === 0).length;
   const lowQty = products.filter((p) => {
-    const q = p.stockQuantity ?? 0;
-    return q > 0 && q <= 10;
+    const q = p.stockQuantity;
+    return q !== undefined && q > 0 && q <= 10;
   }).length;
   const goodQty = products.length - outQty - lowQty;
 
