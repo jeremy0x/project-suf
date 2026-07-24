@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
@@ -39,8 +40,10 @@ const scrollBtn = (
 
 const HeroSection = () => {
   const { reduceMotion } = useAnimation();
-  const heroImages = useQuery(api.siteImages.listBySection, { section: "hero" }) || [];
-  const heroImage = heroImages[0]?.url;
+  const heroImages = useQuery(api.siteImages.listBySection, { section: "hero" });
+  const [imgLoaded, setImgLoaded] = useState(false);
+
+  const heroImage = heroImages && heroImages[0]?.url;
   const duration = reduceMotion ? 0 : 0.3;
 
   return (
@@ -117,14 +120,24 @@ const HeroSection = () => {
             <div className="absolute inset-0 bg-brand-blue rounded-full blur-3xl opacity-30" />
             <div className="absolute top-[-10%] right-[-10%] w-48 h-48 bg-brand-gold rounded-full blur-3xl opacity-30" />
             <div className="bg-gray-800 rounded-full overflow-hidden relative z-10 w-full h-full border-4 border-brand-blue shadow-xl shadow-brand-blue/20">
-              <img
-                src={responsiveUrl(heroImage, "medium")}
-                alt="Shape Up Fitness hero"
-                className="w-full h-full object-cover object-center"
-                onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
-                loading="eager"
-                fetchPriority="high"
-              />
+              {!imgLoaded && (
+                <div className="absolute inset-0 bg-gray-900/90 shimmer-dark rounded-full z-20" />
+              )}
+              {heroImage && (
+                <img
+                  src={responsiveUrl(heroImage, "medium")}
+                  alt="Shape Up Fitness hero"
+                  className={`w-full h-full object-cover object-center transition-opacity duration-500 ${
+                    imgLoaded ? "opacity-100" : "opacity-0"
+                  }`}
+                  onLoad={() => setImgLoaded(true)}
+                  onError={(e) => {
+                    e.currentTarget.src = "/placeholder.svg";
+                    setImgLoaded(true);
+                  }}
+                  loading="eager"
+                />
+              )}
             </div>
           </div>
         </motion.div>

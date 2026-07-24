@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
@@ -55,6 +55,60 @@ const teamMembers = [
     specialties: ["Records Management", "Subscription Management"],
   },
 ];
+
+function AboutStoryImage({ src }: { src?: string }) {
+  const [loaded, setLoaded] = useState(false);
+  const imgUrl = responsiveUrl(src, "medium");
+
+  return (
+    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl bg-gray-200 dark:bg-gray-800/80">
+      {!loaded && (
+        <div className="absolute inset-0 bg-gray-200 dark:bg-gray-800 shimmer-bg dark:shimmer-dark rounded-2xl z-10" />
+      )}
+      {src && (
+        <img
+          src={imgUrl}
+          alt="Shape Up Fitness community outdoor group photo"
+          onLoad={() => setLoaded(true)}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = "/placeholder.svg";
+            setLoaded(true);
+          }}
+          className={`w-full h-full object-cover transition-opacity duration-500 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+    </div>
+  );
+}
+
+function TeamMemberImage({ src, alt }: { src?: string; alt: string }) {
+  const [loaded, setLoaded] = useState(false);
+  const imgUrl = responsiveUrl(src, "medium");
+
+  return (
+    <div className="relative w-full h-full bg-gray-200 dark:bg-gray-800/80">
+      {!loaded && (
+        <div className="absolute inset-0 bg-gray-200 dark:bg-gray-800 shimmer-bg dark:shimmer-dark z-10" />
+      )}
+      {src && (
+        <img
+          src={imgUrl}
+          alt={alt}
+          onLoad={() => setLoaded(true)}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = "/placeholder.svg";
+            setLoaded(true);
+          }}
+          className={`w-full h-full object-cover object-top transition-all duration-500 hover:scale-110 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+    </div>
+  );
+}
 
 const About = () => {
   const { reduceMotion } = useAnimation();
@@ -144,21 +198,16 @@ const About = () => {
               </p>
             </motion.div>
             <motion.div
-              className="lg:w-1/2"
+              className="lg:w-1/2 w-full"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration, delay: 0.3 }}
             >
               <div className="relative">
-                <img
-                  src={responsiveUrl(aboutImage, "medium")}
-                  alt="Shape Up Fitness community outdoor group photo"
-                  className="rounded-2xl shadow-xl"
-                  onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
-                />
-                <div className="absolute -bottom-6 -right-6 text-3xl sm:text-5xl font-bold opacity-30 blur-[2px] text-brand-blue">
-                  SINCE 2020
+                <AboutStoryImage src={aboutImage} />
+                <div className="absolute -bottom-6 -right-6 text-3xl sm:text-5xl font-bold opacity-30 blur-[2px] text-brand-blue pointer-events-none">
+                  #SHAPEUPFITNESS
                 </div>
               </div>
             </motion.div>
@@ -166,8 +215,13 @@ const About = () => {
         </div>
       </section>
 
-      <section className="section-padding bg-brand-dark text-white px-8">
-        <div className="sm:container mx-auto">
+      <section className="section-padding section-dark relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
+          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
+        </div>
+
+        <div className="sm:container mx-auto px-4 relative">
           <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
@@ -175,16 +229,16 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration }}
           >
-            <h2 className="section-title font-heading">
-              Our <span className="text-brand-gold">Mission & Values</span>
+            <h2 className="section-title text-white">
+              Why Choose <span className="text-brand-gold">Us</span>
             </h2>
-            <p className="section-subtitle text-sm">
-              The principles that guide everything we do
+            <p className="section-subtitle text-gray-300">
+              What sets Shape Up Fitness apart from other fitness centers
             </p>
           </motion.div>
 
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -192,68 +246,47 @@ const About = () => {
           >
             <motion.div
               variants={itemVariants}
-              className="bg-gray-800/60 p-8 rounded-xl shadow-lg glass-card"
+              className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700 hover:border-brand-blue transition-all duration-300"
             >
-              <div className="mb-4 text-brand-gold">
-                <HugeiconsIcon icon={Award01Icon} size={48} />
+              <div className="text-brand-blue mb-4">
+                <HugeiconsIcon icon={Award01Icon} size={40} />
               </div>
-              <h3 className="text-xl font-bold mb-4 font-heading">Excellence</h3>
-              <p className="text-sm">
-                We strive for excellence in everything we do, from our facility
-                maintenance to our training programs and customer service.
+              <h3 className="text-xl font-bold mb-3 text-white">Certified Trainers</h3>
+              <p className="text-gray-300 text-sm">
+                Our team of experienced and certified trainers are passionate about helping you achieve your personal fitness goals safely and efficiently.
               </p>
             </motion.div>
 
             <motion.div
               variants={itemVariants}
-              className="bg-gray-800/60 p-8 rounded-xl shadow-lg glass-card"
+              className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700 hover:border-brand-gold transition-all duration-300"
             >
-              <div className="mb-4 text-brand-gold">
-                <HugeiconsIcon icon={UserGroupIcon} size={48} />
+              <div className="text-brand-gold mb-4">
+                <HugeiconsIcon icon={UserGroupIcon} size={40} />
               </div>
-              <h3 className="text-xl font-bold mb-4 font-heading">Community</h3>
-              <p className="text-sm">
-                We foster a supportive, inclusive community where members
-                motivate each other and celebrate achievements together.
+              <h3 className="text-xl font-bold mb-3 text-white">Supportive Community</h3>
+              <p className="text-gray-300 text-sm">
+                Join a welcoming environment where members encourage each other, celebrate milestones, and grow together on their fitness journeys.
               </p>
             </motion.div>
 
             <motion.div
               variants={itemVariants}
-              className="bg-gray-800/60 p-8 rounded-xl shadow-lg glass-card"
+              className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700 hover:border-brand-blue transition-all duration-300"
             >
-              <div className="mb-4 text-brand-gold">
-                <HugeiconsIcon icon={Clock01Icon} size={48} />
+              <div className="text-brand-blue mb-4">
+                <HugeiconsIcon icon={Clock01Icon} size={40} />
               </div>
-              <h3 className="text-xl font-bold mb-4 font-heading">Dedication</h3>
-              <p className="text-sm">
-                We're dedicated to your success, providing the guidance, tools,
-                and support you need to reach your fitness goals.
+              <h3 className="text-xl font-bold mb-3 text-white">Modern Equipment & Facilities</h3>
+              <p className="text-gray-300 text-sm">
+                Access top-of-the-line fitness equipment and clean, well-maintained facilities designed for optimal workout experiences.
               </p>
             </motion.div>
-          </motion.div>
-
-          <motion.div
-            className="mt-16 max-w-3xl mx-auto text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration, delay: 0.6 }}
-          >
-            <h3 className="text-2xl font-bold mb-4 font-heading">Our Mission</h3>
-            <p className="text-sm mb-6">
-              To inspire and empower individuals to transform their lives
-              through fitness, providing expert guidance and a supportive
-              community that motivates everyone to reach their full potential.
-            </p>
-            <div className="flex justify-center">
-              <div className="h-1 w-20 bg-brand-gold rounded-full"></div>
-            </div>
           </motion.div>
         </div>
       </section>
 
-      <section className="section-padding bg-background px-8">
+      <section className="section-padding bg-background">
         <div className="sm:container mx-auto">
           <motion.div
             className="text-center mb-16"
@@ -262,11 +295,11 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration }}
           >
-            <h2 className="section-title font-heading">
-              Our <span className="text-brand-blue">Team</span>
+            <h2 className="section-title">
+              Meet Our <span className="text-brand-blue">Team</span>
             </h2>
-            <p className="section-subtitle text-sm">
-              Meet the experts committed to your fitness journey
+            <p className="section-subtitle">
+              The dedicated professionals behind Shape Up Fitness
             </p>
           </motion.div>
 
@@ -281,23 +314,18 @@ const About = () => {
               <motion.div key={index} variants={itemVariants} className="h-full">
                 <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:translate-y-[-5px] h-full flex flex-col">
                   <div className="aspect-[3/4] overflow-hidden shrink-0">
-                    <img
-                      src={responsiveUrl(member.image, "medium")}
-                      alt={member.name}
-                      className="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110"
-                      onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
-                    />
+                    <TeamMemberImage src={member.image} alt={member.name} />
                   </div>
                   <div className="p-6 flex flex-col flex-1">
                     <h3 className="text-xl font-bold mb-1 font-heading">
                       {member.name}
                     </h3>
-                    <p className="text-brand-blue mb-3">{member.role}</p>
+                    <p className="text-brand-blue mb-3 text-sm font-medium">{member.role}</p>
                     <div className="flex flex-wrap gap-2 mt-auto">
                       {member.specialties.map((specialty, idx) => (
                         <span
                           key={idx}
-                          className="bg-gray-100 dark:bg-gray-700 text-sm px-3 py-1 rounded-full"
+                          className="bg-gray-100 dark:bg-gray-700 text-xs px-3 py-1 rounded-full text-gray-700 dark:text-gray-300"
                         >
                           {specialty}
                         </span>
@@ -352,9 +380,9 @@ const About = () => {
             >
               <Link to="/contact?source=about_cta">
                 <InteractiveHoverButton
-                  text="Get Started Today"
+                  text="Join Now"
                   className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
-                  aria-label="Get started with Shape Up Fitness today"
+                  aria-label="Join Shape Up Fitness now"
                 />
               </Link>
             </motion.div>

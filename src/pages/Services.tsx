@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Layout from "../components/Layout";
 import { Link } from "react-router-dom";
 import { useQuery } from "convex/react";
@@ -23,6 +24,41 @@ const services = [
   { id: 8, category: "diet", title: "Diet Training", description: "Learn what to eat to reach your fitness goals faster." },
   { id: 9, category: "gym-accessories", title: "Gym Accessories", description: "Get quality gym wear, bags, and gloves from us." },
 ];
+
+function ImageWithSkeleton({
+  src,
+  alt,
+  className = "",
+}: {
+  src?: string;
+  alt: string;
+  className?: string;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  const imgUrl = responsiveUrl(src, "medium");
+
+  return (
+    <>
+      {!loaded && (
+        <div className="absolute inset-0 bg-gray-800/80 shimmer-dark rounded-xl z-10" />
+      )}
+      {src && (
+        <img
+          src={imgUrl}
+          alt={alt}
+          onLoad={() => setLoaded(true)}
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = "/placeholder.svg";
+            setLoaded(true);
+          }}
+          className={`w-full h-full object-cover transition-all duration-500 ${className} ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+    </>
+  );
+}
 
 const Services = () => {
   const { reduceMotion } = useAnimation();
@@ -91,23 +127,27 @@ const Services = () => {
           >
             {servicesWithDbImages.map((service) => (
               <motion.div key={service.id} variants={itemVariants}>
-                <div className="relative aspect-[3/4] rounded-xl overflow-hidden group">
-                  <img
-                    src={responsiveUrl(service.image, "medium")}
+                <div className="relative aspect-[3/4] rounded-xl overflow-hidden group bg-gray-900/40">
+                  <ImageWithSkeleton
+                    src={service.image}
                     alt={service.title}
-                    className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
-                    onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
+                    className="absolute inset-0 object-top group-hover:scale-110"
                   />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none z-10"></div>
 
-                  <div className="absolute top-3 left-3 bg-brand-dark/80 backdrop-blur-sm p-3 rounded-lg border border-white/10">
-                    {service.icon ? (
-                      <img src={responsiveUrl(service.icon, "thumb")} alt={service.title} className="w-10 h-10 object-contain" onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }} />
-                    ) : null}
-                  </div>
+                  {service.icon && (
+                    <div className="absolute top-3 left-3 bg-brand-dark/80 backdrop-blur-sm p-3 rounded-lg border border-white/10 z-20">
+                      <img
+                        src={responsiveUrl(service.icon, "thumb")}
+                        alt={service.title}
+                        className="w-10 h-10 object-contain"
+                        onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
+                      />
+                    </div>
+                  )}
 
-                  <div className="absolute bottom-0 left-0 right-0 p-3">
+                  <div className="absolute bottom-0 left-0 right-0 p-3 z-20">
                     <div className="backdrop-blur-md bg-white/10 rounded-xl p-4 border border-white/20">
                       <h3 className="text-xl font-bold mb-2 text-white">{service.title}</h3>
                       <p className="text-gray-200 text-sm line-clamp-3">
@@ -217,13 +257,10 @@ const Services = () => {
           </AnimatedSection>
 
           <div className="flex flex-col lg:flex-row gap-12 items-center">
-            <AnimatedSection className="lg:w-1/2">
-              <img
-                src={responsiveUrl(philosophyImage, "medium")}
-                alt="Trainer"
-                className="rounded-2xl shadow-xl"
-                onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
-              />
+            <AnimatedSection className="lg:w-1/2 w-full">
+              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl bg-gray-800/60">
+                <ImageWithSkeleton src={philosophyImage} alt="Trainer philosophy" />
+              </div>
             </AnimatedSection>
 
             <AnimatedSection className="lg:w-1/2" delay={0.3}>

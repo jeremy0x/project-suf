@@ -8,7 +8,10 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "convex:dev": "convex dev --once",
+    "convex:deploy": "convex deploy",
+    "convex:seed": "convex run seed:run"
   },
   "dependencies": {
     "@hugeicons/core-free-icons": "^4.1.4",
