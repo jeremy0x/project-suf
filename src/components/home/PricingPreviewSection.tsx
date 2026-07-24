@@ -137,8 +137,10 @@ const PricingPreviewSection = () => {
                         to={`/contact?source=home_pricing&plan=${encodeURIComponent(plan.name)}`}
                         className={`block text-center py-3 px-6 rounded-full font-semibold transition-all duration-300 ${
                           isPopular
-                            ? "bg-brand-blue text-white hover:bg-brand-blue/90"
-                            : "bg-gray-100 dark:bg-gray-800 hover:bg-brand-gold hover:text-black"
+                            ? "bg-brand-blue text-white hover:bg-brand-blue/90 shadow-md"
+                            : isRecommended
+                            ? "bg-brand-gold text-brand-dark hover:bg-brand-gold/90 font-bold shadow-md"
+                            : "border-2 border-brand-blue text-brand-blue dark:text-white dark:border-brand-blue/80 hover:bg-brand-blue hover:text-white shadow-sm"
                         }`}
                         aria-label={`Choose ${plan.name} plan`}
                       >

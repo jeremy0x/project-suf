@@ -306,18 +306,20 @@ const Pricing = () => {
                                   </div>
                                 )}
 
-                                <div className="mt-auto pt-4">
-                                  <Link
-                                    to={`/contact?source=pricing_page&plan=${encodeURIComponent(plan.name)}`}
-                                    className={`block text-center py-2.5 px-4 rounded-full text-sm font-semibold transition-all ${
-                                      plan.popular
-                                        ? "bg-brand-blue text-white hover:bg-brand-blue/90"
-                                        : "bg-gray-100 dark:bg-gray-700 hover:bg-brand-gold hover:text-black"
-                                    }`}
-                                  >
-                                    Get Started
-                                  </Link>
-                                </div>
+                                 <div className="mt-auto pt-4">
+                                   <Link
+                                     to={`/contact?source=pricing_page&plan=${encodeURIComponent(plan.name)}`}
+                                     className={`block text-center py-2.5 px-4 rounded-full text-sm font-semibold transition-all duration-200 ${
+                                       plan.popular
+                                         ? "bg-brand-blue text-white hover:bg-brand-blue/90 shadow-md"
+                                         : plan.recommended
+                                         ? "bg-brand-gold text-brand-dark hover:bg-brand-gold/90 font-bold shadow-md"
+                                         : "border-2 border-brand-blue text-brand-blue dark:text-white dark:border-brand-blue/80 hover:bg-brand-blue hover:text-white font-semibold shadow-sm"
+                                     }`}
+                                   >
+                                     Get Started
+                                   </Link>
+                                 </div>
                               </div>
                             </motion.div>
                           ))}
