@@ -48,4 +48,39 @@ export default defineSchema({
     token: v.string(),
     expiresAt: v.number(),
   }).index("by_token", ["token"]),
+
+  pricingPlans: defineTable({
+    name: v.string(),
+    price: v.string(),
+    category: v.string(),
+    savings: v.optional(v.string()),
+    tagline: v.optional(v.string()),
+    trainerAddOn: v.optional(v.string()),
+    recommended: v.optional(v.boolean()),
+    popular: v.optional(v.boolean()),
+    featured: v.optional(v.boolean()),
+    description: v.optional(v.string()),
+    features: v.optional(v.array(v.string())),
+    sortOrder: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_category", ["category"])
+    .index("by_sortOrder", ["sortOrder"])
+    .index("by_featured", ["featured"]),
+
+  pricingCategories: defineTable({
+    name: v.string(),
+    label: v.string(),
+    order: v.number(),
+  })
+    .index("by_name", ["name"])
+    .index("by_order", ["order"]),
+
+  pricingConfig: defineTable({
+    key: v.string(),
+    title: v.string(),
+    price: v.string(),
+    description: v.string(),
+    updatedAt: v.number(),
+  }).index("by_key", ["key"]),
 });

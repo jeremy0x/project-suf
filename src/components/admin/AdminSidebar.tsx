@@ -6,12 +6,13 @@ import {
   Package02Icon,
   GalleryHorizontalEndIcon,
   Globe02Icon,
+  Tag01Icon,
   ShoppingBag02Icon,
   Logout01Icon,
 } from "@hugeicons/core-free-icons";
 import Logo from "@/components/Logo";
 
-type Tab = "dashboard" | "products" | "gallery" | "site";
+type Tab = "dashboard" | "products" | "gallery" | "site" | "pricing";
 
 interface AdminSidebarProps {
   activeTab: Tab;
@@ -35,6 +36,7 @@ export function AdminSidebar({
     { key: "products" as Tab, label: "Products", icon: Package02Icon },
     { key: "gallery" as Tab, label: "Gallery", icon: GalleryHorizontalEndIcon },
     { key: "site" as Tab, label: "Site Images", icon: Globe02Icon },
+    { key: "pricing" as Tab, label: "Pricing", icon: Tag01Icon },
   ];
 
   return (

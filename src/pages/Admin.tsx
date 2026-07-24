@@ -12,14 +12,16 @@ const DashboardTab = lazy(() => import("@/components/admin/DashboardTab").then((
 const ProductsTab = lazy(() => import("@/components/admin/ProductsTab").then((m) => ({ default: m.ProductsTab })));
 const GalleryTab = lazy(() => import("@/components/admin/GalleryTab").then((m) => ({ default: m.GalleryTab })));
 const SiteImagesTab = lazy(() => import("@/components/admin/SiteImagesTab").then((m) => ({ default: m.SiteImagesTab })));
+const PricingTab = lazy(() => import("@/components/admin/PricingTab").then((m) => ({ default: m.PricingTab })));
 
-type Tab = "dashboard" | "products" | "gallery" | "site";
+type Tab = "dashboard" | "products" | "gallery" | "site" | "pricing";
 
 const TAB_LABELS: Record<Tab, string> = {
   dashboard: "Dashboard",
   products: "Products",
   gallery: "Gallery",
   site: "Site Images",
+  pricing: "Pricing",
 };
 
 function TabFallback() {
@@ -132,6 +134,7 @@ export default function Admin() {
             {activeTab === "products" && <ProductsTab />}
             {activeTab === "gallery" && <GalleryTab />}
             {activeTab === "site" && <SiteImagesTab />}
+            {activeTab === "pricing" && <PricingTab />}
           </Suspense>
         </main>
       </div>

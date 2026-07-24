@@ -108,6 +108,57 @@ const PRODUCT_CATEGORIES: { name: string; label: string; order: number }[] = [
   { name: "equipment", label: "Equipment", order: 3 },
 ];
 
+const PRICING_CATEGORIES = [
+  { name: "basic", label: "Basic Memberships", order: 1 },
+  { name: "personal", label: "Personal Training", order: 2 },
+  { name: "special", label: "Special Packages", order: 3 },
+  { name: "inHome", label: "In Home Training", order: 4 },
+  { name: "online", label: "Online Training", order: 5 },
+  { name: "other", label: "Other Services", order: 6 },
+];
+
+const INITIAL_PRICING_PLANS = [
+  // Basic
+  { name: "Gym Session (Monthly) Once Daily", price: "₦12,000", category: "basic", featured: true, description: "Perfect for beginners", features: ["Once daily gym session", "Access to all equipment", "Locker room access", "Fitness assessment"], sortOrder: 1 },
+  { name: "Plus Membership (Monthly)", price: "₦40,000", category: "basic", popular: true, featured: true, description: "Our most popular choice", features: ["Twice daily gym sessions", "Access to all equipment", "Access to all group classes", "Locker room access", "Fitness assessment", "Basic nutritional guidance"], sortOrder: 2 },
+  { name: "Premium Membership (Monthly)", price: "₦55,000", category: "basic", featured: true, description: "Recommended for beginners", features: ["Once daily gym session", "Personal trainer guidance", "Customized workout plan", "Access to all equipment", "Locker room access", "Detailed fitness assessment"], sortOrder: 3 },
+  { name: "Gym Session (Monthly) Twice Daily", price: "₦17,000", category: "basic", sortOrder: 4 },
+  { name: "Gym Session (Per Session)", price: "₦1,500", category: "basic", sortOrder: 5 },
+  { name: "Gym Session (Weekly)", price: "₦5,000", category: "basic", sortOrder: 6 },
+  { name: "Gym Session (Bi-weekly)", price: "₦7,500", category: "basic", sortOrder: 7 },
+  { name: "2 Months Gym Session", price: "₦23,000", category: "basic", savings: "saves ₦1,000", sortOrder: 8 },
+  { name: "3 Months Gym Session", price: "₦33,000", category: "basic", savings: "saves ₦3,000", sortOrder: 9 },
+  { name: "6 Months Gym Session", price: "₦66,000", category: "basic", savings: "saves ₦6,000", sortOrder: 10 },
+  { name: "Boxing Class (Twice Weekly) / Month", price: "₦14,000", category: "basic", sortOrder: 11 },
+  { name: "Boxing Session with Trainer (Daily)", price: "₦5,000", category: "basic", sortOrder: 12 },
+  { name: "Boxing Session without Trainer (Daily)", price: "₦3,000", category: "basic", sortOrder: 13 },
+
+  // Personal
+  { name: "Gym Session (Monthly) Once Daily", price: "₦22,000", category: "personal", recommended: true, sortOrder: 14 },
+  { name: "Gym Session (Monthly) Twice Daily", price: "₦25,000", category: "personal", sortOrder: 15 },
+
+  // Special
+  { name: "Couples Plan / Monthly", price: "₦22,000", category: "special", savings: "saves ₦2,000", tagline: "Shared Access for Two", trainerAddOn: "Add a Couples Personal Trainer for ₦12,000/month", sortOrder: 16 },
+  { name: "3 Days Weekly for a Month", price: "₦10,000", category: "special", tagline: "Most Popular for Consistency", trainerAddOn: "Add a Dedicated Personal Trainer for ₦8,000/month", sortOrder: 17 },
+  { name: "2 Days Weekly for a Month", price: "₦8,000", category: "special", tagline: "Perfect for Busy Schedules", trainerAddOn: "Add a Dedicated Personal Trainer for ₦6,000/month", sortOrder: 18 },
+  { name: "Weekends Only (Saturdays) / Monthly", price: "₦5,000", category: "special", tagline: "4 Sessions/Month • Saturdays Only", trainerAddOn: "Add a Dedicated Personal Trainer for ₦4,000/month", sortOrder: 19 },
+
+  // In Home
+  { name: "3 Sessions Weekly for a Month", price: "₦60,000", category: "inHome", sortOrder: 20 },
+  { name: "2 Sessions Weekly for a Month", price: "₦40,000", category: "inHome", sortOrder: 21 },
+  { name: "1 Session Weekly for a Month", price: "₦20,000", category: "inHome", sortOrder: 22 },
+
+  // Online
+  { name: "4 Sessions Weekly for a Month", price: "₦40,000", category: "online", sortOrder: 23 },
+  { name: "3 Sessions Weekly for a Month", price: "₦30,000", category: "online", sortOrder: 24 },
+  { name: "2 Sessions Weekly for a Month", price: "₦20,000", category: "online", sortOrder: 25 },
+
+  // Other
+  { name: "Customized Diet Plan", price: "₦7,000", category: "other", sortOrder: 26 },
+  { name: "Diet Training (Monthly)", price: "₦15,000", category: "other", sortOrder: 27 },
+  { name: "Custom Workout Plan", price: "₦25,000", category: "other", sortOrder: 28 },
+];
+
 export const run = mutation({
   handler: async (ctx) => {
     const existing = await ctx.db.query("products").collect();
@@ -136,6 +187,34 @@ export const run = mutation({
     if (productCats.length === 0) {
       for (const cat of PRODUCT_CATEGORIES) {
         await ctx.db.insert("productCategories", cat);
+      }
+    }
+
+    const pricingCats = await ctx.db.query("pricingCategories").collect();
+    if (pricingCats.length === 0) {
+      for (const cat of PRICING_CATEGORIES) {
+        await ctx.db.insert("pricingCategories", cat);
+      }
+    }
+
+    const pricingConfig = await ctx.db.query("pricingConfig").collect();
+    if (pricingConfig.length === 0) {
+      await ctx.db.insert("pricingConfig", {
+        key: "registration",
+        title: "Gym Registration",
+        price: "₦2,500",
+        description: "One-time registration fee for all new members. Includes initial fitness assessment and personalized orientation.",
+        updatedAt: Date.now(),
+      });
+    }
+
+    const pricingPlans = await ctx.db.query("pricingPlans").collect();
+    if (pricingPlans.length === 0) {
+      for (const plan of INITIAL_PRICING_PLANS) {
+        await ctx.db.insert("pricingPlans", {
+          ...plan,
+          createdAt: Date.now(),
+        });
       }
     }
 
