@@ -1,147 +1,66 @@
-import { useEffect, useState, useMemo } from "react";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useAnimation } from "../../context/AnimationContext";
-import { InteractiveHoverButton } from "../ui/interactive-hover-button";
+import { sessions } from "@/lib/sessions";
+import { useSessionStatus } from "@/hooks/useSessionStatus";
+import { Reveal } from "../motion";
+import { SectionHeader } from "../site/SectionHeader";
+import { Btn } from "../site/Btn";
+import { cn } from "@/lib/utils";
 
-const sessions = [
-  { name: "Morning", time: "7:00am - 10:00am" },
-  { name: "Afternoon", time: "2:00pm - 4:00pm" },
-  { name: "Evening", time: "6:00pm - 9:00pm" },
-];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3 },
-  },
-};
-
-const SessionsSection = () => {
-  const [currentSession, setCurrentSession] = useState<string | null>(null);
-  const { reduceMotion } = useAnimation();
-
-  useEffect(() => {
-    const determineCurrentSession = () => {
-      const now = new Date();
-      const hours = now.getHours();
-      const day = now.getDay();
-
-      if (day === 0) {
-        setCurrentSession(null);
-        return;
-      }
-
-      if (hours >= 7 && hours < 10) {
-        setCurrentSession("Morning");
-      } else if (hours >= 14 && hours < 16) {
-        setCurrentSession("Afternoon");
-      } else if (hours >= 18 && hours < 21) {
-        setCurrentSession("Evening");
-      } else {
-        setCurrentSession(null);
-      }
-    };
-
-    determineCurrentSession();
-    const interval = setInterval(determineCurrentSession, 60000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const sectionAnimProps = useMemo(() => ({
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true } as const,
-    transition: { duration: reduceMotion ? 0 : 0.3 },
-  }), [reduceMotion]);
-
-  const ctaAnimProps = useMemo(() => ({
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true } as const,
-    transition: { duration: reduceMotion ? 0 : 0.3, delay: 0.2 },
-  }), [reduceMotion]);
+const SessionsSection = ({ index = "02" }: { index?: string }) => {
+  const { live } = useSessionStatus();
 
   return (
-    <section className="section-padding bg-brand-dark text-white relative overflow-hidden">
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
-      </div>
-      <div className="sm:container mx-auto relative">
-        <motion.div
-          className="text-center mb-12"
-          {...sectionAnimProps}
-        >
-          <h2 className="section-title">
-            Session <span className="text-brand-gold">Times</span>
-          </h2>
-          <p className="section-subtitle text-sm">
-            Choose a session that fits your schedule
-          </p>
-        </motion.div>
+    <section className="section grain relative bg-ink text-bone">
+      <div className="shell relative">
+        <SectionHeader
+          tone="dark"
+          index={index}
+          label="Session times"
+          title={["Three doors.", <span className="text-white/30">Pick one.</span>]}
+          description="Monday to Saturday. Coaches on the floor for every session. Sundays we rest — you should too."
+          aside={
+            <Btn to="/contact?source=sessions_cta" variant="outline-light">
+              Book a session
+            </Btn>
+          }
+        />
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {sessions.map((session, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              className={`glass-card rounded-xl p-8 text-center transition-all duration-300 transform hover:scale-105 ${
-                currentSession === session.name
-                  ? "bg-brand-blue/20 shadow-lg shadow-brand-blue/30 border border-brand-blue/30"
-                  : "bg-gray-800/50"
-              }`}
-            >
-              <h3 className="text-xl font-bold mb-2 font-heading">
-                {session.name}
-              </h3>
-              <p className="text-xl mb-4">{session.time}</p>
-              {currentSession === session.name && (
-                <div className="glow-blue rounded-full px-4 py-1 inline-flex items-center justify-center bg-brand-blue/20 border border-brand-blue/50">
-                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                  <span className="text-sm font-heading">In Progress</span>
+        <div className="mt-16 grid grid-cols-1 border-t border-white/10 md:mt-24 md:grid-cols-3">
+          {sessions.map((s, i) => {
+            const isLive = live === s.name;
+            return (
+              <Reveal
+                key={s.name}
+                delay={i * 0.1}
+                className={cn(
+                  "relative border-b border-white/10 md:border-b-0",
+                  i > 0 && "md:border-l",
+                )}
+              >
+                <div
+                  className={cn(
+                    "flex h-full flex-col justify-between gap-16 px-1 py-10 transition-colors duration-700 md:px-8 md:py-14",
+                    isLive && "bg-brand-blue text-white",
+                  )}
+                >
+                  <div className="eyebrow flex items-center justify-between text-current opacity-70">
+                    <span>{String(i + 1).padStart(2, "0")} — {s.name}</span>
+                    {isLive && (
+                      <span className="flex items-center gap-2 opacity-100">
+                        <span className="live-dot !bg-white" /> Live
+                      </span>
+                    )}
+                  </div>
+                  <p className="title text-[clamp(2.75rem,5vw,4.5rem)] tabular-nums">
+                    {s.label.split(" – ")[0]}
+                    <span className={cn("block", isLive ? "text-white/60" : "text-white/30")}>
+                      {s.label.split(" – ")[1]}
+                    </span>
+                  </p>
                 </div>
-              )}
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <motion.div
-          className="text-center mt-12"
-          {...ctaAnimProps}
-        >
-          <p className="mb-6 max-w-2xl mx-auto text-sm">
-            Our sessions are designed to accommodate various schedules. Whether
-            you're an early bird or prefer evening workouts, we have a time slot
-            that works for you.
-          </p>
-          <Link to="/contact?source=sessions">
-            <InteractiveHoverButton 
-              text="Book a Session" 
-              className="w-auto px-8 bg-brand-gold border-brand-gold text-brand-dark font-heading"
-              aria-label="Book a training session"
-            />
-          </Link>
-        </motion.div>
+              </Reveal>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

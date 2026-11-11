@@ -67,19 +67,20 @@ export default {
 				brand: {
 					blue: '#0eb2f1',
 					gold: '#febf00',
-					dark: '#000000',
+					dark: '#0b0b0b',
 					light: '#ffffff',
 				},
-				// Rainbow button colors
-				"color-1": "hsl(var(--color-1))",
-				"color-2": "hsl(var(--color-2))",
-				"color-3": "hsl(var(--color-3))",
-				"color-4": "hsl(var(--color-4))",
-				"color-5": "hsl(var(--color-5))",
+				ink: '#0b0b0b',
+				bone: '#f3f1ec',
 			},
 			fontFamily: {
-				sans: ['Geom', 'sans-serif'],
-				heading: ['"Bricolage Grotesque"', 'sans-serif'],
+				sans: ['Geist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+				heading: ['"Bricolage Grotesque"', 'ui-sans-serif', 'sans-serif'],
+				mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+			},
+			transitionTimingFunction: {
+				'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
+				'in-out-quart': 'cubic-bezier(0.77, 0, 0.175, 1)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -131,10 +132,6 @@ export default {
 					'0%': { transform: 'rotate(0deg)' },
 					'100%': { transform: 'rotate(360deg)' }
 				},
-				rainbow: {
-					"0%": { "background-position": "0%" },
-					"100%": { "background-position": "200%" },
-				},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -150,7 +147,6 @@ export default {
 				'spin-slow': 'spin-slow 20s linear infinite',
 				'enter': 'fade-in 0.3s ease-out, scale-in 0.2s ease-out',
 				'exit': 'fade-out 0.3s ease-out, scale-out 0.2s ease-out',
-				rainbow: "rainbow var(--speed, 2s) infinite linear",
 			}
 		}
 	},

@@ -1,20 +1,14 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BsWhatsapp } from "react-icons/bs";
+import { cn } from "@/lib/utils";
 
 const WhatsAppButton = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setVisible(window.scrollY > 400);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
@@ -22,13 +16,14 @@ const WhatsAppButton = () => {
       href="https://wa.me/2348134460609"
       target="_blank"
       rel="noopener noreferrer"
-      className={`fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg z-40 transition-all duration-300 transform hover:scale-110 ${
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-      }`}
-      aria-label="Contact us on WhatsApp"
+      aria-label="Chat with us on WhatsApp"
+      style={{ clipPath: visible ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)" }}
+      className={cn(
+        "fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center bg-[#25D366] text-ink transition-[clip-path] duration-700 ease-in-out-quart md:bottom-8 md:right-8",
+        !visible && "pointer-events-none",
+      )}
     >
-      <BsWhatsapp size={24} />
-      <span className="sr-only">Contact us on WhatsApp</span>
+      <BsWhatsapp size={20} />
     </a>
   );
 };

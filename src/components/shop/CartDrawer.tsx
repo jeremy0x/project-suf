@@ -50,24 +50,23 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            className="fixed inset-0 bg-ink/60 z-50"
             onClick={onClose}
           />
 
           {isMobile ? (
             <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 260 }}
-              className="fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-gray-900 rounded-t-3xl shadow-2xl flex flex-col max-h-[85vh]"
+              initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
+              animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
+              exit={{ clipPath: "inset(100% 0% 0% 0%)" }}
+              transition={{ duration: 0.7, ease: [0.77, 0, 0.175, 1] }}
+              className="fixed bottom-0 left-0 right-0 z-50 bg-bone text-ink flex flex-col max-h-[85vh]"
             >
-              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 shrink-0">
+              <div className="flex items-center justify-between p-4 border-b border-ink/15 shrink-0">
                 <div className="flex items-center gap-2">
-                  <HugeiconsIcon icon={ShoppingCart02Icon} size={20} className="text-brand-blue" />
-                  <h2 className="font-heading font-bold text-lg">Cart ({totalItems})</h2>
+                  <h2 className="eyebrow">Cart ({totalItems})</h2>
                 </div>
-                <button onClick={onClose} aria-label="Close cart" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+                <button onClick={onClose} aria-label="Close cart" className="p-2 hover:bg-ink hover:text-bone transition-colors">
                   <HugeiconsIcon icon={Cancel01Icon} size={20} />
                 </button>
               </div>
@@ -82,18 +81,17 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
             </motion.div>
           ) : (
             <motion.div
-              initial={{ x: "100%", opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: "100%", opacity: 0 }}
-              transition={{ type: "spring", damping: 28, stiffness: 220 }}
-              className="fixed top-4 right-4 bottom-4 z-50 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl flex flex-col w-full max-w-md border border-gray-200 dark:border-gray-800"
+              initial={{ clipPath: "inset(0% 0% 0% 100%)" }}
+              animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
+              exit={{ clipPath: "inset(0% 0% 0% 100%)" }}
+              transition={{ duration: 0.7, ease: [0.77, 0, 0.175, 1] }}
+              className="fixed top-0 right-0 bottom-0 z-50 bg-bone text-ink flex flex-col w-full max-w-md"
             >
-              <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800 shrink-0">
+              <div className="flex items-center justify-between p-4 border-b border-ink/15 shrink-0">
                 <div className="flex items-center gap-2">
-                  <HugeiconsIcon icon={ShoppingCart02Icon} size={20} className="text-brand-blue" />
-                  <h2 className="font-heading font-bold text-lg">Cart ({totalItems})</h2>
+                  <h2 className="eyebrow">Cart ({totalItems})</h2>
                 </div>
-                <button onClick={onClose} aria-label="Close cart" className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors">
+                <button onClick={onClose} aria-label="Close cart" className="p-2 hover:bg-ink hover:text-bone transition-colors">
                   <HugeiconsIcon icon={Cancel01Icon} size={20} />
                 </button>
               </div>
@@ -130,31 +128,31 @@ function CartContent({
 }) {
   return (
     <>
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      <div className="flex-1 overflow-y-auto p-4 ">
         {items.length === 0 ? (
-          <div className="text-center py-16 text-gray-400">
+          <div className="text-center py-16 text-ink/40">
             <HugeiconsIcon icon={ShoppingCart02Icon} size={48} className="mx-auto mb-4 opacity-30" />
             <p className="font-medium">Your cart is empty</p>
             <p className="text-sm">Add items to get started</p>
           </div>
         ) : (
           items.map((item) => (
-            <div key={item.id} className="flex gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800/50">
+            <div key={item.id} className="flex gap-4 py-4 border-b border-ink/10">
               <img
                 src={responsiveUrl(item.image, "thumb")}
                 alt={item.name}
-                className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
+                className="w-20 h-24 object-cover flex-shrink-0"
               />
               <div className="flex-1 min-w-0">
                 <h4 className="font-medium text-sm truncate">{item.name}</h4>
-                <p className="text-brand-blue font-bold text-sm mt-1">
+                <p className="font-mono text-sm mt-1 tabular-nums">
                   {"\u20A6"}{item.price.toLocaleString()}
                 </p>
                 <div className="flex items-center gap-2 mt-2">
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
                     aria-label={`Decrease quantity of ${item.name}`}
-                    className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
+                    className="p-1 border border-ink/15 hover:bg-ink hover:text-bone transition-colors"
                   >
                     <HugeiconsIcon icon={MinusSignIcon} size={14} />
                   </button>
@@ -162,14 +160,14 @@ function CartContent({
                   <button
                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
                     aria-label={`Increase quantity of ${item.name}`}
-                    className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors"
+                    className="p-1 border border-ink/15 hover:bg-ink hover:text-bone transition-colors"
                   >
                     <HugeiconsIcon icon={PlusSignIcon} size={14} />
                   </button>
                   <button
                     onClick={() => removeItem(item.id)}
                     aria-label={`Remove ${item.name} from cart`}
-                    className="p-1 ml-auto hover:bg-red-50 dark:hover:bg-red-950 text-red-400 rounded-md transition-colors"
+                    className="p-1 ml-auto text-ink/50 hover:text-red-600 transition-colors"
                   >
                     <HugeiconsIcon icon={Delete02Icon} size={14} />
                   </button>
@@ -181,16 +179,16 @@ function CartContent({
       </div>
 
       {items.length > 0 && (
-        <div className="border-t border-gray-200 dark:border-gray-800 p-4 space-y-3 shrink-0">
-          <div className="flex justify-between text-lg font-bold font-heading">
-            <span>Total</span>
-            <span className="text-brand-blue">{"\u20A6"}{totalPrice.toLocaleString()}</span>
+        <div className="border-t border-ink/15 p-4 space-y-3 shrink-0">
+          <div className="flex justify-between items-baseline">
+            <span className="eyebrow text-ink/60">Total</span>
+            <span className="title text-3xl tabular-nums">{"\u20A6"}{totalPrice.toLocaleString()}</span>
           </div>
           <a
             href={`https://wa.me/2348134460609?text=${waMessage}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-green-500 text-white rounded-full font-medium text-sm hover:bg-green-600 transition-colors"
+            className="btn btn-ink w-full"
           >
             Order via WhatsApp
           </a>

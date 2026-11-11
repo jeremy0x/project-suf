@@ -1,48 +1,42 @@
-import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useAnimation } from "../../context/AnimationContext";
-import { InteractiveHoverButton } from "../ui/interactive-hover-button";
+import { MaskText, Reveal } from "../motion";
+import { Arrow } from "../site/Btn";
 
-const CTASection = () => {
-  const { reduceMotion } = useAnimation();
-
-  const animProps = useMemo(() => ({
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true } as const,
-    transition: { duration: reduceMotion ? 0 : 0.6 },
-  }), [reduceMotion]);
-
-  return (
-    <section className="section-padding bg-background text-foreground relative overflow-hidden">
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
-      </div>
-      <div className="sm:container mx-auto relative">
-        <motion.div
-          {...animProps}
-          className="text-center"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-            Ready to Start Your Journey?
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-            Join Shape Up Fitness today and take the first step towards a
-            healthier, stronger you.
+const CTASection = () => (
+  <section className="relative overflow-hidden bg-brand-blue text-ink">
+    <Link
+      to="/contact?source=home"
+      className="group shell relative block py-20 md:py-32"
+      aria-label="Get started at Shape Up Fitness"
+    >
+      {/* Ink sweeps across the whole band on hover */}
+      <span
+        aria-hidden
+        className="absolute inset-0 bg-ink transition-[clip-path] duration-1000 ease-in-out-quart [clip-path:inset(0_100%_0_0)] group-hover:[clip-path:inset(0_0_0_0)]"
+      />
+      <div className="relative grid grid-cols-12 items-end gap-6">
+        <div className="col-span-12 lg:col-span-9">
+          <Reveal from="left">
+            <p className="eyebrow mb-8 text-ink/60 transition-colors duration-700 group-hover:text-white/50">
+              Your first session
+            </p>
+          </Reveal>
+          <MaskText
+            lines={["Start", "this week."]}
+            className="display text-[clamp(3.5rem,12vw,11rem)] transition-colors duration-700 group-hover:text-bone"
+          />
+        </div>
+        <div className="col-span-12 flex items-end justify-between gap-6 lg:col-span-3 lg:flex-col lg:items-end">
+          <p className="max-w-xs text-sm leading-relaxed text-ink/70 transition-colors duration-700 group-hover:text-white/60 lg:text-right">
+            Drop in for a tour and a free assessment. We&rsquo;ll map out where to start.
           </p>
-          <Link to="/contact?source=home">
-            <InteractiveHoverButton 
-              text="Get Started Today" 
-              className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
-              aria-label="Get started with Shape Up Fitness today"
-            />
-          </Link>
-        </motion.div>
+          <span className="flex h-20 w-20 shrink-0 items-center justify-center border border-ink/30 transition-colors duration-700 group-hover:border-white/20 group-hover:text-brand-blue md:h-28 md:w-28">
+            <Arrow diagonal className="h-8 w-8 transition-transform duration-700 ease-in-out-quart group-hover:rotate-0" />
+          </span>
+        </div>
       </div>
-    </section>
-  );
-};
+    </Link>
+  </section>
+);
 
 export default CTASection;
