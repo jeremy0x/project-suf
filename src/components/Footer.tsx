@@ -26,13 +26,13 @@ const Footer = () => {
       <div className="shell relative pt-20 md:pt-28">
         <div className="grid grid-cols-12 gap-x-6 gap-y-14">
           <div className="col-span-12 lg:col-span-5">
-            <p className="eyebrow mb-6 text-white/45">Start this week</p>
+            <p className="eyebrow mb-6 text-white/45">Get started</p>
             <Link
               to="/contact?source=footer"
               className="roll-host group inline-flex items-end gap-4 text-bone"
             >
               <span className="title text-[clamp(2.25rem,5vw,4rem)]">
-                <Roll>Book a free tour</Roll>
+                <Roll>Book a visit</Roll>
               </span>
               <Arrow
                 diagonal

@@ -12,12 +12,12 @@ const stats = [
 ];
 
 const benefits = [
-  "Personalised programmes",
+  "Personalised training plans",
   "Nutrition guidance",
   "Regular assessments",
   "Expert coaching",
-  "A community that shows up",
-  "A space built for work",
+  "Supportive community",
+  "Clean, welcoming space",
 ];
 
 const AboutSection = () => {
@@ -46,13 +46,13 @@ const AboutSection = () => {
           <div className="col-span-12 flex flex-col justify-between lg:col-span-6 lg:col-start-7">
             <div>
               <MaskText
-                lines={["More than", "a gym. A room", <span className="text-ink/35">full of people</span>, <span className="text-ink/35">getting better.</span>]}
+                lines={["More than", "just a gym.", <span className="text-ink/35">A community.</span>]}
                 className="title text-[clamp(2.25rem,4.6vw,4.25rem)]"
               />
               <Reveal delay={0.2} className="mt-10 max-w-lg text-[15px] leading-relaxed text-ink/65">
-                Shape Up Fitness started in 2020 in a small space near FUTA South Gate. The approach
-                hasn&rsquo;t changed: structured training, coaches who know your name, and a floor
-                where everyone pushes everyone else.
+                Shape Up Fitness opened in 2020 near FUTA South Gate. We combine structured training
+                programmes, experienced coaches and a friendly, supportive environment to help you
+                reach your goals and feel your best.
               </Reveal>
             </div>
 
@@ -80,7 +80,7 @@ const AboutSection = () => {
 
             <Reveal delay={0.3} className="mt-12">
               <Btn to="/about" variant="ink">
-                Our story
+                Learn more about us
               </Btn>
             </Reveal>
           </div>

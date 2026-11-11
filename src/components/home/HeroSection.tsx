@@ -4,11 +4,14 @@ import { responsiveUrl } from "@/lib/images";
 import { ImageReveal, MaskText, Reveal, Rule } from "../motion";
 import { Btn } from "../site/Btn";
 import { useSessionStatus } from "@/hooks/useSessionStatus";
+import { useTimeFormat } from "@/hooks/useTimeFormat";
+import { formatDuration, formatMinutes } from "@/lib/sessions";
 
 const HeroSection = () => {
   const heroImages = useQuery(api.siteImages.listBySection, { section: "hero" });
   const heroImage = heroImages?.[0]?.url;
-  const { live, next } = useSessionStatus();
+  const { live, next, endsIn } = useSessionStatus();
+  const [format] = useTimeFormat();
 
   return (
     <section className="grain relative overflow-hidden bg-ink text-bone">
@@ -33,7 +36,7 @@ const HeroSection = () => {
                 <>
                   shape<span className="text-brand-blue">.</span>
                 </>,
-                <span className="text-white/25">Stay there.</span>,
+                <span className="text-white/25">Stay healthy.</span>,
               ]}
               className="display text-[clamp(3.75rem,13vw,12.5rem)]"
             />
@@ -51,8 +54,9 @@ const HeroSection = () => {
             />
             <Reveal immediate delay={1} className="max-w-md lg:ml-auto">
               <p className="text-[15px] leading-relaxed text-white/65">
-                Coached strength, conditioning and boxing at FUTA South Gate. Real programmes, real
-                coaches, no guesswork. Show up, we&rsquo;ll handle the plan.
+                Personal training, group sessions and expert coaches at FUTA South Gate, Akure.
+                Whether you&rsquo;re just starting out or getting back into it, we&rsquo;ll build a
+                plan that works for you.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Btn to="/contact?source=hero" aria-label="Join Shape Up Fitness">
@@ -73,11 +77,12 @@ const HeroSection = () => {
             <span className="flex items-center gap-2 text-white/80">
               {live ? (
                 <>
-                  <span className="live-dot" /> {live} session — open now
+                  <span className="live-dot" /> {live.name} session on now · ends in {formatDuration(endsIn)}
                 </>
               ) : (
                 <>
-                  Next: {next.name} {next.day !== "today" && `(${next.day})`}
+                  Next: {next.session.name}, {formatMinutes(next.session.start, format)} WAT
+                  {next.when !== "today" && ` (${next.when})`}
                 </>
               )}
             </span>

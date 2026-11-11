@@ -17,12 +17,12 @@ const MembershipPlansSection = () => {
         <SectionHeader
           tone="dark"
           index="04"
-          label="Membership"
-          title={["Simple plans.", <span className="text-white/30">No contracts.</span>]}
-          description="A one-time registration, then pay for the period that suits you. Pause any time."
+          label="Pricing"
+          title={["Membership plans"]}
+          description="Pay a one-time registration fee, then choose the plan that suits you. No long-term contracts."
           aside={
             <Btn to="/pricing" variant="outline-light">
-              Full pricing
+              See all plans
             </Btn>
           }
         />

@@ -43,8 +43,8 @@ const FeaturedProductsSection = () => {
         <SectionHeader
           index="—"
           label="The shop"
-          title={["Kit for", <span className="text-ink/35">the work.</span>]}
-          description="Gym wear, gloves and accessories, stocked at the front desk. Order online, pick up after your session."
+          title={["Popular products"]}
+          description="Gym wear, gloves and accessories available at the gym. Add to your cart here, or order directly on WhatsApp."
           aside={
             <div className="flex items-center gap-2">
               <button

@@ -115,8 +115,8 @@ const Gallery = () => {
       <PageHero
         index="G"
         label="Gallery"
-        title={["Inside", <span className="text-white/30">the gym.</span>]}
-        intro="The floor, the kit and the people. Better in person — come and see it."
+        title={["Gallery"]}
+        intro="Take a look at our facilities and community. Even better in person, so come and visit."
       />
 
       <section className="section bg-background text-ink">

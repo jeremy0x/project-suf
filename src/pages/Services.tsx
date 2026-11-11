@@ -41,8 +41,8 @@ const Services = () => {
       <PageHero
         index="S"
         label="Services"
-        title={["Train with", <span className="text-white/30">intent.</span>]}
-        intro="Nine coached disciplines. Mix them, or let us build the right blend around your goal."
+        title={["Our", <span className="text-white/30">services</span>]}
+        intro="A full range of coached programmes to help you get fitter, stronger and healthier."
       />
 
       <section className="section bg-background text-ink">
@@ -89,8 +89,8 @@ const Services = () => {
           <SectionHeader
             index="03"
             label="Approach"
-            title={["How we", <span className="text-ink/35">coach.</span>]}
-            description="Expert guidance, a plan that adapts, and people around you who keep you honest."
+            title={["Our approach"]}
+            description="Expert guidance, a plan that adapts as you progress, and a supportive community around you."
           />
           <ol className="mt-16 border-t border-ink/15 md:mt-24">
             {approach.map((a, i) => (
@@ -129,13 +129,13 @@ const Services = () => {
               </p>
             </Reveal>
             <MaskText
-              lines={["Fitness is", "the whole", <span className="text-white/30">picture.</span>]}
+              lines={["Our training", <span className="text-white/30">philosophy</span>]}
               className="title text-[clamp(2.5rem,5vw,4.5rem)]"
             />
             <Reveal delay={0.15} className="mt-10 space-y-5 text-[15px] leading-relaxed text-white/65">
               <p>
-                Strength matters, but so do recovery, nutrition, sleep and habits you can keep. We
-                build balanced programmes that account for all of it.
+                We take a whole-person approach to fitness. Strength matters, but so do recovery,
+                nutrition, rest and habits you can stick with, so our programmes cover all of it.
               </p>
               <p>
                 Every plan is shaped around your body, your goal and your week. We focus on form,

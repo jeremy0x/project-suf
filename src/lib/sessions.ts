@@ -1,30 +1,71 @@
+/** Gym times are fixed to West Africa Time (Africa/Lagos, UTC+1, no DST). */
+export const GYM_UTC_OFFSET_MIN = 60;
+export const GYM_TZ_LABEL = "WAT (UTC+1)";
+
 export const sessions = [
-  { name: "Morning", start: 7, end: 10, label: "07:00 – 10:00" },
-  { name: "Afternoon", start: 14, end: 16, label: "14:00 – 16:00" },
-  { name: "Evening", start: 18, end: 21, label: "18:00 – 21:00" },
+  { name: "Morning", start: 7 * 60, end: 10 * 60 },
+  { name: "Afternoon", start: 14 * 60, end: 16 * 60 },
+  { name: "Evening", start: 18 * 60, end: 21 * 60 },
 ] as const;
 
-export type SessionName = (typeof sessions)[number]["name"];
+export type Session = (typeof sessions)[number];
+export type SessionName = Session["name"];
+export type TimeFormat = "24h" | "12h";
 
-/** Which session is running right now (local time). Sundays are closed. */
-export function currentSession(now = new Date()): SessionName | null {
-  if (now.getDay() === 0) return null;
-  const h = now.getHours();
-  return sessions.find((s) => h >= s.start && h < s.end)?.name ?? null;
+/** Day of week (0 = Sunday) and minutes since midnight, in gym time. */
+export function gymClock(now = new Date()) {
+  const shifted = new Date(now.getTime() + GYM_UTC_OFFSET_MIN * 60_000);
+  return { day: shifted.getUTCDay(), minutes: shifted.getUTCHours() * 60 + shifted.getUTCMinutes() };
 }
 
-/** The next session that hasn't started yet, today or the next open day. */
-export function nextSession(now = new Date()): { name: SessionName; label: string; day: "today" | "tomorrow" | "monday" } {
-  const h = now.getHours();
-  const isSunday = now.getDay() === 0;
-  if (!isSunday) {
-    const later = sessions.find((s) => s.start > h);
-    if (later) return { name: later.name, label: later.label, day: "today" };
-  }
-  const isSaturday = now.getDay() === 6;
+/** Minutes the viewer's clock is ahead of gym time (0 for anyone already on WAT). */
+export function viewerOffsetFromGym(now = new Date()) {
+  return -now.getTimezoneOffset() - GYM_UTC_OFFSET_MIN;
+}
+
+export function formatMinutes(total: number, fmt: TimeFormat) {
+  const m = ((total % 1440) + 1440) % 1440;
+  const h = Math.floor(m / 60);
+  const mm = String(m % 60).padStart(2, "0");
+  if (fmt === "24h") return `${String(h).padStart(2, "0")}:${mm}`;
+  const h12 = h % 12 === 0 ? 12 : h % 12;
+  return `${h12}:${mm} ${h < 12 ? "AM" : "PM"}`;
+}
+
+export function formatDuration(mins: number) {
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return h ? `${h}h ${String(m).padStart(2, "0")}m` : `${m}m`;
+}
+
+export interface SessionStatus {
+  day: number;
+  minutes: number;
+  live: Session | null;
+  /** 0–1 progress through the live session. */
+  progress: number;
+  /** Minutes until the live session ends. */
+  endsIn: number;
+  next: { session: Session; when: "today" | "tomorrow" | "Monday"; startsIn: number | null };
+}
+
+export function sessionStatus(now = new Date()): SessionStatus {
+  const { day, minutes } = gymClock(now);
+  const open = day !== 0;
+  const live = open ? sessions.find((s) => minutes >= s.start && minutes < s.end) ?? null : null;
+
+  let next: SessionStatus["next"];
+  const later = open ? sessions.find((s) => s.start > minutes) : undefined;
+  if (later) next = { session: later, when: "today", startsIn: later.start - minutes };
+  // Saturday evening rolls over to Monday; Sunday's "tomorrow" is already Monday.
+  else next = { session: sessions[0], when: day === 6 ? "Monday" : "tomorrow", startsIn: null };
+
   return {
-    name: sessions[0].name,
-    label: sessions[0].label,
-    day: isSaturday ? "monday" : "tomorrow",
+    day,
+    minutes,
+    live,
+    progress: live ? (minutes - live.start) / (live.end - live.start) : 0,
+    endsIn: live ? live.end - minutes : 0,
+    next,
   };
 }

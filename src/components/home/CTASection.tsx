@@ -18,17 +18,17 @@ const CTASection = () => (
         <div className="col-span-12 lg:col-span-9">
           <Reveal from="left">
             <p className="eyebrow mb-8 text-ink/60 transition-colors duration-700 group-hover:text-white/50">
-              Your first session
+              Join Shape Up
             </p>
           </Reveal>
           <MaskText
-            lines={["Start", "this week."]}
+            lines={["Ready to", "get started?"]}
             className="display text-[clamp(3.5rem,12vw,11rem)] transition-colors duration-700 group-hover:text-bone"
           />
         </div>
         <div className="col-span-12 flex items-end justify-between gap-6 lg:col-span-3 lg:flex-col lg:items-end">
           <p className="max-w-xs text-sm leading-relaxed text-ink/70 transition-colors duration-700 group-hover:text-white/60 lg:text-right">
-            Drop in for a tour and a free assessment. We&rsquo;ll map out where to start.
+            Visit us for a tour, meet the coaches and find the plan that&rsquo;s right for you.
           </p>
           <span className="flex h-20 w-20 shrink-0 items-center justify-center border border-ink/30 transition-colors duration-700 group-hover:border-white/20 group-hover:text-brand-blue md:h-28 md:w-28">
             <Arrow diagonal className="h-8 w-8 transition-transform duration-700 ease-in-out-quart group-hover:rotate-0" />

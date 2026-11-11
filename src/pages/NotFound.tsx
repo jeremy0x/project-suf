@@ -17,7 +17,7 @@ const NotFound = () => {
             as="h1"
             immediate
             delay={0.45}
-            lines={["Wrong", <span className="text-white/30">turn.</span>]}
+            lines={["Page not", <span className="text-white/30">found</span>]}
             className="display text-[clamp(4rem,16vw,14rem)]"
           />
           <Reveal immediate delay={0.8} className="mt-12 flex flex-wrap gap-3">

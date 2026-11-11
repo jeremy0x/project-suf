@@ -33,10 +33,10 @@ const TestimonialsSection = () => {
               <p className="eyebrow flex items-center gap-3 text-ink/55">
                 <span>(—)</span>
                 <span className="h-px w-8 bg-current" />
-                <span>From the floor</span>
+                <span>Testimonials</span>
               </p>
               <p className="mt-6 max-w-[16rem] text-sm leading-relaxed text-ink/55">
-                What members say after a few months on the floor.
+                What our members say about training with us.
               </p>
             </Reveal>
           </div>

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { currentSession, nextSession } from "@/lib/sessions";
+import { sessionStatus } from "@/lib/sessions";
 
+/** Live session state in gym time (WAT), refreshed every 30 seconds. */
 export function useSessionStatus() {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 60_000);
+    const id = setInterval(() => setNow(new Date()), 30_000);
     return () => clearInterval(id);
   }, []);
-  return { live: currentSession(now), next: nextSession(now) };
+  return sessionStatus(now);
 }

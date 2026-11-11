@@ -42,8 +42,8 @@ const Shop = () => {
       <PageHero
         index="$"
         label="Shop"
-        title={["Gear", <span className="text-white/30">up.</span>]}
-        intro="Gym wear, gloves, bags and accessories. Order here, pay and collect at the front desk, or buy straight through WhatsApp."
+        title={["Shop"]}
+        intro="Gym wear, gloves, bags and accessories. Add items to your cart and order on WhatsApp."
       />
 
       <section className="section bg-background text-ink">

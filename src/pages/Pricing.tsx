@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     q: "What are the opening hours?",
-    a: "Monday to Saturday across three sessions: 7–10am, 2–4pm and 6–9pm. We're closed on Sundays.",
+    a: "Monday to Saturday across three sessions: 7–10am, 2–4pm and 6–9pm (WAT). We're closed on Sundays.",
   },
 ];
 
@@ -117,8 +117,8 @@ const Pricing = () => {
       <PageHero
         index="P"
         label="Pricing"
-        title={["Pay for", <span className="text-white/30">the work.</span>]}
-        intro="No contracts, no hidden extras. Register once, then choose the period that fits."
+        title={["Pricing"]}
+        intro="Clear prices with no long-term contracts. Pay a one-time registration fee, then pick the plan that suits you."
       >
         {registration && (
           <Reveal immediate delay={0.9} className="mt-14">
@@ -207,7 +207,7 @@ const Pricing = () => {
             tone="dark"
             index="?"
             label="FAQ"
-            title={["Questions,", <span className="text-white/30">answered.</span>]}
+            title={["Frequently asked", <span className="text-white/30">questions</span>]}
           />
           <Reveal className="mt-16 md:mt-24 md:pl-[25%]">
             <Accordion type="single" collapsible className="border-t border-white/10">
@@ -234,8 +234,8 @@ const Pricing = () => {
           <SectionHeader
             index="+"
             label="Groups & business"
-            title={["Need a", <span className="text-ink/35">custom plan?</span>]}
-            description="Corporate packages, team discounts and home coaching, built around your group."
+            title={["Need a custom plan?"]}
+            description="We offer corporate packages, team discounts and home coaching. Get in touch and we'll put something together for you."
             aside={
               <Btn to="/contact?source=pricing_custom_cta" variant="ink">
                 Talk to us

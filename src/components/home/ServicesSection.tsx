@@ -18,9 +18,9 @@ const ServicesSection = () => {
       <div className="shell">
         <SectionHeader
           index="01"
-          label="What we offer"
-          title={["Nine ways", "to train."]}
-          description="Every programme is coached in person and adjusted as you progress. Pick one, or let us build a mix around your goal."
+          label="Services"
+          title={["What we offer"]}
+          description="All our programmes are coached in person and adjusted as you progress. Choose one, or let a coach put together the right mix for your goals."
           aside={
             <Btn to="/services" variant="outline-dark">
               All services

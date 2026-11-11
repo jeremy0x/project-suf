@@ -5,7 +5,12 @@ import Layout from "../components/Layout";
 import { Reveal } from "@/components/motion";
 import { PageHero } from "@/components/site/PageHero";
 import { Btn } from "@/components/site/Btn";
-import { sessions } from "@/lib/sessions";
+import { sessions, GYM_TZ_LABEL } from "@/lib/sessions";
+import { useSessionStatus } from "@/hooks/useSessionStatus";
+import { useTimeFormat } from "@/hooks/useTimeFormat";
+import { TimeToggle } from "@/components/site/TimeToggle";
+import { SessionTime } from "@/components/site/SessionTime";
+import { cn } from "@/lib/utils";
 
 function Field({
   label,
@@ -29,6 +34,8 @@ function Field({
 
 const Contact = () => {
   const [searchParams] = useSearchParams();
+  const status = useSessionStatus();
+  const [timeFormat] = useTimeFormat();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -166,8 +173,8 @@ const Contact = () => {
       <PageHero
         index="C"
         label="Contact"
-        title={["Say", <span className="text-white/30">hello.</span>]}
-        intro="Questions, a tour, or ready to sign up. Send a message or just walk in during a session."
+        title={["Get in", <span className="text-white/30">touch</span>]}
+        intro="Have a question, want to book a tour or ready to join? Send us a message, call, or visit during any session."
       />
 
       <section className="section bg-background text-ink">
@@ -235,15 +242,35 @@ const Contact = () => {
                   </dd>
                 </div>
                 <div className="border-b border-ink/15 py-5">
-                  <dt className="eyebrow text-ink/45">Hours · Mon – Sat</dt>
-                  <dd className="mt-2 space-y-1 font-mono text-sm tabular-nums">
-                    {sessions.map((s) => (
-                      <p key={s.name} className="flex justify-between">
-                        <span className="text-ink/55">{s.name}</span>
-                        <span>{s.label}</span>
-                      </p>
-                    ))}
-                    <p className="flex justify-between">
+                  <dt className="eyebrow flex flex-wrap items-center justify-between gap-3 text-ink/45">
+                    <span>Hours · Mon – Sat · {GYM_TZ_LABEL}</span>
+                    <TimeToggle />
+                  </dt>
+                  <dd className="mt-4 font-mono text-sm">
+                    {sessions.map((s) => {
+                      const live = status.live?.name === s.name;
+                      return (
+                        <p
+                          key={s.name}
+                          className={cn(
+                            "flex items-center justify-between gap-4 border-t border-ink/10 px-2 py-2.5 transition-colors duration-500",
+                            live && "bg-brand-blue text-white",
+                          )}
+                        >
+                          <span className={cn("flex items-center gap-2", !live && "text-ink/55")}>
+                            {live && <span className="live-dot !bg-white" />}
+                            {s.name}
+                            {live && <span className="text-[10px] uppercase tracking-[0.14em]">· Live</span>}
+                          </span>
+                          <span>
+                            <SessionTime minutes={s.start} format={timeFormat} className="[&>span]:align-baseline [&>span]:text-[0.85em]" />
+                            {" – "}
+                            <SessionTime minutes={s.end} format={timeFormat} className="[&>span]:align-baseline [&>span]:text-[0.85em]" />
+                          </span>
+                        </p>
+                      );
+                    })}
+                    <p className="flex justify-between border-t border-ink/10 px-2 py-2.5">
                       <span className="text-ink/55">Sunday</span>
                       <span>Closed</span>
                     </p>

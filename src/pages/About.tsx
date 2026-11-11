@@ -91,8 +91,8 @@ const About = () => {
       <PageHero
         index="A"
         label="About"
-        title={["Built in", <span className="text-white/30">Akure.</span>]}
-        intro="The people, the place and the thinking behind Shape Up Fitness."
+        title={["About", <span className="text-white/30">us</span>]}
+        intro="Learn more about Shape Up Fitness: our story, what we stand for and the team behind it."
       />
 
       {/* Story */}
@@ -117,7 +117,7 @@ const About = () => {
               </p>
             </Reveal>
             <MaskText
-              lines={["Started small.", <span className="text-ink/35">Still personal.</span>]}
+              lines={["Our story"]}
               className="title text-[clamp(2.25rem,4.5vw,4rem)]"
             />
             <Reveal delay={0.15} className="mt-10 space-y-5 text-[15px] leading-relaxed text-ink/70">
@@ -144,8 +144,8 @@ const About = () => {
           <SectionHeader
             tone="dark"
             index="02"
-            label="Why us"
-            title={["What sets", <span className="text-white/30">us apart.</span>]}
+            label="What sets us apart"
+            title={["Why choose us"]}
           />
           <div className="mt-16 grid grid-cols-1 border-t border-white/10 md:mt-24 md:grid-cols-3">
             {pillars.map((p, i) => (
@@ -168,8 +168,8 @@ const About = () => {
         <div className="shell">
           <SectionHeader
             index="03"
-            label="The team"
-            title={["The people", <span className="text-ink/35">on the floor.</span>]}
+            label="Our coaches"
+            title={["Meet the team"]}
           />
           <ul className="mt-16 grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 md:mt-24 lg:grid-cols-3">
             {team.map((m, i) => (

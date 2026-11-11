@@ -22,8 +22,8 @@ const Favorites = () => {
       <PageHero
         index="♥"
         label="Wishlist"
-        title={["Saved", <span className="text-white/30">for later.</span>]}
-        intro="Everything you've hearted in the shop, kept on this device."
+        title={["Wishlist"]}
+        intro="Products you've saved from the shop. Your wishlist is stored on this device."
       />
 
       <section className="section bg-background text-ink">
