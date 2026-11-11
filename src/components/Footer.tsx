@@ -108,11 +108,12 @@ const Footer = () => {
         </div>
 
         {/* Oversized wordmark, cut off by the bottom edge */}
-        <div aria-hidden className="mt-20 select-none md:mt-28">
+        {/* Sized in container units so it always fits the shell, whatever the screen width */}
+        <div aria-hidden className="mt-20 select-none [container-type:inline-size] md:mt-28">
           <MaskText
             as="p"
             lines={["Shape Up"]}
-            className="display whitespace-nowrap text-[22.5vw] leading-[0.78] text-white/[0.07]"
+            className="display whitespace-nowrap text-[length:22cqw] leading-[0.78] text-white/[0.07]"
             lineClassName="pb-0 mb-0"
           />
         </div>
