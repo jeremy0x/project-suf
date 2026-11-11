@@ -28,7 +28,7 @@ function StockDisplay({ qty }: { qty: number | undefined }) {
   if (qty <= 3)
     return <span className="eyebrow text-orange-600">Only {qty} left</span>;
   if (qty <= 10)
-    return <span className="eyebrow text-ink/60">Low stock · {qty} available</span>;
+    return <span className="eyebrow text-ink/60">Low stock, {qty} available</span>;
   return <span className="eyebrow text-green-700">{qty} in stock</span>;
 }
 

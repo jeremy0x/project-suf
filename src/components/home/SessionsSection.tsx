@@ -46,13 +46,15 @@ const SessionsSection = ({ index = "02" }: { index?: string }) => {
         {/* Clock strip: gym time, and a note when the viewer is somewhere else */}
         <Reveal className="mt-16 md:mt-24">
           <div className="eyebrow flex flex-col gap-2 border-t border-white/10 py-4 text-white/50 md:flex-row md:items-center md:justify-between">
-            <span className="flex items-center gap-3 text-white/80">
-              {status.live ? <span className="live-dot" /> : <span className="h-1.5 w-1.5 bg-white/30" />}
-              Akure now · {formatMinutes(status.minutes, format)} {closedToday && "· Closed today"}
+            <span className="flex items-center gap-6">
+              <span>
+                Akure time <span className="ml-2 text-white">{formatMinutes(status.minutes, format)}</span>
+              </span>
+              {closedToday && <span className="text-white/80">Closed today</span>}
             </span>
-            <span>
-              All times in {GYM_TZ_LABEL}
-              {offset !== 0 && " · your local time shown below each session"}
+            <span className="flex flex-col gap-1 md:flex-row md:gap-6">
+              <span>All times in {GYM_TZ_LABEL}</span>
+              {offset !== 0 && <span>Your local time is under each session</span>}
             </span>
           </div>
         </Reveal>
@@ -82,16 +84,13 @@ const SessionsSection = ({ index = "02" }: { index?: string }) => {
                       {String(i + 1).padStart(2, "0")} — {s.name}
                     </span>
                     {isLive && (
-                      <span className="flex items-center gap-2 bg-ink px-2 py-1 text-white">
-                        <span className="live-dot" /> Live now
-                      </span>
+                      <span className="bg-ink px-2 py-1 text-white">Live now</span>
                     )}
                     {isNext && (
                       <span className="border border-white/20 px-2 py-1 text-white/80">
-                        Next ·{" "}
                         {status.next.startsIn != null
-                          ? `in ${formatDuration(status.next.startsIn)}`
-                          : status.next.when}
+                          ? `Starts in ${formatDuration(status.next.startsIn)}`
+                          : "Up next"}
                       </span>
                     )}
                     {isDone && <span>Finished</span>}

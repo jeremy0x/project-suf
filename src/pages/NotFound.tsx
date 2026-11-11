@@ -11,7 +11,7 @@ const NotFound = () => {
       <section className="grain relative flex min-h-[100svh] items-end bg-ink pb-16 pt-32 text-bone">
         <div className="shell relative">
           <Reveal immediate from="left" delay={0.4}>
-            <p className="eyebrow mb-8 text-white/50">Error 404 · {pathname}</p>
+            <p className="eyebrow mb-8 flex gap-6 text-white/50"><span>Error 404</span><span className="normal-case">{pathname}</span></p>
           </Reveal>
           <MaskText
             as="h1"

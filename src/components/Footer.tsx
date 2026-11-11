@@ -118,7 +118,7 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-4 border-t border-white/10 py-6 font-mono text-[11px] uppercase tracking-[0.14em] text-white/45 md:flex-row md:items-center md:justify-between">
-          <p>&copy; {year} Shape Up Fitness &middot; BN 6982554</p>
+          <p className="flex gap-6"><span>&copy; {year} Shape Up Fitness</span><span>BN 6982554</span></p>
           <p>
             Built by{" "}
             <a

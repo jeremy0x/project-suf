@@ -243,7 +243,7 @@ const Contact = () => {
                 </div>
                 <div className="border-b border-ink/15 py-5">
                   <dt className="eyebrow flex flex-wrap items-center justify-between gap-3 text-ink/45">
-                    <span>Hours · Mon – Sat · {GYM_TZ_LABEL}</span>
+                    <span>Hours, Mon – Sat, {GYM_TZ_LABEL}</span>
                     <TimeToggle />
                   </dt>
                   <dd className="mt-4 font-mono text-sm">
@@ -258,9 +258,8 @@ const Contact = () => {
                           )}
                         >
                           <span className={cn("flex items-center gap-2", !live && "text-ink/55")}>
-                            {live && <span className="live-dot !bg-white" />}
                             {s.name}
-                            {live && <span className="text-[10px] uppercase tracking-[0.14em]">· Live</span>}
+                            {live && <span className="bg-ink px-1.5 py-0.5 text-[10px] uppercase tracking-[0.14em] text-white">Live</span>}
                           </span>
                           <span>
                             <SessionTime minutes={s.start} format={timeFormat} className="[&>span]:align-baseline [&>span]:text-[0.85em]" />

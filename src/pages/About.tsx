@@ -187,7 +187,7 @@ const About = () => {
                     <span className="eyebrow shrink-0 text-ink/40">{String(i + 1).padStart(2, "0")}</span>
                   </div>
                   <p className="eyebrow mt-4 text-brand-blue">{m.role}</p>
-                  <p className="mt-2 text-sm text-ink/55">{m.specialties.join(" · ")}</p>
+                  <p className="mt-2 text-sm text-ink/55">{m.specialties.join(", ")}</p>
                 </Reveal>
               </li>
             ))}

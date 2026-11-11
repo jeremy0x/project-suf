@@ -73,25 +73,22 @@ const HeroSection = () => {
         {/* Meta strip */}
         <Rule immediate delay={0.9} className="mt-14" />
         <Reveal immediate delay={1.1} from="top">
-          <div className="eyebrow grid grid-cols-2 gap-4 pt-5 text-white/50 md:grid-cols-4">
-            <span className="flex items-center gap-2 text-white/80">
-              {live ? (
-                <>
-                  <span className="live-dot" /> {live.name} session on now · ends in {formatDuration(endsIn)}
-                </>
-              ) : (
-                <>
-                  Next: {next.session.name}, {formatMinutes(next.session.start, format)} WAT
-                  {next.when !== "today" && ` (${next.when})`}
-                </>
-              )}
+          {/* One line at every width: status left, detail right; extras only where there's room */}
+          <div className="eyebrow flex items-center justify-between gap-6 whitespace-nowrap pt-5 tracking-[0.1em] text-white/50 sm:tracking-[0.18em]">
+            <span className="text-white">
+              {live ? `${live.name} session on now` : `Next: ${next.session.name}`}
             </span>
-            <span className="hidden md:block">Mon – Sat · 3 sessions daily</span>
-            <span className="hidden md:block">100+ members</span>
+            <span className="hidden lg:block">Mon – Sat, 3 sessions a day</span>
+            <span className="hidden lg:block">100+ members</span>
+            <span className="text-white/70">
+              {live
+                ? `Ends in ${formatDuration(endsIn)}`
+                : `${next.when === "today" ? "Today" : next.when === "tomorrow" ? "Tomorrow" : "Monday"}, ${formatMinutes(next.session.start, format)} WAT`}
+            </span>
             <button
               type="button"
               onClick={() => document.getElementById("offer")?.scrollIntoView({ behavior: "smooth" })}
-              className="roll-host justify-self-end text-white/80 hover:text-white"
+              className="hidden text-white/80 hover:text-white md:block"
             >
               Scroll ↓
             </button>
