@@ -3,7 +3,7 @@ import { MaskText, Reveal } from "@/components/motion";
 import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
-  index: string;
+  index?: string;
   label: string;
   title: ReactNode[];
   description?: ReactNode;
@@ -30,8 +30,12 @@ export function SectionHeader({
     <div className={cn("grid grid-cols-12 gap-x-6 gap-y-8", className)}>
       <Reveal from="left" className="col-span-12 md:col-span-3">
         <p className={cn("eyebrow flex items-center gap-3", muted)}>
-          <span>({index})</span>
-          <span className="h-px w-8 bg-current" />
+          {index && (
+            <>
+              <span>({index})</span>
+              <span className="h-px w-8 bg-current" />
+            </>
+          )}
           <span>{label}</span>
         </p>
       </Reveal>

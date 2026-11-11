@@ -40,13 +40,13 @@ function PlanCard({ plan, index }: { plan: Doc<"pricingPlans">; index: number })
           featured ? "border-ink bg-ink text-bone" : "border-ink/15",
         )}
       >
-        <div className="eyebrow flex items-center justify-between gap-2">
-          <span className="opacity-50">{String(index + 1).padStart(2, "0")}</span>
-          {plan.popular && <span className="text-brand-blue">Most popular</span>}
-          {plan.recommended && !plan.popular && <span className="text-brand-gold">Recommended</span>}
-        </div>
+        {(plan.popular || plan.recommended) && (
+          <p className={cn("eyebrow mb-6", plan.popular ? "text-brand-blue" : "text-brand-gold")}>
+            {plan.popular ? "Most popular" : "Recommended"}
+          </p>
+        )}
 
-        <h3 className="title mt-8 text-xl">{plan.name}</h3>
+        <h3 className="title text-xl">{plan.name}</h3>
         <p className="title mt-2 text-4xl tabular-nums">{plan.price}</p>
         {plan.savings && (
           <p className={cn("eyebrow mt-3", featured ? "text-brand-gold" : "text-green-700")}>
@@ -205,7 +205,6 @@ const Pricing = () => {
         <div className="shell relative">
           <SectionHeader
             tone="dark"
-            index="?"
             label="FAQ"
             title={["Frequently asked", <span className="text-white/30">questions</span>]}
           />
@@ -214,12 +213,9 @@ const Pricing = () => {
               {faqs.map((f, i) => (
                 <AccordionItem key={f.q} value={`q${i}`} className="border-b border-white/10">
                   <AccordionTrigger className="gap-6 py-6 text-left text-lg font-medium hover:no-underline md:text-2xl">
-                    <span className="flex items-baseline gap-6">
-                      <span className="eyebrow text-white/40">{String(i + 1).padStart(2, "0")}</span>
-                      {f.q}
-                    </span>
+                    {f.q}
                   </AccordionTrigger>
-                  <AccordionContent className="max-w-2xl pb-8 pl-12 text-[15px] leading-relaxed text-white/60">
+                  <AccordionContent className="max-w-2xl pb-8 text-[15px] leading-relaxed text-white/60">
                     {f.a}
                   </AccordionContent>
                 </AccordionItem>
@@ -232,7 +228,6 @@ const Pricing = () => {
       <section className="section bg-background text-ink">
         <div className="shell">
           <SectionHeader
-            index="+"
             label="Groups & business"
             title={["Need a custom plan?"]}
             description="We offer corporate packages, team discounts and home coaching. Get in touch and we'll put something together for you."

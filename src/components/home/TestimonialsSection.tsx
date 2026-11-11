@@ -31,7 +31,7 @@ const TestimonialsSection = () => {
           <div className="col-span-12 lg:col-span-3">
             <Reveal from="left" className="lg:sticky lg:top-28">
               <p className="eyebrow flex items-center gap-3 text-ink/55">
-                <span>(—)</span>
+                <span>(06)</span>
                 <span className="h-px w-8 bg-current" />
                 <span>Testimonials</span>
               </p>

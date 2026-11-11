@@ -52,11 +52,10 @@ const MembershipPlansSection = () => {
                       plan.popular && "bg-bone text-ink",
                     )}
                   >
-                    <div className="eyebrow flex items-center justify-between opacity-60">
-                      <span>{String(i + 1).padStart(2, "0")}</span>
-                      {plan.popular && <span className="text-brand-blue opacity-100">Most popular</span>}
-                    </div>
-                    <h3 className="title mt-10 text-2xl">{plan.name}</h3>
+                    <p className={cn("eyebrow h-4", plan.popular ? "text-brand-blue" : "invisible")}>
+                      Most popular
+                    </p>
+                    <h3 className="title mt-8 text-2xl">{plan.name}</h3>
                     <p className="title mt-3 text-[clamp(2.5rem,4vw,3.5rem)] tabular-nums">{plan.price}</p>
                     {plan.features && plan.features.length > 0 && (
                       <ul className="mt-10 flex-1 text-sm">

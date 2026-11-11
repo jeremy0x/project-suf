@@ -41,7 +41,7 @@ const FeaturedProductsSection = () => {
     <section className="section overflow-hidden bg-background text-ink">
       <div className="shell">
         <SectionHeader
-          index="—"
+          index="05"
           label="The shop"
           title={["Popular products"]}
           description="Gym wear, gloves and accessories available at the gym. Add to your cart here, or order directly on WhatsApp."
