@@ -27,19 +27,20 @@ const AboutSection = () => {
   return (
     <section id="about" className="section bg-background text-ink">
       <div className="shell">
+        <Reveal from="left">
+          <p className="eyebrow mb-10 flex items-center gap-3 text-ink/55 md:mb-14">
+            <span>(03)</span>
+            <span className="h-px w-8 bg-current" />
+            <span>About Shape Up</span>
+          </p>
+        </Reveal>
+        {/* Grid rows stretch, so on desktop the photo is exactly as tall as the text column */}
         <div className="grid grid-cols-12 gap-x-6 gap-y-14">
           <div className="col-span-12 lg:col-span-5">
-            <Reveal from="left">
-              <p className="eyebrow mb-10 flex items-center gap-3 text-ink/55">
-                <span>(03)</span>
-                <span className="h-px w-8 bg-current" />
-                <span>About Shape Up</span>
-              </p>
-            </Reveal>
             <ImageReveal
               src={aboutImage ? responsiveUrl(aboutImage, "medium") : undefined}
               alt="Members performing barbell and goblet squats"
-              className="aspect-[4/5] w-full"
+              className="aspect-[4/5] w-full lg:aspect-auto lg:h-full lg:[&>div]:absolute lg:[&>div]:inset-0"
             />
           </div>
 
