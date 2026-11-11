@@ -6,6 +6,7 @@ import { Btn, Roll } from "./site/Btn";
 import { EASE_CLIP } from "./motion/ease";
 import { useAnimation } from "../context/AnimationContext";
 import { cn } from "@/lib/utils";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 const navItems = [
   { to: "/about", label: "About" },
@@ -31,12 +32,7 @@ const Header = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
+  useScrollLock(open);
 
   useEffect(() => setOpen(false), [pathname]);
 

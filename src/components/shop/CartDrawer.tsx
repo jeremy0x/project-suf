@@ -1,5 +1,8 @@
 import { useCart } from "@/context/CartContext";
 import { useEffect, useState } from "react";
+import { useScrollLock } from "@/hooks/useScrollLock";
+
+const MOBILE_QUERY = "(max-width: 1023px)";
 import { motion, AnimatePresence } from "framer-motion";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { responsiveUrl } from "@/lib/images";
@@ -18,23 +21,18 @@ interface CartDrawerProps {
 
 export function CartDrawer({ open, onClose }: CartDrawerProps) {
   const { items, removeItem, updateQuantity, totalItems, totalPrice } = useCart();
-  const [isMobile, setIsMobile] = useState(false);
+  // Read the breakpoint on the first render so the drawer never mounts as one
+  // panel and swaps to the other.
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia(MOBILE_QUERY).matches);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    const mq = window.matchMedia(MOBILE_QUERY);
+    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => { document.body.style.overflow = ""; };
-  }, [open]);
+  useScrollLock(open);
 
   const waMessage = encodeURIComponent(
     `Hi, I'm interested in the following items:\n\n${items
@@ -47,6 +45,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
       {open && (
         <>
           <motion.div
+            key="cart-backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -56,6 +55,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
 
           {isMobile ? (
             <motion.div
+              key="cart-sheet"
               initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
               animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
               exit={{ clipPath: "inset(100% 0% 0% 0%)" }}
@@ -81,6 +81,7 @@ export function CartDrawer({ open, onClose }: CartDrawerProps) {
             </motion.div>
           ) : (
             <motion.div
+              key="cart-panel"
               initial={{ clipPath: "inset(0% 0% 0% 100%)" }}
               animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
               exit={{ clipPath: "inset(0% 0% 0% 100%)" }}

@@ -76,8 +76,7 @@
   * {
     @apply border-border;
   }
-  html,
-  body {
+  html {
     scrollbar-gutter: stable;
   }
   body {

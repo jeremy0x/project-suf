@@ -7,6 +7,7 @@ import type { Doc } from "../../convex/_generated/dataModel";
 import Layout from "../components/Layout";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
+import { useScrollLock } from "@/hooks/useScrollLock";
 import { ImageGallery } from "@/components/ui/image-gallery";
 import { Reveal } from "@/components/motion";
 import { EASE_CLIP } from "@/components/motion/ease";
@@ -62,12 +63,10 @@ const Gallery = () => {
     const realIndex = index < filteredImages.length ? index : 0;
     setCurrentImageIndex(realIndex);
     setLightboxOpen(true);
-    document.body.style.overflow = "hidden";
   };
 
   const closeLightbox = useCallback(() => {
     setLightboxOpen(false);
-    document.body.style.overflow = "auto";
   }, []);
 
   const goToPrevious = useCallback(() => {
@@ -101,14 +100,7 @@ const Gallery = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [closeLightbox, goToNext, goToPrevious, lightboxOpen]);
 
-  useEffect(() => {
-    if (lightboxOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => { document.body.style.overflow = ""; };
-  }, [lightboxOpen]);
+  useScrollLock(lightboxOpen);
 
   return (
     <Layout>
