@@ -1,328 +1,164 @@
-import { useState } from "react";
-import Layout from "../components/Layout";
-import { Link } from "react-router-dom";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Calendar01Icon, ChampionIcon, UserGroupIcon } from "@hugeicons/core-free-icons";
-import { motion } from "framer-motion";
-import { useAnimation } from "../context/AnimationContext";
-import AnimatedSection from "../components/ui/animated-section";
-import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { GridBackground } from "@/components/ui/grid-background";
-import SessionsSection from "@/components/home/SessionsSection";
+import Layout from "../components/Layout";
 import { responsiveUrl } from "@/lib/images";
+import { services } from "@/lib/services";
+import { ImageReveal, MaskText, Reveal } from "@/components/motion";
+import { PageHero } from "@/components/site/PageHero";
+import { SectionHeader } from "@/components/site/SectionHeader";
+import SessionsSection from "@/components/home/SessionsSection";
+import CTASection from "@/components/home/CTASection";
 
-const services = [
-  { id: 1, category: "body-toning", title: "Body Toning", description: "Get that firm, fit look you've always wanted." },
-  { id: 2, category: "weight-loss", title: "Weight Loss", description: "Burn fat and feel lighter with workouts that actually work." },
-  { id: 3, category: "body-building", title: "Body Building", description: "Build serious muscle and get stronger every week." },
-  { id: 4, category: "cardio", title: "Cardio Training", description: "Get your heart pumping and energy levels up." },
-  { id: 5, category: "yoga", title: "Yoga Training", description: "Stretch, relax, and find your inner calm." },
-  { id: 6, category: "boxing", title: "Boxing Training", description: "Learn to throw punches while getting a killer workout." },
-  { id: 7, category: "dance", title: "Dance Aerobics", description: "Have fun dancing while burning calories." },
-  { id: 8, category: "diet", title: "Diet Training", description: "Learn what to eat to reach your fitness goals faster." },
-  { id: 9, category: "gym-accessories", title: "Gym Accessories", description: "Get quality gym wear, bags, and gloves from us." },
+const approach = [
+  {
+    title: "Personal programmes",
+    body: "Built around your level and goal, then adjusted by a coach as you progress.",
+  },
+  {
+    title: "Tracked progress",
+    body: "Regular check-ins on body composition, strength and performance so you know it's working.",
+  },
+  {
+    title: "Flexible hours",
+    body: "Three sessions a day, six days a week. Fit training around life, not the other way round.",
+  },
 ];
 
-function ImageWithSkeleton({
-  src,
-  alt,
-  className = "",
-}: {
-  src?: string;
-  alt: string;
-  className?: string;
-}) {
-  const [loaded, setLoaded] = useState(false);
-  const imgUrl = responsiveUrl(src, "medium");
-
-  return (
-    <>
-      {!loaded && (
-        <div className="absolute inset-0 bg-gray-800/80 shimmer-dark rounded-xl z-10" />
-      )}
-      {src && (
-        <img
-          src={imgUrl}
-          alt={alt}
-          onLoad={() => setLoaded(true)}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "/placeholder.svg";
-            setLoaded(true);
-          }}
-          className={`w-full h-full object-cover transition-all duration-500 ${className} ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
-        />
-      )}
-    </>
-  );
-}
-
 const Services = () => {
-  const { reduceMotion } = useAnimation();
-  const duration = reduceMotion ? 0 : 0.3;
-
-  const rawServiceImages = useQuery(api.siteImages.listBySection, { section: "services" });
-  const rawServiceIcons = useQuery(api.siteImages.listBySection, { section: "service-icons" });
+  const rawImages = useQuery(api.siteImages.listBySection, { section: "services" });
+  const rawIcons = useQuery(api.siteImages.listBySection, { section: "service-icons" });
   const rawPhilosophy = useQuery(api.siteImages.listBySection, { section: "philosophy" });
-  const dbImages = (rawServiceImages || []) as { category?: string; url: string }[];
-  const dbIcons = (rawServiceIcons || []) as { category?: string; url: string }[];
-  const imageByCategory = Object.fromEntries(dbImages.map((i) => [i.category, i.url]));
-  const iconByCategory = Object.fromEntries(dbIcons.map((i) => [i.category, i.url]));
+  const imageBy = Object.fromEntries(
+    ((rawImages || []) as { category?: string; url: string }[]).map((i) => [i.category, i.url]),
+  );
+  const iconBy = Object.fromEntries(
+    ((rawIcons || []) as { category?: string; url: string }[]).map((i) => [i.category, i.url]),
+  );
   const philosophyImage = ((rawPhilosophy || []) as { url: string }[])[0]?.url;
-
-  const servicesWithDbImages = services.map((s) => ({
-    ...s,
-    image: s.category ? imageByCategory[s.category] : undefined,
-    icon: s.category ? iconByCategory[`${s.category}-icon`] : undefined,
-  }));
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.05 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration } },
-  };
 
   return (
     <Layout>
-      <GridBackground className="pt-32 pb-16 text-white">
-        <div className="sm:container mx-auto px-8 relative">
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration, delay: 0.2 }}
-          >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-heading">
-              Our Services
-            </h1>
-            <p className="text-lg max-w-3xl mx-auto text-gray-300">
-              Discover our comprehensive range of fitness services designed to help you achieve your goals
-            </p>
-          </motion.div>
-        </div>
-      </GridBackground>
+      <PageHero
+        index="S"
+        label="Services"
+        title={["Our", <span className="text-white/30">services</span>]}
+        intro="A full range of coached programmes to help you get fitter, stronger and healthier."
+      />
 
-      <section className="section-padding bg-background relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
-        </div>
-        <div className="sm:container mx-auto px-4 relative">
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {servicesWithDbImages.map((service) => (
-              <motion.div key={service.id} variants={itemVariants}>
-                <div className="relative aspect-[3/4] rounded-xl overflow-hidden group bg-gray-900/40">
-                  <ImageWithSkeleton
-                    src={service.image}
-                    alt={service.title}
-                    className="absolute inset-0 object-top group-hover:scale-110"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none z-10"></div>
-
-                  {service.icon && (
-                    <div className="absolute top-3 left-3 bg-brand-dark/80 backdrop-blur-sm p-3 rounded-lg border border-white/10 z-20">
-                      <img
-                        src={responsiveUrl(service.icon, "thumb")}
-                        alt={service.title}
-                        className="w-10 h-10 object-contain"
-                        onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
-                      />
-                    </div>
-                  )}
-
-                  <div className="absolute bottom-0 left-0 right-0 p-3 z-20">
-                    <div className="backdrop-blur-md bg-white/10 rounded-xl p-4 border border-white/20">
-                      <h3 className="text-xl font-bold mb-2 text-white">{service.title}</h3>
-                      <p className="text-gray-200 text-sm line-clamp-3">
-                        {service.description}
-                      </p>
-                    </div>
+      <section className="section bg-background text-ink">
+        <div className="shell">
+          <ul className="grid grid-cols-1 gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
+            {services.map((s, i) => {
+              const img = imageBy[s.category];
+              const icon = iconBy[`${s.category}-icon`];
+              return (
+                <li key={s.category} className="group">
+                  <div className="relative">
+                    <ImageReveal
+                      delay={(i % 3) * 0.1}
+                      src={img ? responsiveUrl(img, "medium") : undefined}
+                      alt={s.title}
+                      className="aspect-[4/5] w-full"
+                      imgClassName="object-top"
+                    />
+                    {icon && (
+                      <span className="absolute left-0 top-0 flex h-14 w-14 items-center justify-center bg-bone">
+                        <img src={responsiveUrl(icon, "thumb")} alt="" className="h-8 w-8 object-contain" />
+                      </span>
+                    )}
                   </div>
-                </div>
-              </motion.div>
+                  <Reveal delay={0.1 + (i % 3) * 0.1}>
+                    <div className="flex items-baseline justify-between gap-4 border-b border-ink/15 py-4">
+                      <h2 className="title text-2xl md:text-3xl">{s.title}</h2>
+                      <span className="eyebrow text-ink/40">{String(i + 1).padStart(2, "0")}</span>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-ink/60">{s.description}</p>
+                  </Reveal>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
+
+      <SessionsSection index="02" />
+
+      {/* Approach */}
+      <section className="section bg-background text-ink">
+        <div className="shell">
+          <SectionHeader
+            index="03"
+            label="Approach"
+            title={["Our approach"]}
+            description="Expert guidance, a plan that adapts as you progress, and a supportive community around you."
+          />
+          <ol className="mt-16 border-t border-ink/15 md:mt-24">
+            {approach.map((a, i) => (
+              <li key={a.title} className="border-b border-ink/15">
+                <Reveal delay={i * 0.08} className="grid grid-cols-12 items-baseline gap-x-6 gap-y-3 py-8 md:py-10">
+                  <span className="eyebrow col-span-2 text-brand-blue md:col-span-1">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="title col-span-10 text-3xl md:col-span-5 md:text-4xl">{a.title}</h3>
+                  <p className="col-span-10 col-start-3 text-[15px] leading-relaxed text-ink/60 md:col-span-5 md:col-start-auto">
+                    {a.body}
+                  </p>
+                </Reveal>
+              </li>
             ))}
-          </motion.div>
+          </ol>
         </div>
       </section>
 
-      <SessionsSection />
-
-      <section className="section-padding bg-background relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
-        </div>
-        <div className="sm:container mx-auto px-4 relative">
-          <AnimatedSection className="text-center mb-12">
-            <h2 className="section-title">
-              Our Training <span className="text-brand-blue">Approach</span>
-            </h2>
-            <p className="section-subtitle">
-              A comprehensive approach to help you achieve your fitness goals
-            </p>
-          </AnimatedSection>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <motion.div
-              variants={itemVariants}
-              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <div className="text-brand-blue mb-4">
-                <HugeiconsIcon icon={UserGroupIcon} size={40} className="mx-auto" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-center">Personalized Programs</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-center">
-                Custom training programs tailored to your fitness level and goals, with expert guidance every step of the way.
+      {/* Philosophy */}
+      <section className="section grain relative bg-ink text-bone">
+        <div className="shell relative grid grid-cols-12 gap-x-6 gap-y-14">
+          <div className="col-span-12 lg:col-span-5">
+            <ImageReveal
+              src={philosophyImage ? responsiveUrl(philosophyImage, "medium") : undefined}
+              alt="Coach working with a member"
+              className="aspect-[4/5] w-full bg-white/5"
+            />
+          </div>
+          <div className="col-span-12 lg:col-span-6 lg:col-start-7">
+            <Reveal from="left">
+              <p className="eyebrow mb-8 flex items-center gap-3 text-white/50">
+                <span>(04)</span>
+                <span className="h-px w-8 bg-current" />
+                <span>Philosophy</span>
               </p>
-            </motion.div>
-
-            <motion.div
-              variants={itemVariants}
-              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <div className="text-brand-blue mb-4">
-                <HugeiconsIcon icon={ChampionIcon} size={40} className="mx-auto" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-center">Progress Tracking</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-center">
-                Advanced tracking of your body composition, strength, and performance metrics to keep you on target.
+            </Reveal>
+            <MaskText
+              lines={["Our training", <span className="text-white/30">philosophy</span>]}
+              className="title text-[clamp(2.5rem,5vw,4.5rem)]"
+            />
+            <Reveal delay={0.15} className="mt-10 space-y-5 text-[15px] leading-relaxed text-white/65">
+              <p>
+                We take a whole-person approach to fitness. Strength matters, but so do recovery,
+                nutrition, rest and habits you can stick with, so our programmes cover all of it.
               </p>
-            </motion.div>
-
-            <motion.div
-              variants={itemVariants}
-              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <div className="text-brand-blue mb-4">
-                <HugeiconsIcon icon={Calendar01Icon} size={40} className="mx-auto" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 text-center">Flexible Scheduling</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-center">
-                Multiple daily sessions and class options to fit seamlessly into your schedule.
+              <p>
+                Every plan is shaped around your body, your goal and your week. We focus on form,
+                progressive overload and enough variety to keep you improving without plateaus or
+                injuries.
               </p>
-            </motion.div>
-          </motion.div>
-
-          <AnimatedSection className="mt-12 text-center">
-            <p className="max-w-2xl mx-auto mb-6">
-              Our comprehensive approach combines expert guidance, personalized training programs, and a supportive community to help you achieve sustainable results.
-            </p>
-            <Link to="/contact">
-              <InteractiveHoverButton
-                text="Start Your Journey"
-                className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
-                aria-label="Start your fitness journey"
-              />
-            </Link>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      <section className="section-padding bg-brand-dark text-white relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[100px]"></div>
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
-        </div>
-        <div className="sm:container mx-auto px-4 relative">
-          <AnimatedSection className="text-center mb-12">
-            <h2 className="section-title">
-              Our Training <span className="text-brand-gold">Philosophy</span>
-            </h2>
-            <p className="section-subtitle">
-              The principles that guide our approach to fitness and wellness
-            </p>
-          </AnimatedSection>
-
-          <div className="flex flex-col lg:flex-row gap-12 items-center">
-            <AnimatedSection className="lg:w-1/2 w-full">
-              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl bg-gray-800/60">
-                <ImageWithSkeleton src={philosophyImage} alt="Trainer philosophy" />
-              </div>
-            </AnimatedSection>
-
-            <AnimatedSection className="lg:w-1/2" delay={0.3}>
-              <h3 className="text-xl font-bold mb-6">Holistic Approach to Fitness</h3>
-              <p className="mb-6">
-                At Shape Up Fitness, we believe in taking a holistic approach to health and wellness. We understand that true fitness encompasses not just physical strength, but also mental wellbeing, proper nutrition, adequate recovery, and sustainable lifestyle habits.
-              </p>
-              <p className="mb-8">
-                Our training methodology focuses on creating balanced programs that address all aspects of fitness, tailored to your unique body type, goals, and preferences. We emphasize proper form, progressive overload, and varied stimuli to ensure continuous improvement without plateaus or injuries.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div className="bg-gray-800 p-6 rounded-xl">
-                  <div className="text-brand-gold mb-4">
-                    <HugeiconsIcon icon={ChampionIcon} size={32} />
-                  </div>
-                  <h4 className="text-lg font-bold mb-2">Result-Oriented</h4>
-                  <p className="text-gray-300">
-                    We focus on measurable results through consistent tracking and program adjustments.
-                  </p>
-                </div>
-
-                <div className="bg-gray-800 p-6 rounded-xl">
-                  <div className="text-brand-gold mb-4">
-                    <HugeiconsIcon icon={UserGroupIcon} size={32} />
-                  </div>
-                  <h4 className="text-lg font-bold mb-2">Personalized Approach</h4>
-                  <p className="text-gray-300">
-                    We tailor our programs to your unique body, goals, and fitness level.
-                  </p>
-                </div>
-              </div>
-            </AnimatedSection>
+            </Reveal>
+            <div className="mt-12 grid grid-cols-1 border-t border-white/10 sm:grid-cols-2">
+              {[
+                ["Result-oriented", "Measured progress, with the programme adjusted as you go."],
+                ["Personal", "Tailored to your body, goals and current fitness."],
+              ].map(([t, b], i) => (
+                <Reveal key={t} delay={0.2 + i * 0.08} className={`py-6 ${i ? "sm:border-l sm:border-white/10 sm:pl-6" : "sm:pr-6"}`}>
+                  <h4 className="title text-xl">{t}</h4>
+                  <p className="mt-2 text-sm text-white/55">{b}</p>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-20 bg-background px-8">
-        <div className="sm:container mx-auto">
-          <motion.div
-            className="max-w-4xl mx-auto text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-heading">
-              Ready to Transform Your Fitness Journey?
-            </h2>
-            <p className="text-lg mb-8">
-              Join Shape Up Fitness today and experience our comprehensive range of services designed to help you achieve your health and fitness goals.
-            </p>
-            <Link to="/contact?source=services_cta">
-              <InteractiveHoverButton
-                text="Get Started Today"
-                className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
-                aria-label="Get started with Shape Up Fitness today"
-              />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+      <CTASection />
     </Layout>
   );
 };

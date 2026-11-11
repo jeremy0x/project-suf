@@ -1,140 +1,89 @@
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { Link } from "react-router-dom";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { CheckmarkCircle01Icon } from "@hugeicons/core-free-icons";
-import { motion } from "framer-motion";
-import { useAnimation } from "../../context/AnimationContext";
-import Logo from "../../components/Logo";
-import { InteractiveHoverButton } from "../ui/interactive-hover-button";
+import { Reveal } from "../motion";
+import { SectionHeader } from "../site/SectionHeader";
+import { Btn } from "../site/Btn";
+import { cn } from "@/lib/utils";
 
 const MembershipPlansSection = () => {
-  const { reduceMotion } = useAnimation();
   const dbPlans = useQuery(api.pricing.listPlans);
-
-  // Top 3 core plans sorted by sortOrder
-  const displayPlans = dbPlans
-    ? [...dbPlans]
-        .sort((a, b) => (a.sortOrder ?? 1) - (b.sortOrder ?? 1))
-        .slice(0, 3)
+  const plans = dbPlans
+    ? [...dbPlans].sort((a, b) => (a.sortOrder ?? 1) - (b.sortOrder ?? 1)).slice(0, 3)
     : [];
 
-  const headerAnimProps = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true } as const,
-    transition: { duration: reduceMotion ? 0 : 0.3 },
-  };
-
-  const ctaAnimProps = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true } as const,
-    transition: { duration: reduceMotion ? 0 : 0.3, delay: 0.4 },
-  };
-
   return (
-    <section className="section-padding section-dark relative overflow-hidden">
-      <div className="sm:container mx-auto px-4 relative z-10">
-        <motion.div
-          className="text-center mb-16"
-          {...headerAnimProps}
-        >
-          <div className="flex justify-center">
-            <Logo variant="white" />
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold mt-6 mb-4 text-white font-heading">
-            Membership Plans
-          </h2>
-        </motion.div>
+    <section className="section grain relative bg-ink text-bone">
+      <div className="shell relative">
+        <SectionHeader
+          tone="dark"
+          index="04"
+          label="Pricing"
+          title={["Membership plans"]}
+          description="Pay a one-time registration fee, then choose the plan that suits you. No long-term contracts."
+          aside={
+            <Btn to="/pricing" variant="outline-light">
+              See all plans
+            </Btn>
+          }
+        />
 
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
+        <div className="mt-16 grid grid-cols-1 border-t border-white/10 md:mt-24 md:grid-cols-3">
+          {dbPlans === undefined
+            ? [0, 1, 2].map((i) => (
+                <div key={i} className={cn("h-[420px] border-b border-white/10 p-8 md:border-b-0", i > 0 && "md:border-l")}>
+                  <div className="shimmer-dark mb-8 h-4 w-24" />
+                  <div className="shimmer-dark mb-12 h-14 w-40" />
+                  <div className="space-y-3">
+                    {[0, 1, 2].map((f) => (
+                      <div key={f} className="shimmer-dark h-3 w-3/4" />
+                    ))}
+                  </div>
+                </div>
+              ))
+            : plans.map((plan, i) => (
+                <Reveal
+                  key={plan._id}
+                  delay={i * 0.1}
+                  className={cn("border-b border-white/10 md:border-b-0", i > 0 && "md:border-l")}
+                >
+                  <div
+                    className={cn(
+                      "flex h-full flex-col px-1 py-10 md:px-8 md:py-12",
+                      plan.popular && "bg-bone text-ink",
+                    )}
+                  >
+                    <p className={cn("eyebrow h-4", plan.popular ? "text-brand-blue" : "invisible")}>
+                      Most popular
+                    </p>
+                    <h3 className="title mt-8 text-2xl">{plan.name}</h3>
+                    <p className="title mt-3 text-[clamp(2.5rem,4vw,3.5rem)] tabular-nums">{plan.price}</p>
+                    {plan.features && plan.features.length > 0 && (
+                      <ul className="mt-10 flex-1 text-sm">
+                        {plan.features.map((f) => (
+                          <li
+                            key={f}
+                            className={cn(
+                              "flex gap-3 border-t py-3",
+                              plan.popular ? "border-ink/10" : "border-white/10 text-white/70",
+                            )}
+                          >
+                            <span className="text-brand-blue">+</span>
+                            {f}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <Btn
+                      to={`/contact?source=pricing&plan=${encodeURIComponent(plan.name)}`}
+                      variant={plan.popular ? "ink" : "outline-light"}
+                      className="mt-10 w-full justify-between"
+                    >
+                      Choose plan
+                    </Btn>
+                  </div>
+                </Reveal>
+              ))}
         </div>
-
-        {/* Realistic Card Skeleton Loading State */}
-        {dbPlans === undefined ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto pt-2">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="rounded-xl border border-gray-800 bg-gray-900/40 p-6 flex flex-col justify-between h-[380px]"
-              >
-                <div>
-                  <div className="w-1/2 h-7 bg-white/10 rounded-xl shimmer-dark mx-auto mb-6" />
-                  <div className="space-y-4 mb-8">
-                    {[1, 2, 3].map((f) => (
-                      <div key={f} className="flex items-center gap-3">
-                        <div className="w-4 h-4 rounded-full bg-white/10 shimmer-dark shrink-0" />
-                        <div className="w-3/4 h-4 bg-white/5 rounded-lg shimmer-dark" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="w-full h-11 rounded-full bg-white/10 shimmer-dark mt-auto" />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto pt-2">
-            {displayPlans.map((plan, index) => (
-              <motion.div
-                key={plan._id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: reduceMotion ? 0 : 0.3, delay: index * 0.1 }}
-                className={`relative rounded-xl p-6 flex flex-col justify-between ${
-                  plan.popular
-                    ? "border-2 border-brand-blue bg-gray-900/80 shadow-xl"
-                    : "border-2 border-brand-blue/60 bg-gray-900/40"
-                }`}
-              >
-                {/* Floating Top Badge */}
-                {plan.popular && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-brand-blue text-white text-xs font-bold uppercase tracking-wider py-1 px-4 rounded-full shadow-md z-10 whitespace-nowrap">
-                    Most Popular
-                  </div>
-                )}
-
-                <h3 className="text-2xl font-bold mb-6 text-center font-heading text-white pt-2">
-                  {plan.name}
-                </h3>
-
-                {plan.features && plan.features.length > 0 && (
-                  <div className="space-y-4 mb-8 flex-grow">
-                    {plan.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center text-gray-200">
-                        <HugeiconsIcon icon={CheckmarkCircle01Icon} size={18} className="text-brand-blue shrink-0 mr-3" />
-                        <span className="text-sm">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <div className="mt-auto">
-                  <div className="bg-brand-blue text-white text-center py-2.5 px-4 rounded-full font-bold text-lg font-heading">
-                    {plan.price}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
-
-        <motion.div
-          className="text-center mt-12"
-          {...ctaAnimProps}
-        >
-          <Link to="/pricing">
-            <InteractiveHoverButton
-              text="View Full Pricing"
-              className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
-              aria-label="View full pricing details"
-            />
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

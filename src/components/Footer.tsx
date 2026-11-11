@@ -1,178 +1,147 @@
-import { Link, useLocation } from "react-router-dom";
-import Logo from "./Logo";
-import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  Location01Icon,
-  CallingIcon,
-  Mail01Icon,
-  ArrowUp01Icon,
-} from "@hugeicons/core-free-icons";
+import { Link } from "react-router-dom";
 import { BsFacebook, BsInstagram, BsTwitterX } from "react-icons/bs";
-import { motion } from "framer-motion";
+import { MaskText } from "./motion";
+import { Arrow, Roll } from "./site/Btn";
+
+const explore = [
+  { to: "/about", label: "About" },
+  { to: "/services", label: "Services" },
+  { to: "/pricing", label: "Membership" },
+  { to: "/gallery", label: "Gallery" },
+  { to: "/shop", label: "Shop" },
+  { to: "/pricing#faq", label: "FAQ" },
+];
+
+const socials = [
+  { href: "https://www.instagram.com/shapeupfitnessonline", label: "Instagram", icon: BsInstagram },
+  { href: "https://facebook.com", label: "Facebook", icon: BsFacebook },
+  { href: "https://x.com/shapeupfitness6", label: "X", icon: BsTwitterX },
+];
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-brand-dark text-white border-t border-white/10">
-      <div className="sm:container mx-auto px-8 py-12">
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12">
-          {/* Logo and About */}
-          <div>
-            <Logo variant="white" />
-            <p className="mt-4 text-gray-300 text-sm">
-              Discover your fitness potential at Akure's premier destination. We
-              help you achieve your goals through a blend of expert coaching and
-              transformative training programs tailored just for you.
+    <footer className="grain relative overflow-hidden bg-ink text-bone">
+      <div className="shell relative pt-20 md:pt-28">
+        <div className="grid grid-cols-12 gap-x-6 gap-y-14">
+          <div className="col-span-12 lg:col-span-5">
+            <p className="eyebrow mb-6 text-white/45">Get started</p>
+            <Link
+              to="/contact?source=footer"
+              className="roll-host group inline-flex items-end gap-4 text-bone"
+            >
+              <span className="title text-[clamp(2.25rem,5vw,4rem)]">
+                <Roll>Book a visit</Roll>
+              </span>
+              <Arrow
+                diagonal
+                className="mb-3 h-6 w-6 text-brand-blue transition-transform duration-700 ease-in-out-quart group-hover:rotate-0"
+              />
+            </Link>
+            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/50">
+              Embassy Lodge, FUTA South Gate, Akure, Ondo State. Training Monday to Saturday, three
+              sessions a day.
             </p>
-            <div className="flex mt-4 space-x-4">
-              <SocialIcon
-                icon={<BsInstagram size={20} />}
-                href="https://www.instagram.com/shapeupfitnessonline"
-                label="Instagram"
-              />
-              <SocialIcon
-                icon={<BsFacebook size={20} />}
-                href="https://facebook.com"
-                label="Facebook"
-              />
-              <SocialIcon
-                icon={<BsTwitterX size={20} />}
-                href="https://x.com/shapeupfitness6"
-                label="X (Twitter)"
-              />
-            </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-4 text-brand-gold font-heading">
-              Quick Links
-            </h3>
-            <ul className="space-y-2">
-              <FooterLink to="/" label="Home" />
-              <FooterLink to="/about" label="About Us" />
-              <FooterLink to="/services" label="Services" />
-              <FooterLink to="/pricing" label="Membership" />
-              <FooterLink to="/gallery" label="Gallery" />
-              <FooterLink to="/contact" label="Contact Us" />
-              <FooterLink to="/pricing#faq" label="FAQ" />
+          <div className="col-span-6 md:col-span-4 lg:col-span-2 lg:col-start-7">
+            <p className="eyebrow mb-6 text-white/45">Explore</p>
+            <ul className="space-y-3 text-sm">
+              {explore.map((l) => (
+                <li key={l.label}>
+                  <Link to={l.to} className="link-line text-white/80 hover:text-white">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Services */}
-          <div>
-            <h3 className="text-xl font-bold mb-4 text-brand-gold font-heading">Services</h3>
-            <ul className="space-y-2">
-              <FooterLink to="/services" label="Body Toning" />
-              <FooterLink to="/services" label="Weight Loss" />
-              <FooterLink to="/services" label="Body Building" />
-              <FooterLink to="/services" label="Cardio Training" />
-              <FooterLink to="/services" label="Yoga Training" />
-              <FooterLink to="/services" label="Boxing Training" />
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-xl font-bold mb-4 text-brand-gold font-heading">
-              Contact Info
-            </h3>
-            <ul className="space-y-4 text-sm">
-              <li className="flex items-start">
-                <HugeiconsIcon icon={Location01Icon} className="mr-3 flex-shrink-0 text-brand-blue mt-0.5" size={20} />
-                <p>
-                  Embassy Lodge, FUTA South Gate, Akure, Ondo State, Nigeria
-                </p>
-              </li>
-              <li className="flex items-center">
-                <HugeiconsIcon icon={CallingIcon} className="mr-3 flex-shrink-0 text-brand-blue" size={20} />
-                <a
-                  href="tel:08134460609"
-                  className="hover:text-brand-blue transition-colors"
-                >
-                  08134460609
+          <div className="col-span-6 md:col-span-4 lg:col-span-2">
+            <p className="eyebrow mb-6 text-white/45">Contact</p>
+            <ul className="space-y-3 text-sm">
+              <li>
+                <a href="tel:08134460609" className="link-line text-white/80 hover:text-white">
+                  0813 446 0609
                 </a>
               </li>
-              <li className="flex items-center">
-                <HugeiconsIcon icon={Mail01Icon} className="mr-3 flex-shrink-0 text-brand-blue" size={20} />
+              <li>
+                <a
+                  href="https://wa.me/2348134460609"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-line text-white/80 hover:text-white"
+                >
+                  WhatsApp
+                </a>
+              </li>
+              <li>
                 <a
                   href="mailto:shapeupfitnessclub326@gmail.com"
-                  className="hover:text-brand-blue transition-colors"
+                  className="link-line break-all text-white/80 hover:text-white"
                 >
-                  shapeupfitnessclub326@gmail.com
+                  Email us
                 </a>
               </li>
+            </ul>
+          </div>
+
+          <div className="col-span-12 md:col-span-4 lg:col-span-2">
+            <p className="eyebrow mb-6 text-white/45">Follow</p>
+            <ul className="flex gap-2">
+              {socials.map(({ href, label, icon: Icon }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="flex h-10 w-10 items-center justify-center border border-white/15 text-white/70 transition-colors duration-500 hover:border-bone hover:bg-bone hover:text-ink"
+                  >
+                    <Icon size={15} />
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="py-6 text-center text-sm text-gray-400 border-t border-gray-800 relative">
-          <motion.button
-            onClick={scrollToTop}
-            className="absolute right-0 top-0 transform -translate-y-1/2 bg-brand-blue text-white p-3 rounded-full hover:bg-brand-gold transition-colors duration-300"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            aria-label="Back to top"
-          >
-            <HugeiconsIcon icon={ArrowUp01Icon} size={24} />
-          </motion.button>
+        {/* Oversized wordmark, cut off by the bottom edge */}
+        {/* Sized in container units so it always fits the shell, whatever the screen width */}
+        <div aria-hidden className="mt-20 select-none [container-type:inline-size] md:mt-28">
+          <MaskText
+            as="p"
+            lines={["Shape Up"]}
+            className="display whitespace-nowrap text-[length:22cqw] leading-[0.78] text-white/[0.07]"
+            lineClassName="pb-0 mb-0"
+          />
+        </div>
+
+        <div className="flex flex-col gap-4 border-t border-white/10 py-6 font-mono text-[11px] uppercase tracking-[0.14em] text-white/45 md:flex-row md:items-center md:justify-between">
+          <p className="flex gap-6"><span>&copy; {year} Shape Up Fitness</span><span>BN 6982554</span></p>
           <p>
-            © {new Date().getFullYear()} Shape Up Fitness. All rights reserved.
+            Built by{" "}
+            <a
+              href="https://jeremy0x.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-line text-bone hover:text-brand-blue"
+            >
+              jeremy0x
+            </a>
           </p>
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="roll-host flex items-center gap-2 self-start text-white/70 hover:text-white md:self-auto"
+          >
+            <Roll>Back to top</Roll>
+            <Arrow className="-rotate-90" />
+          </button>
         </div>
       </div>
     </footer>
-  );
-};
-
-const SocialIcon = ({
-  icon,
-  href,
-  label,
-}: {
-  icon: React.ReactNode;
-  href: string;
-  label: string;
-}) => (
-  <motion.a
-    href={href}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="bg-gray-800 p-2 rounded-full hover:bg-brand-blue transition-colors duration-300"
-    whileHover={{ scale: 1.1, rotate: 5 }}
-    whileTap={{ scale: 0.9 }}
-    aria-label={label}
-  >
-    {icon}
-  </motion.a>
-);
-
-const FooterLink = ({ to, label }: { to: string; label: string }) => {
-  const location = useLocation();
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-  const handleClick = (e: React.MouseEvent) => {
-    if (location.pathname === to) {
-      e.preventDefault();
-      scrollToTop();
-    }
-  };
-  return (
-    <li>
-      <Link
-        to={to}
-        onClick={handleClick}
-        className="text-gray-300 hover:text-brand-blue transition-colors duration-300 text-sm"
-      >
-        {label}
-      </Link>
-    </li>
   );
 };
 

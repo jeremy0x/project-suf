@@ -17,7 +17,7 @@ function useViewOnce(ref: React.RefObject<HTMLElement | null>) {
     if (!el) return;
     const o = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { setSeen(true); o.disconnect(); } },
-      { rootMargin: "-100px" }
+      { rootMargin: "0px 0px -10% 0px" }
     );
     o.observe(el);
     return () => o.disconnect();
@@ -68,13 +68,11 @@ export function ImageGallery({ images, onImageClick, isLoading }: ImageGalleryPr
   if (isLoading) {
     return (
       <div className="w-full">
-        <div className="flex flex-wrap gap-4">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-6">
           {[...Array(9)].map((_, i) => (
-            <div key={i} className="w-[calc(33.333%-1rem)] max-sm:w-[calc(50%-0.5rem)]">
-              <AspectRatio ratio={3 / 4} className="relative overflow-hidden rounded-xl bg-gray-100 dark:bg-gray-800">
-                <div className="absolute inset-0 shimmer-bg rounded-xl" />
-              </AspectRatio>
-            </div>
+            <AspectRatio key={i} ratio={3 / 4} className="relative overflow-hidden">
+              <div className="absolute inset-0 shimmer-bg" />
+            </AspectRatio>
           ))}
         </div>
       </div>
@@ -83,15 +81,12 @@ export function ImageGallery({ images, onImageClick, isLoading }: ImageGalleryPr
 
   return (
     <div className="w-full">
-      <div className="flex flex-wrap gap-4">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-6">
         {visibleImages.map((image, idx) => {
           const realIndex = images.indexOf(image);
 
           return (
-            <div
-              key={image.id}
-              className="w-[calc(33.333%-1rem)] max-sm:w-[calc(50%-0.5rem)]"
-            >
+            <div key={image.id} style={{ ["--d" as string]: `${(idx % 3) * 90}ms` }}>
               <AnimatedImage
                 src={image.src}
                 alt={image.alt}
@@ -107,7 +102,7 @@ export function ImageGallery({ images, onImageClick, isLoading }: ImageGalleryPr
           <button
             onClick={loadMore}
             disabled={loadingMore}
-            className="px-8 py-3 bg-brand-blue text-white rounded-full font-medium hover:opacity-90 transition-opacity disabled:opacity-70 flex items-center gap-2"
+            className="btn btn-outline-dark"
           >
             {loadingMore && (
               <HugeiconsIcon icon={LoaderPinwheelIcon} size={16} className="animate-spin" />
@@ -117,7 +112,7 @@ export function ImageGallery({ images, onImageClick, isLoading }: ImageGalleryPr
         </div>
       )}
       {!hasMore && images.length > PAGE_SIZE && (
-        <p className="text-center text-sm text-gray-400 mt-6">
+        <p className="eyebrow mt-10 text-center text-ink/40">
           Showing all {images.length} images
         </p>
       )}
@@ -139,24 +134,29 @@ function AnimatedImage({ alt, src, placeholder, onClick }: AnimatedImageProps) {
   const thumbSrc = React.useMemo(() => responsiveUrl(src, "medium"), [src]);
 
   return (
-    <AspectRatio ref={ref} ratio={3 / 4} className="relative overflow-hidden rounded-xl cursor-pointer group bg-gray-100 dark:bg-gray-800">
-      {seen && !loaded && (
-        <div className="absolute inset-0 shimmer-bg rounded-xl" />
-      )}
-      <img
-        src={thumbSrc}
-        alt={alt}
-        className={cn(
-          "w-full h-full object-cover",
-          "transition-[opacity,transform] duration-700 ease-out",
-          seen && loaded ? "opacity-100" : "opacity-0",
-          "group-hover:scale-110 transition-transform duration-500"
-        )}
-        onLoad={() => setLoaded(true)}
-        loading="lazy"
-        onError={(e) => { (e.target as HTMLImageElement).src = placeholder || FALLBACK; }}
-        onClick={onClick}
-      />
+    <AspectRatio
+      ref={ref}
+      ratio={3 / 4}
+      className="frame group cursor-pointer"
+      style={{
+        clipPath: seen ? "inset(0% 0% 0% 0%)" : "inset(100% 0% 0% 0%)",
+        transition: "clip-path 1.1s cubic-bezier(0.77, 0, 0.175, 1) var(--d, 0ms)",
+      }}
+    >
+      {seen && !loaded && <div className="absolute inset-0 shimmer-bg" />}
+      <button type="button" onClick={onClick} aria-label={alt ? `Open ${alt}` : "Open image"} className="block h-full w-full">
+        <img
+          src={thumbSrc}
+          alt={alt}
+          className={cn(
+            "h-full w-full object-cover transition-opacity duration-700",
+            loaded ? "opacity-100" : "opacity-0",
+          )}
+          onLoad={() => setLoaded(true)}
+          loading="lazy"
+          onError={(e) => { (e.target as HTMLImageElement).src = placeholder || FALLBACK; }}
+        />
+      </button>
     </AspectRatio>
   );
 }

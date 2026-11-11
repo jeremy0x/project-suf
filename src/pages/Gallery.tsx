@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -8,9 +7,12 @@ import type { Doc } from "../../convex/_generated/dataModel";
 import Layout from "../components/Layout";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAnimation } from "../context/AnimationContext";
+import { useScrollLock } from "@/hooks/useScrollLock";
 import { ImageGallery } from "@/components/ui/image-gallery";
-import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { GridBackground } from "@/components/ui/grid-background";
+import { Reveal } from "@/components/motion";
+import { EASE_CLIP } from "@/components/motion/ease";
+import { PageHero } from "@/components/site/PageHero";
+import CTASection from "@/components/home/CTASection";
 
 const Gallery = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -61,12 +63,10 @@ const Gallery = () => {
     const realIndex = index < filteredImages.length ? index : 0;
     setCurrentImageIndex(realIndex);
     setLightboxOpen(true);
-    document.body.style.overflow = "hidden";
   };
 
   const closeLightbox = useCallback(() => {
     setLightboxOpen(false);
-    document.body.style.overflow = "auto";
   }, []);
 
   const goToPrevious = useCallback(() => {
@@ -100,59 +100,37 @@ const Gallery = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [closeLightbox, goToNext, goToPrevious, lightboxOpen]);
 
-  useEffect(() => {
-    if (lightboxOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => { document.body.style.overflow = ""; };
-  }, [lightboxOpen]);
+  useScrollLock(lightboxOpen);
 
   return (
     <Layout>
-      <GridBackground className="pt-32 pb-16 text-white">
-        <div className="sm:container mx-auto px-4 relative">
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration, delay: 0.2 }}
-          >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-heading">
-              Our Gallery
-            </h1>
-            <p className="text-sm max-w-3xl mx-auto text-gray-300">
-              Take a look at our gym facilities and vibrant fitness community
-            </p>
-          </motion.div>
-        </div>
-      </GridBackground>
+      <PageHero
+        index="G"
+        label="Gallery"
+        title={["Gallery"]}
+        intro="Take a look at our facilities and community. Even better in person, so come and visit."
+      />
 
-      <section className="section-padding bg-background relative overflow-hidden">
-        <div className="sm:container mx-auto px-4 relative">
-          <motion.div
-            className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration }}
-          >
-            {galleryCategories.map((cat) => (
-              <button
-                key={cat.key}
-                type="button"
-                onClick={() => setActiveCategory(cat.key)}
-                className={`px-3 py-2 sm:px-6 sm:py-3 rounded-full text-sm sm:text-base font-semibold transition-all ${
-                  activeCategory === cat.key
-                    ? "bg-brand-blue text-white shadow-lg"
-                    : "bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
-                }`}
-                aria-label={`Filter by ${cat.label}`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </motion.div>
+      <section className="section bg-background text-ink">
+        <div className="shell">
+          <Reveal from="left" className="mb-12 flex flex-wrap items-center justify-between gap-6">
+            <div className="flex flex-wrap gap-2">
+              {galleryCategories.map((cat) => (
+                <button
+                  key={cat.key}
+                  type="button"
+                  data-active={activeCategory === cat.key}
+                  onClick={() => setActiveCategory(cat.key)}
+                  className="chip"
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+            <p className="eyebrow text-ink/45 tabular-nums">
+              {String(filteredImages.length).padStart(2, "0")} images
+            </p>
+          </Reveal>
 
           <ImageGallery
             isLoading={queriedImages === undefined}
@@ -163,51 +141,59 @@ const Gallery = () => {
           <AnimatePresence>
             {lightboxOpen && (
               <motion.div
-                className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[60] flex items-center justify-center bg-ink text-bone"
+                initial={{ clipPath: "inset(100% 0% 0% 0%)" }}
+                animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
+                exit={{ clipPath: "inset(0% 0% 100% 0%)" }}
+                transition={{ duration: duration ? 0.8 : 0, ease: EASE_CLIP }}
                 onClick={closeLightbox}
+                role="dialog"
+                aria-modal="true"
+                aria-label="Image viewer"
               >
+                <div className="eyebrow absolute inset-x-0 top-0 flex items-center justify-between px-5 py-5 md:px-8">
+                  <span className="tabular-nums text-white/60">
+                    {String(currentImageIndex + 1).padStart(2, "0")} / {String(filteredImages.length).padStart(2, "0")}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
+                    className="flex items-center gap-2 text-white/80 hover:text-white"
+                    aria-label="Close viewer"
+                  >
+                    Close <HugeiconsIcon icon={Cancel01Icon} size={16} />
+                  </button>
+                </div>
                 <button
                   type="button"
-                  onClick={(event) => { event.stopPropagation(); closeLightbox(); }}
-                  className="absolute top-4 right-4 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"
-                  aria-label="Close lightbox"
-                >
-                  <HugeiconsIcon icon={Cancel01Icon} size={24} />
-                </button>
-                <button
-                  type="button"
-                  onClick={(event) => { event.stopPropagation(); goToPrevious(); }}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"
+                  onClick={(e) => { e.stopPropagation(); goToPrevious(); }}
+                  className="absolute left-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center border border-white/15 transition-colors hover:bg-bone hover:text-ink md:left-8"
                   aria-label="Previous image"
                 >
-                  <HugeiconsIcon icon={ArrowLeft01Icon} size={24} />
+                  <HugeiconsIcon icon={ArrowLeft01Icon} size={18} />
                 </button>
                 {currentImage && (
                   <motion.div
-                    className="max-w-4xl max-h-[80vh] relative"
+                    className="relative max-h-[80vh] max-w-5xl px-16"
                     key={currentImageIndex}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    onClick={(event) => event.stopPropagation()}
+                    initial={{ clipPath: "inset(0% 0% 0% 100%)" }}
+                    animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
+                    transition={{ duration: duration ? 0.7 : 0, ease: EASE_CLIP }}
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    <img
-                      src={currentImage.src}
-                      alt={currentImage.alt}
-                      className="max-w-full max-h-[80vh] object-contain rounded-lg"
-                    />
+                    <img src={currentImage.src} alt={currentImage.alt} className="max-h-[80vh] max-w-full object-contain" />
+                    {currentImage.alt && (
+                      <p className="eyebrow mt-4 text-white/50">{currentImage.alt}</p>
+                    )}
                   </motion.div>
                 )}
                 <button
                   type="button"
-                  onClick={(event) => { event.stopPropagation(); goToNext(); }}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-white z-10 p-2 rounded-full bg-black/30 hover:bg-black/50"
+                  onClick={(e) => { e.stopPropagation(); goToNext(); }}
+                  className="absolute right-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center border border-white/15 transition-colors hover:bg-bone hover:text-ink md:right-8"
                   aria-label="Next image"
                 >
-                  <HugeiconsIcon icon={ArrowRight01Icon} size={24} />
+                  <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
                 </button>
               </motion.div>
             )}
@@ -215,32 +201,7 @@ const Gallery = () => {
         </div>
       </section>
 
-      <section className="bg-brand-dark py-20 relative overflow-hidden">
-        <div className="sm:container mx-auto px-4 relative">
-          <motion.div
-            className="text-center text-white"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration }}
-          >
-            <h2 className="text-3xl font-bold mb-6 font-heading">
-              Experience Our Gym in Person
-            </h2>
-            <p className="text-sm mb-8 max-w-2xl mx-auto">
-              The photos look great, but nothing compares to seeing our
-              facilities in person. Come visit us for a tour!
-            </p>
-            <Link to="/contact?source=gallery">
-              <InteractiveHoverButton
-                text="Schedule a Visit"
-                className="w-auto px-8 bg-brand-gold border-brand-gold text-brand-dark font-heading"
-                aria-label="Schedule a visit to our facility"
-              />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+      <CTASection />
     </Layout>
   );
 };

@@ -11,24 +11,25 @@ import { responsiveUrl } from "@/lib/images";
 import {
   ArrowLeft01Icon,
   ArrowRight01Icon,
-  ShoppingCartCheckIn02Icon,
   TruckDeliveryIcon,
   FavouriteIcon,
   Share01Icon,
-  Alert01Icon,
 } from "@hugeicons/core-free-icons";
 import { AnimatePresence, motion } from "framer-motion";
-import { GridBackground } from "@/components/ui/grid-background";
+import { Reveal } from "@/components/motion";
+import { EASE_CLIP } from "@/components/motion/ease";
+import { Btn } from "@/components/site/Btn";
+import { naira } from "@/lib/format";
 
 function StockDisplay({ qty }: { qty: number | undefined }) {
   if (qty === undefined) return null;
   if (qty === 0)
-    return <span className="text-red-500 font-medium text-sm">Out of Stock</span>;
+    return <span className="eyebrow text-red-600">Sold out</span>;
   if (qty <= 3)
-    return <span className="text-orange-500 font-medium text-sm">Only {qty} left</span>;
+    return <span className="eyebrow text-orange-600">Only {qty} left</span>;
   if (qty <= 10)
-    return <span className="text-yellow-600 font-medium text-sm">Low Stock - {qty} available</span>;
-  return <span className="text-green-600 font-medium text-sm">{qty} in stock</span>;
+    return <span className="eyebrow text-ink/60">Low stock, {qty} available</span>;
+  return <span className="eyebrow text-green-700">{qty} in stock</span>;
 }
 
 const ProductDetail = () => {
@@ -42,8 +43,13 @@ const ProductDetail = () => {
   if (product === undefined) {
     return (
       <Layout>
-        <div className="min-h-screen flex items-center justify-center">
-          <div className="w-8 h-8 border-2 border-brand-blue border-t-transparent rounded-full animate-spin" />
+        <div className="shell grid min-h-screen grid-cols-1 gap-12 pb-24 pt-32 lg:grid-cols-2">
+          <div className="shimmer-bg aspect-square" />
+          <div className="space-y-4 pt-4">
+            <div className="shimmer-bg h-3 w-24" />
+            <div className="shimmer-bg h-12 w-3/4" />
+            <div className="shimmer-bg h-8 w-32" />
+          </div>
         </div>
       </Layout>
     );
@@ -52,8 +58,9 @@ const ProductDetail = () => {
   if (!product) {
     return (
       <Layout>
-        <div className="min-h-screen flex items-center justify-center">
-          <p className="text-gray-400">Product not found</p>
+        <div className="shell flex min-h-screen flex-col items-start justify-center gap-8 pt-24">
+          <p className="title text-5xl">Product not found.</p>
+          <Btn to="/shop" variant="ink">Back to shop</Btn>
         </div>
       </Layout>
     );
@@ -94,152 +101,123 @@ const ProductDetail = () => {
 
   return (
     <Layout>
-      <GridBackground className="pt-24 pb-8 text-white">
-        <div className="sm:container mx-auto px-4 relative">
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <Link
-              to="/shop"
-              className="text-sm text-gray-300 hover:text-white transition-colors inline-flex items-center gap-2 mb-4"
-            >
-              <HugeiconsIcon icon={ArrowLeft01Icon} size={16} />
-              Back to Shop
-            </Link>
-          </motion.div>
-        </div>
-      </GridBackground>
+      <div className="h-16 bg-ink md:h-20" />
+      <section className="bg-background pb-24 pt-10 text-ink md:pb-32">
+        <div className="shell">
+          <Reveal immediate from="left" delay={0.4}>
+            <nav className="eyebrow mb-10 flex items-center gap-3 text-ink/50">
+              <Link to="/shop" className="link-line hover:text-ink">Shop</Link>
+              <span>/</span>
+              <span className="text-ink">{product.category}</span>
+            </nav>
+          </Reveal>
 
-      <section className="bg-background py-16 md:py-24 -mt-8">
-        <div className="sm:container mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div className="space-y-4">
-              <div className="aspect-square rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800 relative group">
-                <AnimatePresence mode="wait">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+            <div className="space-y-3 lg:col-span-7">
+              <Reveal immediate delay={0.45} className="frame group relative aspect-square">
+                <AnimatePresence mode="popLayout" initial={false}>
                   <motion.img
                     key={currentImage}
                     src={responsiveUrl(images[currentImage].url, "medium")}
                     alt={images[currentImage].alt}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="w-full h-full object-cover"
+                    initial={{ clipPath: "inset(0% 0% 0% 100%)" }}
+                    animate={{ clipPath: "inset(0% 0% 0% 0%)" }}
+                    exit={{ zIndex: 0 }}
+                    style={{ zIndex: 1 }}
+                    transition={{ duration: 0.8, ease: EASE_CLIP }}
+                    className="absolute inset-0 h-full w-full object-cover"
                     onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }}
                   />
                 </AnimatePresence>
                 {images.length > 1 && (
-                  <>
+                  <div className="absolute bottom-0 right-0 z-10 flex">
                     <button
+                      type="button"
+                      aria-label="Previous image"
                       onClick={() => setCurrentImage((p) => (p === 0 ? images.length - 1 : p - 1))}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 dark:bg-black/50 text-black dark:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="flex h-12 w-12 items-center justify-center bg-bone text-ink transition-colors hover:bg-ink hover:text-bone"
                     >
-                      <HugeiconsIcon icon={ArrowLeft01Icon} size={20} />
+                      <HugeiconsIcon icon={ArrowLeft01Icon} size={18} />
                     </button>
                     <button
+                      type="button"
+                      aria-label="Next image"
                       onClick={() => setCurrentImage((p) => (p === images.length - 1 ? 0 : p + 1))}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 dark:bg-black/50 text-black dark:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="flex h-12 w-12 items-center justify-center bg-bone text-ink transition-colors hover:bg-ink hover:text-bone"
                     >
-                      <HugeiconsIcon icon={ArrowRight01Icon} size={20} />
+                      <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
                     </button>
-                  </>
+                  </div>
                 )}
-              </div>
+              </Reveal>
 
               {images.length > 1 && (
                 <div className="flex gap-3 overflow-x-auto pb-2">
                   {images.map((img, i) => (
                     <button
                       key={i}
+                      type="button"
+                      aria-label={`Show image ${i + 1}`}
                       onClick={() => setCurrentImage(i)}
-                      className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${
-                        i === currentImage ? "border-brand-blue" : "border-transparent opacity-60 hover:opacity-100"
+                      className={`h-20 w-20 flex-shrink-0 overflow-hidden border transition-opacity ${
+                        i === currentImage ? "border-ink" : "border-transparent opacity-50 hover:opacity-100"
                       }`}
                     >
-                      <img src={responsiveUrl(img.url, "thumb")} alt="" className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }} />
+                      <img src={responsiveUrl(img.url, "thumb")} alt="" className="h-full w-full object-cover" onError={(e) => { e.currentTarget.src = "/placeholder.svg"; }} />
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            <div className="space-y-6">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <span className="text-xs font-medium text-brand-blue bg-brand-blue/10 px-3 py-1 rounded-full">
-                    {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
-                  </span>
-                  <h1 className="text-3xl md:text-4xl font-bold font-heading mt-3">
-                    {product.name}
-                  </h1>
+            <Reveal immediate delay={0.6} className="lg:col-span-5">
+              <div className="lg:sticky lg:top-28">
+                <h1 className="title text-[clamp(2.25rem,4vw,3.75rem)]">{product.name}</h1>
+                <p className="mt-4 font-mono text-2xl tabular-nums">{naira(product.price)}</p>
+
+                <div className="mt-6">
+                  <StockDisplay qty={product.stockQuantity} />
                 </div>
-                <div className="flex gap-2 shrink-0">
+
+                <p className="mt-8 border-t border-ink/15 pt-8 text-[15px] leading-relaxed text-ink/70">
+                  {product.description}
+                </p>
+
+                <div className="mt-10 flex flex-col gap-3">
+                  <Btn variant="ink" onClick={handleAddToCart} disabled={!inStock} className="w-full justify-between">
+                    {inStock ? "Add to cart" : "Sold out"}
+                  </Btn>
+                  <Btn href={`https://wa.me/2348134460609?text=${waMessage}`} variant="outline-dark" className="w-full justify-between">
+                    Buy on WhatsApp
+                  </Btn>
+                </div>
+
+                <div className="eyebrow mt-8 flex flex-wrap items-center gap-6 text-ink/55">
                   <button
+                    type="button"
                     onClick={() => toggleFavorite(product._id)}
-                    className="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    aria-pressed={isFavorite(product._id)}
+                    className="flex items-center gap-2 hover:text-ink"
                   >
                     <HugeiconsIcon
                       icon={FavouriteIcon}
-                      size={20}
-                      className={isFavorite(product._id) ? "text-red-500 fill-red-500" : "text-gray-400"}
+                      size={14}
+                      className={isFavorite(product._id) ? "text-red-500 [&>path]:fill-red-500" : ""}
                     />
+                    {isFavorite(product._id) ? "Saved" : "Save"}
                   </button>
-                  <button
-                    onClick={handleShare}
-                    className="p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-                  >
-                    <HugeiconsIcon icon={Share01Icon} size={20} className="text-gray-500" />
+                  <button type="button" onClick={handleShare} className="flex items-center gap-2 hover:text-ink">
+                    <HugeiconsIcon icon={Share01Icon} size={14} />
+                    Share
                   </button>
                 </div>
-              </div>
 
-              <p className="text-4xl font-bold font-heading text-brand-blue">
-                {"\u20A6"}{product.price.toLocaleString()}
-              </p>
-
-              {(product.stockQuantity ?? 0) > 0 && (
-                    <StockDisplay qty={product.stockQuantity} />
-              )}
-
-              {!inStock && (
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="text-red-500 font-medium">Out of Stock</span>
-                </div>
-              )}
-
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                {product.description}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                <button
-                  onClick={handleAddToCart}
-                  disabled={!inStock}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-dark dark:bg-white text-white dark:text-brand-dark rounded-full font-medium transition-all hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  <HugeiconsIcon icon={ShoppingCartCheckIn02Icon} size={20} />
-                  Add to Cart
-                </button>
-                <a
-                  href={`https://wa.me/2348134460609?text=${waMessage}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-green-500 text-white rounded-full font-medium hover:bg-green-600 transition-colors"
-                >
-                  Buy Now
-                </a>
-              </div>
-
-              <div className="pt-4 border-t border-gray-200 dark:border-gray-800">
-                <div className="flex items-center gap-3 text-sm text-gray-500">
+                <p className="mt-8 flex items-center gap-3 border-t border-ink/15 pt-6 text-sm text-ink/55">
                   <HugeiconsIcon icon={TruckDeliveryIcon} size={16} />
-                  <span>Free delivery within Akure • Contact for shipping rates</span>
-                </div>
+                  Free delivery within Akure. Contact us for shipping rates.
+                </p>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>

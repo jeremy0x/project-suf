@@ -1,26 +1,34 @@
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import Layout from "../components/Layout";
+import { MaskText, Reveal } from "@/components/motion";
+import { Btn } from "@/components/site/Btn";
 
 const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error(
-      "404 Error: User attempted to access non-existent route:",
-      location.pathname
-    );
-  }, [location.pathname]);
+  const { pathname } = useLocation();
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
-      </div>
-    </div>
+    <Layout>
+      <section className="grain relative flex min-h-[100svh] items-end bg-ink pb-16 pt-32 text-bone">
+        <div className="shell relative">
+          <Reveal immediate from="left" delay={0.4}>
+            <p className="eyebrow mb-8 flex gap-6 text-white/50"><span>Error 404</span><span className="normal-case">{pathname}</span></p>
+          </Reveal>
+          <MaskText
+            as="h1"
+            immediate
+            delay={0.45}
+            lines={["Page not", <span className="text-white/30">found</span>]}
+            className="display text-[clamp(4rem,16vw,14rem)]"
+          />
+          <Reveal immediate delay={0.8} className="mt-12 flex flex-wrap gap-3">
+            <Btn to="/">Back home</Btn>
+            <Btn to="/contact" variant="outline-light">
+              Contact us
+            </Btn>
+          </Reveal>
+        </div>
+      </section>
+    </Layout>
   );
 };
 

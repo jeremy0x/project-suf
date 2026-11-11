@@ -1,147 +1,134 @@
-import { useEffect, useState, useMemo } from "react";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useAnimation } from "../../context/AnimationContext";
-import { InteractiveHoverButton } from "../ui/interactive-hover-button";
+import { useEffect, useState } from "react";
+import {
+  sessions,
+  formatDuration,
+  formatMinutes,
+  viewerOffsetFromGym,
+  GYM_TZ_LABEL,
+} from "@/lib/sessions";
+import { useSessionStatus } from "@/hooks/useSessionStatus";
+import { useTimeFormat } from "@/hooks/useTimeFormat";
+import { Reveal } from "../motion";
+import { SectionHeader } from "../site/SectionHeader";
+import { Btn } from "../site/Btn";
+import { TimeToggle } from "../site/TimeToggle";
+import { SessionTime } from "../site/SessionTime";
+import { cn } from "@/lib/utils";
 
-const sessions = [
-  { name: "Morning", time: "7:00am - 10:00am" },
-  { name: "Afternoon", time: "2:00pm - 4:00pm" },
-  { name: "Evening", time: "6:00pm - 9:00pm" },
-];
+const SessionsSection = ({ index = "02" }: { index?: string }) => {
+  const status = useSessionStatus();
+  const [format] = useTimeFormat();
+  // Read the viewer's offset after mount so server and client markup agree.
+  const [offset, setOffset] = useState(0);
+  useEffect(() => setOffset(viewerOffsetFromGym()), []);
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3 },
-  },
-};
-
-const SessionsSection = () => {
-  const [currentSession, setCurrentSession] = useState<string | null>(null);
-  const { reduceMotion } = useAnimation();
-
-  useEffect(() => {
-    const determineCurrentSession = () => {
-      const now = new Date();
-      const hours = now.getHours();
-      const day = now.getDay();
-
-      if (day === 0) {
-        setCurrentSession(null);
-        return;
-      }
-
-      if (hours >= 7 && hours < 10) {
-        setCurrentSession("Morning");
-      } else if (hours >= 14 && hours < 16) {
-        setCurrentSession("Afternoon");
-      } else if (hours >= 18 && hours < 21) {
-        setCurrentSession("Evening");
-      } else {
-        setCurrentSession(null);
-      }
-    };
-
-    determineCurrentSession();
-    const interval = setInterval(determineCurrentSession, 60000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const sectionAnimProps = useMemo(() => ({
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true } as const,
-    transition: { duration: reduceMotion ? 0 : 0.3 },
-  }), [reduceMotion]);
-
-  const ctaAnimProps = useMemo(() => ({
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true } as const,
-    transition: { duration: reduceMotion ? 0 : 0.3, delay: 0.2 },
-  }), [reduceMotion]);
+  const closedToday = status.day === 0;
 
   return (
-    <section className="section-padding bg-brand-dark text-white relative overflow-hidden">
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
-      </div>
-      <div className="sm:container mx-auto relative">
-        <motion.div
-          className="text-center mb-12"
-          {...sectionAnimProps}
-        >
-          <h2 className="section-title">
-            Session <span className="text-brand-gold">Times</span>
-          </h2>
-          <p className="section-subtitle text-sm">
-            Choose a session that fits your schedule
-          </p>
-        </motion.div>
+    <section className="section grain relative bg-ink text-bone">
+      <div className="shell relative">
+        <SectionHeader
+          tone="dark"
+          index={index}
+          label="Opening hours"
+          title={["Session times"]}
+          description="We're open Monday to Saturday with three sessions a day, and closed on Sundays. Come to whichever session fits your day."
+          aside={
+            <div className="flex flex-wrap items-center gap-3">
+              <TimeToggle tone="dark" />
+              <Btn to="/contact?source=sessions_cta" variant="outline-light">
+                Book a session
+              </Btn>
+            </div>
+          }
+        />
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {sessions.map((session, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              className={`glass-card rounded-xl p-8 text-center transition-all duration-300 transform hover:scale-105 ${
-                currentSession === session.name
-                  ? "bg-brand-blue/20 shadow-lg shadow-brand-blue/30 border border-brand-blue/30"
-                  : "bg-gray-800/50"
-              }`}
-            >
-              <h3 className="text-xl font-bold mb-2 font-heading">
-                {session.name}
-              </h3>
-              <p className="text-xl mb-4">{session.time}</p>
-              {currentSession === session.name && (
-                <div className="glow-blue rounded-full px-4 py-1 inline-flex items-center justify-center bg-brand-blue/20 border border-brand-blue/50">
-                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                  <span className="text-sm font-heading">In Progress</span>
+        {/* Clock strip: gym time, and a note when the viewer is somewhere else */}
+        <Reveal className="mt-16 md:mt-24">
+          <div className="eyebrow flex flex-col gap-2 border-t border-white/10 py-4 text-white/50 md:flex-row md:items-center md:justify-between">
+            <span className="flex items-center gap-6">
+              <span>
+                Akure time <span className="ml-2 text-white">{formatMinutes(status.minutes, format)}</span>
+              </span>
+              {closedToday && <span className="text-white/80">Closed today</span>}
+            </span>
+            <span className="flex flex-col gap-1 md:flex-row md:gap-6">
+              <span>All times in {GYM_TZ_LABEL}</span>
+              {offset !== 0 && <span>Your local time is under each session</span>}
+            </span>
+          </div>
+        </Reveal>
+
+        <div className="grid grid-cols-1 border-t border-white/10 md:grid-cols-3">
+          {sessions.map((s, i) => {
+            const isLive = status.live?.name === s.name;
+            const isNext = !status.live && status.next.session.name === s.name;
+            const isDone = !closedToday && !isLive && status.minutes >= s.end;
+
+            return (
+              <Reveal
+                key={s.name}
+                delay={i * 0.1}
+                className={cn("border-b border-white/10 md:border-b-0", i > 0 && "md:border-l")}
+              >
+                <div
+                  className={cn(
+                    "relative flex h-full flex-col justify-between gap-14 px-1 py-10 transition-colors duration-700 md:px-8 md:py-12",
+                    isLive && "bg-brand-blue px-5 pb-20 text-white md:px-8 md:pb-20",
+                    isDone && "text-white/40",
+                  )}
+                  aria-current={isLive ? "time" : undefined}
+                >
+                  <div className="eyebrow flex items-center justify-between gap-4">
+                    <span className={cn(!isLive && "opacity-70")}>
+                      {String(i + 1).padStart(2, "0")} — {s.name}
+                    </span>
+                    {isLive && (
+                      <span className="bg-ink px-2 py-1 text-white">Live now</span>
+                    )}
+                    {isNext && (
+                      <span className="border border-white/20 px-2 py-1 text-white/80">
+                        {status.next.startsIn != null
+                          ? `Starts in ${formatDuration(status.next.startsIn)}`
+                          : "Up next"}
+                      </span>
+                    )}
+                    {isDone && <span>Finished</span>}
+                  </div>
+
+                  <div>
+                    <p className="title text-[clamp(2.5rem,4.6vw,4.25rem)]">
+                      <SessionTime minutes={s.start} format={format} />
+                      <span className={cn("block", isLive ? "text-white/60" : "text-white/30")}>
+                        <SessionTime minutes={s.end} format={format} />
+                      </span>
+                    </p>
+                    {offset !== 0 && (
+                      <p className={cn("eyebrow mt-5", isLive ? "text-white/80" : "text-white/45")}>
+                        Your time: {formatMinutes(s.start + offset, format)} – {formatMinutes(s.end + offset, format)}
+                      </p>
+                    )}
+                  </div>
+
+                  {isLive && (
+                    <div className="absolute inset-x-0 bottom-0">
+                      <div className="eyebrow flex justify-between px-5 pb-2 text-white/80 md:px-8">
+                        <span>In progress</span>
+                        <span>Ends in {formatDuration(status.endsIn)}</span>
+                      </div>
+                      <div className="h-1 bg-ink/25">
+                        <div
+                          className="h-full origin-left bg-ink transition-transform duration-1000 ease-out-expo"
+                          style={{ transform: `scaleX(${status.progress})` }}
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </motion.div>
-          ))}
-        </motion.div>
-
-        <motion.div
-          className="text-center mt-12"
-          {...ctaAnimProps}
-        >
-          <p className="mb-6 max-w-2xl mx-auto text-sm">
-            Our sessions are designed to accommodate various schedules. Whether
-            you're an early bird or prefer evening workouts, we have a time slot
-            that works for you.
-          </p>
-          <Link to="/contact?source=sessions">
-            <InteractiveHoverButton 
-              text="Book a Session" 
-              className="w-auto px-8 bg-brand-gold border-brand-gold text-brand-dark font-heading"
-              aria-label="Book a training session"
-            />
-          </Link>
-        </motion.div>
+              </Reveal>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

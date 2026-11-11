@@ -1,15 +1,12 @@
-import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { useMemo } from "react";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import Layout from "../components/Layout";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Award01Icon, UserGroupIcon, Clock01Icon } from "@hugeicons/core-free-icons";
-import { motion } from "framer-motion";
-import { useAnimation } from "../context/AnimationContext";
-import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { GridBackground } from "@/components/ui/grid-background";
 import { responsiveUrl } from "@/lib/images";
+import { ImageReveal, MaskText, Reveal } from "@/components/motion";
+import { PageHero } from "@/components/site/PageHero";
+import { SectionHeader } from "@/components/site/SectionHeader";
+import CTASection from "@/components/home/CTASection";
 
 const teamMembers = [
   {
@@ -56,339 +53,149 @@ const teamMembers = [
   },
 ];
 
-function AboutStoryImage({ src }: { src?: string }) {
-  const [loaded, setLoaded] = useState(false);
-  const imgUrl = responsiveUrl(src, "medium");
-
-  return (
-    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl bg-gray-200 dark:bg-gray-800/80">
-      {!loaded && (
-        <div className="absolute inset-0 bg-gray-200 dark:bg-gray-800 shimmer-bg dark:shimmer-dark rounded-2xl z-10" />
-      )}
-      {src && (
-        <img
-          src={imgUrl}
-          alt="Shape Up Fitness community outdoor group photo"
-          onLoad={() => setLoaded(true)}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "/placeholder.svg";
-            setLoaded(true);
-          }}
-          className={`w-full h-full object-cover transition-opacity duration-500 ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
-        />
-      )}
-    </div>
-  );
-}
-
-function TeamMemberImage({ src, alt }: { src?: string; alt: string }) {
-  const [loaded, setLoaded] = useState(false);
-  const imgUrl = responsiveUrl(src, "medium");
-
-  return (
-    <div className="relative w-full h-full bg-gray-200 dark:bg-gray-800/80">
-      {!loaded && (
-        <div className="absolute inset-0 bg-gray-200 dark:bg-gray-800 shimmer-bg dark:shimmer-dark z-10" />
-      )}
-      {src && (
-        <img
-          src={imgUrl}
-          alt={alt}
-          onLoad={() => setLoaded(true)}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = "/placeholder.svg";
-            setLoaded(true);
-          }}
-          className={`w-full h-full object-cover object-top transition-all duration-500 hover:scale-110 ${
-            loaded ? "opacity-100" : "opacity-0"
-          }`}
-        />
-      )}
-    </div>
-  );
-}
+const pillars = [
+  {
+    title: "Certified coaches",
+    body: "Experienced, certified trainers who plan your sessions and correct your form, so progress is safe and steady.",
+  },
+  {
+    title: "A real community",
+    body: "Members who know each other, push each other and celebrate the small wins along with the big ones.",
+  },
+  {
+    title: "Kept-up equipment",
+    body: "Clean, well-maintained kit and a floor laid out for strength, conditioning and boxing.",
+  },
+];
 
 const About = () => {
-  const { reduceMotion } = useAnimation();
-  const duration = reduceMotion ? 0 : 0.3;
-
   const aboutImages = useQuery(api.siteImages.listBySection, { section: "about-story" }) || [];
   const aboutImage = aboutImages[0]?.url;
   const rawTeamImages = useQuery(api.siteImages.listBySection, { section: "team" }) || [];
   const teamImageByCategory = Object.fromEntries(
-    (rawTeamImages as { category?: string; url: string }[]).map((i) => [i.category, i.url])
+    (rawTeamImages as { category?: string; url: string }[]).map((i) => [i.category, i.url]),
   );
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration } },
-  };
-
-  const teamWithImages = useMemo(() =>
-    teamMembers.map((member) => ({
-      ...member,
-      image: (member.category && teamImageByCategory[member.category]) || member.image,
-    })),
-  [teamImageByCategory]);
+  const team = useMemo(
+    () =>
+      teamMembers.map((m) => ({
+        ...m,
+        image: (m.category && teamImageByCategory[m.category]) || m.image,
+      })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [rawTeamImages],
+  );
 
   return (
     <Layout>
-      <GridBackground className="pt-32 pb-16 text-white">
-        <div className="sm:container mx-auto px-8 relative">
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration, delay: 0.2 }}
-          >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-heading">
-              About Us
-            </h1>
-            <p className="text-lg max-w-3xl mx-auto text-gray-300">
-              Learn more about Shape Up Fitness, our mission, values, and the team behind our success.
-            </p>
-          </motion.div>
-        </div>
-      </GridBackground>
+      <PageHero
+        index="A"
+        label="About"
+        title={["About", <span className="text-white/30">us</span>]}
+        intro="Learn more about Shape Up Fitness: our story, what we stand for and the team behind it."
+      />
 
-      <section className="section-padding bg-background">
-        <div className="sm:container mx-auto">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <motion.div
-              className="lg:w-1/2"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration }}
-            >
-              <h2 className="section-title font-heading">
-                Our <span className="text-brand-blue">Story</span>
-              </h2>
-              <p className="text-sm mb-6">
-                Born in 2020 from an unwavering passion, Shape Up Fitness was
-                envisioned as more than just a gym. Our dream was to forge a
-                vibrant, inclusive fitness sanctuary — a true community where
-                every individual, regardless of their starting point, could
-                flourish, not just physically, but entirely.
+      {/* Story */}
+      <section className="section bg-background text-ink">
+        <div className="shell grid grid-cols-12 gap-x-6 gap-y-14">
+          <div className="col-span-12 lg:col-span-6">
+            <ImageReveal
+              src={aboutImage ? responsiveUrl(aboutImage, "medium") : undefined}
+              alt="Shape Up Fitness community group photo"
+              className="aspect-[4/3] w-full"
+            />
+            <Reveal delay={0.2}>
+              <p className="eyebrow mt-4 text-ink/45">#ShapeUpFitness — FUTA South Gate</p>
+            </Reveal>
+          </div>
+          <div className="col-span-12 lg:col-span-5 lg:col-start-8">
+            <Reveal from="left">
+              <p className="eyebrow mb-8 flex items-center gap-3 text-ink/55">
+                <span>(01)</span>
+                <span className="h-px w-8 bg-current" />
+                <span>Our story</span>
               </p>
-              <p className="text-sm mb-6">
-                From humble beginnings in a modest space, fueled by sheer
-                determination, we've blossomed into one of Akure's most
-                cherished fitness destinations. Our reputation is built on a
-                foundation of truly personalized guidance and an unshakeable
-                commitment to seeing each member not just meet, but exceed their
-                wildest fitness aspirations.
+            </Reveal>
+            <MaskText
+              lines={["Our story"]}
+              className="title text-[clamp(2.25rem,4.5vw,4rem)]"
+            />
+            <Reveal delay={0.15} className="mt-10 space-y-5 text-[15px] leading-relaxed text-ink/70">
+              <p>
+                Shape Up Fitness opened in 2020 with one idea: a gym where anyone, from any starting
+                point, could get properly coached and feel part of something.
               </p>
-              <p className="text-sm">
-                Today, our dynamic fitness center located at Embassy Lodge, FUTA
-                South Gate, offers a comprehensive array of training programs,
-                meticulously designed specialized zones, and a fiercely
-                dedicated team of expert trainers committed to sculpting your
-                success.
+              <p>
+                From a modest space and a lot of determination, it has grown into one of Akure&rsquo;s
+                best-loved training floors, known for guidance that&rsquo;s actually personal.
               </p>
-            </motion.div>
-            <motion.div
-              className="lg:w-1/2 w-full"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration, delay: 0.3 }}
-            >
-              <div className="relative">
-                <AboutStoryImage src={aboutImage} />
-                <div className="absolute -bottom-6 -right-6 text-3xl sm:text-5xl font-bold opacity-30 blur-[2px] text-brand-blue pointer-events-none">
-                  #SHAPEUPFITNESS
-                </div>
-              </div>
-            </motion.div>
+              <p>
+                Today, at Embassy Lodge by FUTA South Gate, we run a full range of programmes with a
+                team of coaches committed to getting you results.
+              </p>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      <section className="section-padding section-dark relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-brand-blue rounded-full filter blur-[150px]"></div>
-          <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-brand-gold rounded-full filter blur-[150px]"></div>
-        </div>
-
-        <div className="sm:container mx-auto px-4 relative">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration }}
-          >
-            <h2 className="section-title text-white">
-              Why Choose <span className="text-brand-gold">Us</span>
-            </h2>
-            <p className="section-subtitle text-gray-300">
-              What sets Shape Up Fitness apart from other fitness centers
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <motion.div
-              variants={itemVariants}
-              className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700 hover:border-brand-blue transition-all duration-300"
-            >
-              <div className="text-brand-blue mb-4">
-                <HugeiconsIcon icon={Award01Icon} size={40} />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-white">Certified Trainers</h3>
-              <p className="text-gray-300 text-sm">
-                Our team of experienced and certified trainers are passionate about helping you achieve your personal fitness goals safely and efficiently.
-              </p>
-            </motion.div>
-
-            <motion.div
-              variants={itemVariants}
-              className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700 hover:border-brand-gold transition-all duration-300"
-            >
-              <div className="text-brand-gold mb-4">
-                <HugeiconsIcon icon={UserGroupIcon} size={40} />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-white">Supportive Community</h3>
-              <p className="text-gray-300 text-sm">
-                Join a welcoming environment where members encourage each other, celebrate milestones, and grow together on their fitness journeys.
-              </p>
-            </motion.div>
-
-            <motion.div
-              variants={itemVariants}
-              className="bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-700 hover:border-brand-blue transition-all duration-300"
-            >
-              <div className="text-brand-blue mb-4">
-                <HugeiconsIcon icon={Clock01Icon} size={40} />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-white">Modern Equipment & Facilities</h3>
-              <p className="text-gray-300 text-sm">
-                Access top-of-the-line fitness equipment and clean, well-maintained facilities designed for optimal workout experiences.
-              </p>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="section-padding bg-background">
-        <div className="sm:container mx-auto">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration }}
-          >
-            <h2 className="section-title">
-              Meet Our <span className="text-brand-blue">Team</span>
-            </h2>
-            <p className="section-subtitle">
-              The dedicated professionals behind Shape Up Fitness
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {teamWithImages.map((member, index) => (
-              <motion.div key={index} variants={itemVariants} className="h-full">
-                <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:translate-y-[-5px] h-full flex flex-col">
-                  <div className="aspect-[3/4] overflow-hidden shrink-0">
-                    <TeamMemberImage src={member.image} alt={member.name} />
-                  </div>
-                  <div className="p-6 flex flex-col flex-1">
-                    <h3 className="text-xl font-bold mb-1 font-heading">
-                      {member.name}
-                    </h3>
-                    <p className="text-brand-blue mb-3 text-sm font-medium">{member.role}</p>
-                    <div className="flex flex-wrap gap-2 mt-auto">
-                      {member.specialties.map((specialty, idx) => (
-                        <span
-                          key={idx}
-                          className="bg-gray-100 dark:bg-gray-700 text-xs px-3 py-1 rounded-full text-gray-700 dark:text-gray-300"
-                        >
-                          {specialty}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+      {/* Pillars */}
+      <section className="section grain relative bg-ink text-bone">
+        <div className="shell relative">
+          <SectionHeader
+            tone="dark"
+            index="02"
+            label="What sets us apart"
+            title={["Why choose us"]}
+          />
+          <div className="mt-16 grid grid-cols-1 border-t border-white/10 md:mt-24 md:grid-cols-3">
+            {pillars.map((p, i) => (
+              <Reveal
+                key={p.title}
+                delay={i * 0.1}
+                className={`border-b border-white/10 py-10 md:border-b-0 md:px-8 md:py-12 ${i > 0 ? "md:border-l" : "md:pl-0"}`}
+              >
+                <p className="eyebrow text-brand-blue">{String(i + 1).padStart(2, "0")}</p>
+                <h3 className="title mt-12 text-3xl">{p.title}</h3>
+                <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">{p.body}</p>
+              </Reveal>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      <section className="bg-brand-dark text-white py-20 relative overflow-hidden px-8">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full">
-            <div className="absolute top-0 right-0 w-1/2 h-1/3 bg-brand-blue rounded-full filter blur-[100px]"></div>
-            <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-brand-gold rounded-full filter blur-[100px]"></div>
-          </div>
-        </div>
-        <div className="sm:container mx-auto relative">
-          <motion.div
-            className="max-w-3xl mx-auto text-center"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration }}
-          >
-            <motion.h2
-              className="text-3xl md:text-4xl font-bold mb-6 font-heading"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration }}
-            >
-              Ready to Start Your Fitness Journey?
-            </motion.h2>
-            <motion.p
-              className="text-lg mb-8 text-gray-300"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration, delay: 0.2 }}
-            >
-              Join Shape Up Fitness today and take the first step towards a healthier, stronger you.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration, delay: 0.4 }}
-            >
-              <Link to="/contact?source=about_cta">
-                <InteractiveHoverButton
-                  text="Join Now"
-                  className="w-auto px-8 bg-brand-blue border-brand-blue text-white font-heading"
-                  aria-label="Join Shape Up Fitness now"
+      {/* Team */}
+      <section className="section bg-background text-ink">
+        <div className="shell">
+          <SectionHeader
+            index="03"
+            label="Our coaches"
+            title={["Meet the team"]}
+          />
+          <ul className="mt-16 grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 md:mt-24 lg:grid-cols-3">
+            {team.map((m, i) => (
+              <li key={m.category} className="group">
+                <ImageReveal
+                  delay={(i % 3) * 0.1}
+                  src={m.image ? responsiveUrl(m.image, "medium") : undefined}
+                  alt={m.name}
+                  className="aspect-[3/4] w-full"
+                  imgClassName="object-top grayscale transition-[filter] duration-700 group-hover:grayscale-0"
                 />
-              </Link>
-            </motion.div>
-          </motion.div>
+                <Reveal delay={0.1 + (i % 3) * 0.1}>
+                  <div className="flex items-baseline justify-between gap-4 border-b border-ink/15 py-4">
+                    <h3 className="title text-2xl">{m.name}</h3>
+                    <span className="eyebrow shrink-0 text-ink/40">{String(i + 1).padStart(2, "0")}</span>
+                  </div>
+                  <p className="eyebrow mt-4 text-brand-blue">{m.role}</p>
+                  <p className="mt-2 text-sm text-ink/55">{m.specialties.join(", ")}</p>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
+
+      <CTASection />
     </Layout>
   );
 };
